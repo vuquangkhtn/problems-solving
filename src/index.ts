@@ -1,3 +1,1 @@
-import './n-queens';
-
-console.log("code");
+import "./n-queens";
