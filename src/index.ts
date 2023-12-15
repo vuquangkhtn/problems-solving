@@ -1,1 +1,1 @@
-import "./n-queens";
+import "./employee-free-time";
