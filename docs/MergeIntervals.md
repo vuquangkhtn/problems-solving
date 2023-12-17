@@ -17,10 +17,12 @@ The merge intervals pattern deals with problems involving overlapping intervals.
 - The problem requires dealing with overlapping interval.
 - The input list of intervals is sorted or is able to be sorted.
 
-## Examples
+## Base Approach (Merge Intervals)
+Statement: https://leetcode.com/problems/merge-intervals/
+### Solutions
+https://www.geeksforgeeks.org/merging-intervals/
 
-### Merge Intervals:
-#### Solutions
+0. Sort the intervals by startTime first (if needed)
 
 1. Insert the first interval from the input list into the output list.
 
@@ -29,10 +31,11 @@ The merge intervals pattern deals with problems involving overlapping intervals.
     - Otherwise, add the input interval to the output list.
 
 
-#### Complexity
+### Complexity
 - Time: O(n)
 - Space: O(1) (only use constant space other than the input and output data structures)
 
+## Examples
 ### Insert Intervals: 
 https://leetcode.com/problems/insert-interval/
 ### Non-overlapping Intervals:
