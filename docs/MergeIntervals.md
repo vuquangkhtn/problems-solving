@@ -5,6 +5,13 @@ The merge intervals pattern deals with problems involving overlapping intervals.
 
 **6 different ways in which two intervals can relate to each other**: 
 
+![Case 1](../images/MergeIntervals/interval_case_1.png)
+![Case 2](../images/MergeIntervals/interval_case_2.png)
+![Case 3](../images/MergeIntervals/interval_case_3.png)
+![Case 4](../images/MergeIntervals/interval_case_4.png)
+![Case 5](../images/MergeIntervals/interval_case_5.png)
+![Case 6](../images/MergeIntervals/interval_case_6.png)
+
 ## When should we use
 - The input data is an array of intervals.
 - The problem requires dealing with overlapping interval.
@@ -32,3 +39,5 @@ https://leetcode.com/problems/insert-interval/
 https://leetcode.com/problems/non-overlapping-intervals/
 ### Interval List Intersections:
 https://leetcode.com/problems/interval-list-intersections/
+### Employee Free Time
+[Statement](../src/employee-free-time/statement.md)
