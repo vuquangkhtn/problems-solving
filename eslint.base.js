@@ -9,23 +9,23 @@ export default {
     sourceType: 'module',
     parser: tseslint.parser,
     parserOptions: {
-      project: true
+      project: true,
     },
     globals: {
       ...eslint.configs.recommended.languageOptions?.globals,
-      "console": "readonly",
-    }
+      console: 'readonly',
+    },
   },
   plugins: {
     '@typescript-eslint': tseslint.plugin,
-    'prettier': prettier
+    prettier: prettier,
   },
   rules: {
     ...eslint.configs.recommended.rules,
     ...tseslint.configs.recommended[0].rules,
     'prettier/prettier': 'error',
     '@typescript-eslint/no-unused-vars': 'warn',
-    'no-console': 'warn'
+    'no-console': 'warn',
   },
-  ignores: ['dist/**', 'node_modules/**', '*.config.js']
+  ignores: ['dist/**', 'node_modules/**', '*.config.js'],
 };
