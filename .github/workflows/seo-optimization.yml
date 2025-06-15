@@ -1,0 +1,238 @@
+name: SEO Optimization & Repository Maintenance
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    # Run weekly to update metadata
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  seo-checks:
+    name: SEO & Metadata Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'yarn'
+        
+    - name: Install Dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Validate Package.json SEO Metadata
+      run: |
+        echo "Validating package.json SEO metadata..."
+        node -e "
+          const pkg = require('./package.json');
+          const requiredFields = ['name', 'description', 'keywords', 'homepage', 'repository'];
+          const missing = requiredFields.filter(field => !pkg[field]);
+          if (missing.length > 0) {
+            console.error('Missing required SEO fields:', missing);
+            process.exit(1);
+          }
+          if (pkg.keywords.length < 10) {
+            console.error('Should have at least 10 keywords for better SEO');
+            process.exit(1);
+          }
+          console.log('✅ Package.json SEO metadata is valid');
+        "
+        
+    - name: Check README SEO Elements
+      run: |
+        echo "Checking README SEO elements..."
+        if ! grep -q "algorithms" README.md; then
+          echo "❌ README missing 'algorithms' keyword"
+          exit 1
+        fi
+        if ! grep -q "data-structures" README.md; then
+          echo "❌ README missing 'data-structures' keyword"
+          exit 1
+        fi
+        if ! grep -q "TypeScript" README.md; then
+          echo "❌ README missing 'TypeScript' keyword"
+          exit 1
+        fi
+        if ! grep -q "coding-interview" README.md; then
+          echo "❌ README missing 'coding-interview' keyword"
+          exit 1
+        fi
+        echo "✅ README contains important SEO keywords"
+        
+    - name: Validate Repository Structure
+      run: |
+        echo "Validating repository structure..."
+        required_files=("README.md" "LICENSE" "CONTRIBUTING.md" "CODE_OF_CONDUCT.md" "package.json")
+        for file in "${required_files[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "❌ Missing required file: $file"
+            exit 1
+          fi
+        done
+        echo "✅ All required files present"
+        
+    - name: Check Algorithm Documentation
+      run: |
+        echo "Checking algorithm documentation quality..."
+        # Count TypeScript files that should have complexity analysis
+        ts_files=$(find codespaces -name "*.ts" | wc -l)
+        echo "Found $ts_files TypeScript files"
+        
+        # Check for complexity analysis in documentation
+        complexity_docs=$(grep -r "Time Complexity\|Space Complexity" codespaces --include="*.ts" --include="*.md" | wc -l)
+        echo "Found $complexity_docs files with complexity analysis"
+        
+        if [ "$complexity_docs" -lt "$((ts_files / 4))" ]; then
+          echo "⚠️ Consider adding more complexity analysis to improve documentation"
+        else
+          echo "✅ Good algorithm documentation coverage"
+        fi
+        
+    - name: Generate Algorithm Statistics
+      run: |
+        echo "📊 Repository Statistics:"
+        echo "========================"
+        echo "Total TypeScript files: $(find codespaces -name "*.ts" | wc -l)"
+        echo "Total JavaScript files: $(find codespaces -name "*.js" | wc -l)"
+        echo "HackerRank solutions: $(find codespaces/hackerrank -name "*.ts" -o -name "*.js" | wc -l)"
+        echo "System design files: $(find codespaces/system-design -name "*.ts" -o -name "*.js" | wc -l)"
+        echo "Algorithm categories: $(find codespaces/hackerrank -type d -mindepth 1 -maxdepth 1 | wc -l)"
+        echo "Documentation files: $(find . -name "*.md" | wc -l)"
+        
+  lighthouse-seo:
+    name: Lighthouse SEO Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        urls: |
+          https://github.com/${{ github.repository }}
+        configPath: './.github/lighthouserc.json'
+        uploadArtifacts: true
+        
+  update-topics:
+    name: Update GitHub Topics
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Update Repository Topics
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const topics = [
+            'algorithms',
+            'data-structures', 
+            'typescript',
+            'javascript',
+            'coding-interview',
+            'hackerrank',
+            'leetcode',
+            'competitive-programming',
+            'system-design',
+            'interview-preparation',
+            'computer-science',
+            'dynamic-programming',
+            'graph-algorithms',
+            'monorepo',
+            'open-source',
+            'technical-interview',
+            'software-engineering',
+            'problem-solving'
+          ];
+          
+          await github.rest.repos.replaceAllTopics({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            names: topics
+          });
+          
+          console.log('✅ Updated repository topics:', topics.join(', '));
+          
+  social-preview:
+    name: Update Social Preview
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Generate Social Preview
+      run: |
+        echo "🎨 Social Media Preview Recommendations:"
+        echo "======================================"
+        echo "1. Add a repository social preview image (1280x640px)"
+        echo "2. Include keywords: 'Algorithms', 'Data Structures', 'TypeScript'"
+        echo "3. Use visual elements: code snippets, algorithm diagrams"
+        echo "4. Brand colors that match your badges"
+        echo "5. Include your GitHub username/branding"
+        echo ""
+        echo "💡 Tools for creating social preview:"
+        echo "- Canva: https://canva.com"
+        echo "- Figma: https://figma.com"
+        echo "- GitHub's social preview generator"
+        
+  performance-analysis:
+    name: Repository Performance Analysis
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Analyze Repository Performance
+      run: |
+        echo "🔍 Repository Performance Analysis:"
+        echo "=================================="
+        
+        # File size analysis
+        echo "📊 File Size Analysis:"
+        echo "Largest files:"
+        find . -type f -name "*.ts" -o -name "*.js" -o -name "*.md" | xargs ls -la | sort -k5 -rn | head -10
+        
+        # Repository structure analysis
+        echo ""
+        echo "📁 Directory Structure:"
+        find codespaces -type d | head -20
+        
+        # Code quality metrics
+        echo ""
+        echo "📈 Code Quality Metrics:"
+        echo "Lines of TypeScript: $(find . -name "*.ts" -exec wc -l {} + | tail -1 | awk '{print $1}')"
+        echo "Lines of JavaScript: $(find . -name "*.js" -exec wc -l {} + | tail -1 | awk '{print $1}')"
+        echo "Lines of documentation: $(find . -name "*.md" -exec wc -l {} + | tail -1 | awk '{print $1}')"
+        
+        # SEO readiness check
+        echo ""
+        echo "🔍 SEO Readiness:"
+        echo "README word count: $(wc -w README.md | awk '{print $1}')"
+        echo "Keywords in package.json: $(jq '.keywords | length' package.json)"
+        echo "Repository description length: $(jq -r '.description | length' package.json)"
+        
+        if [ $(jq -r '.description | length' package.json) -lt 100 ]; then
+          echo "⚠️ Repository description could be longer for better SEO"
+        fi
+        
+        if [ $(wc -w README.md | awk '{print $1}') -lt 500 ]; then
+          echo "⚠️ README could be more detailed for better search ranking"
+        fi
+

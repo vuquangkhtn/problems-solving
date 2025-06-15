@@ -1,5 +1,49 @@
 {
-  "name": "problem-solving",
+  "name": "problem-solving-algorithms-monorepo",
+  "version": "1.0.0",
+  "description": "🧩 Comprehensive problem-solving algorithms, data structures, and coding interview solutions in TypeScript/JavaScript. Features HackerRank solutions, system design patterns, and algorithmic implementations for technical interviews and competitive programming.",
+  "keywords": [
+    "algorithms",
+    "data-structures",
+    "problem-solving",
+    "coding-interview",
+    "hackerrank",
+    "leetcode",
+    "typescript",
+    "javascript",
+    "dynamic-programming",
+    "system-design",
+    "competitive-programming",
+    "interview-preparation",
+    "computer-science",
+    "software-engineering",
+    "algorithmic-solutions",
+    "technical-interview",
+    "coding-challenges",
+    "programming-practice",
+    "merge-intervals",
+    "graph-algorithms",
+    "string-algorithms",
+    "sorting-algorithms",
+    "search-algorithms",
+    "two-pointers",
+    "monorepo",
+    "yarn-workspaces"
+  ],
+  "homepage": "https://github.com/vuquangkhtn/problems-solving#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vuquangkhtn/problems-solving.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuquangkhtn/problems-solving/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Quang Nguyen",
+    "email": "vuquangkhtn@gmail.com",
+    "url": "https://github.com/vuquangkhtn"
+  },
   "type": "module",
   "workspaces": [
     "codespaces/*"
