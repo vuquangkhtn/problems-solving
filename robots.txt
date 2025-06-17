@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Allow search engines to index all content
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap location (if you have a website)
+Sitemap: https://github.com/vuquangkhtn/problems-solving/sitemap.xml
+
