@@ -35,6 +35,34 @@ https://www.geeksforgeeks.org/merging-intervals/
    - If the input interval is overlapping with the last interval in the output list, merge these two intervals and replace the last interval of the output list with this merged interval.
    - Otherwise, add the input interval to the output list.
 
+```typescript
+function merge(intervals: number[][]): number[][] {
+  if (intervals.length === 1) return intervals;
+  // 0. Sort the intervals by startTime first (if needed)
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  // 1. Insert the first interval from the input list into the output list.
+  const result = [intervals[0]];
+
+  // 2.Traverse the input list of intervals. For each interval in the input list, we do the following:
+  for (let i = 1; i < intervals.length; i++) {
+    const lastInterval = result.pop();
+    // 2a. If the input interval is overlapping with the last interval in the output list
+    if (lastInterval[1] >= intervals[i][0]) {
+      // merge these two intervals and replace the last interval of the output list with this merged interval.
+      const newInterval = [lastInterval[0], Math.max(lastInterval[1], intervals[i][1])];
+      result.push(newInterval);
+    } else {
+      // 2b. Otherwise, add the input interval to the output list.
+      result.push(lastInterval); // push back
+      result.push(intervals[i]); // add to the last
+    }
+  }
+
+  return result;
+}
+```
+
 ### Complexity
 
 - Time: O(n)
