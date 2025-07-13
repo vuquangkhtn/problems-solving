@@ -39,7 +39,7 @@ function activityNotifications(expenditure: number[], d: number): number {
 
   let notifications = 0;
   const maxExpenditure = 200; // Based on problem constraints
-  const count = new Array(maxExpenditure + 1).fill(0);
+  const count = new Array(maxExpenditure + 1).fill(0); // counting sort array
 
   // Initialize the count array with first d elements
   for (let i = 0; i < d; i++) {
