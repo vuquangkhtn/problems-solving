@@ -1,5 +1,5 @@
 // https://leetcode.com/problems/jump-game/
-
+// Illustration of the problem: https://www.youtube.com/watch?v=Yan0cv2cLy8
 /**
  * JUMP GAME - OPTIMAL SOLUTION
  *
