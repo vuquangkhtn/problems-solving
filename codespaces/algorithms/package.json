@@ -12,8 +12,6 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "ts-node src/index.ts",
-    "build": "tsc",
     "lint": "eslint \"src/**/*.{ts,md}\" --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint \"src/**/*.{ts,md}\" --fix",
     "format": "prettier --write \"src/**/*.{ts,md}\"",
