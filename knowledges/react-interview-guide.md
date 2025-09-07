@@ -409,6 +409,47 @@ function Button() {
 }
 ```
 
+**useLayoutEffect vs useEffect** - Timing Comparison:
+```javascript
+// useEffect - Runs AFTER browser paint (asynchronous)
+function ComponentWithEffect() {
+  const [width, setWidth] = useState(0);
+  
+  useEffect(() => {
+    // Runs after DOM updates are painted
+    // Good for: data fetching, subscriptions, manual DOM changes
+    setWidth(document.getElementById('myDiv').offsetWidth);
+  }, []);
+  
+  return <div id="myDiv">Width: {width}px</div>;
+}
+
+// useLayoutEffect - Runs BEFORE browser paint (synchronous)
+function ComponentWithLayoutEffect() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  
+  useLayoutEffect(() => {
+    // Runs synchronously before browser paint
+    // Good for: DOM measurements, preventing visual flicker
+    const rect = document.getElementById('tooltip').getBoundingClientRect();
+    setPosition({ x: rect.left, y: rect.top });
+  }, []);
+  
+  return <div id="tooltip" style={{ left: position.x, top: position.y }}>Tooltip</div>;
+}
+```
+
+**Key Differences**:
+
+| Aspect | useEffect | useLayoutEffect |
+|--------|-----------|----------------|
+| **Timing** | After browser paint | Before browser paint |
+| **Blocking** | Non-blocking (async) | Blocking (sync) |
+| **Use Cases** | Data fetching, subscriptions | DOM measurements, preventing flicker |
+| **Performance** | Better for most cases | Use sparingly (blocks painting) |
+
+**Perfect Answer**: "useEffect runs asynchronously after the browser paints, making it ideal for side effects that don't affect layout. useLayoutEffect runs synchronously before painting, perfect for DOM measurements or preventing visual flicker, but should be used sparingly as it blocks the browser's painting process."
+
 #### React 18 Features
 
 **Automatic Batching** - Performance Optimization:
