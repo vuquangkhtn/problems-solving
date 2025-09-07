@@ -47,13 +47,11 @@
   "type": "module",
 
   "scripts": {
-    "build": "npm run build --prefix codespaces/algorithms",
-    "dev": "npm run dev --prefix codespaces/algorithms",
-    "lint": "npm run lint --prefix codespaces/algorithms",
-    "lint:fix": "npm run lint:fix --prefix codespaces/algorithms",
-    "format": "npm run format --prefix codespaces/algorithms",
-    "type-check": "npm run type-check --prefix codespaces/algorithms",
-    "clean": "npm run clean --prefix codespaces/algorithms",
+    "lint": "eslint \"codespaces/**/*.{ts,md}\" --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint \"codespaces/**/*.{ts,md}\" --fix",
+    "format": "prettier --write \"codespaces/**/*.{ts,md}\"",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
