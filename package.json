@@ -55,7 +55,10 @@
     "lint:fix": "yarn workspace @problem-solving/algorithms lint:fix && yarn workspace @problem-solving/react lint:fix && yarn workspace @problem-solving/system-design lint:fix",
     "format": "yarn workspace @problem-solving/algorithms format && yarn workspace @problem-solving/react format && yarn workspace @problem-solving/system-design format",
     "type-check": "yarn workspace @problem-solving/algorithms type-check && yarn workspace @problem-solving/react type-check && yarn workspace @problem-solving/system-design type-check",
-    "clean": "yarn workspace @problem-solving/algorithms clean && yarn workspace @problem-solving/react clean && yarn workspace @problem-solving/system-design clean"
+    "clean": "yarn workspace @problem-solving/algorithms clean && yarn workspace @problem-solving/react clean && yarn workspace @problem-solving/system-design clean",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
@@ -72,6 +75,7 @@
     "rimraf": "^5.0.0",
     "ts-node": "^10.8.1",
     "typescript": "^5.5.0",
-    "typescript-eslint": "^7.0.0"
+    "typescript-eslint": "^7.0.0",
+    "vitepress": "^1.6.4"
   }
 }
