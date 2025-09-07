@@ -13,11 +13,14 @@
     "noFallthroughCasesInSwitch": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "composite": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "types": ["node"]
   },
+  "include": ["codespaces/**/*"],
   "exclude": ["**/node_modules", "**/dist"]
 }
