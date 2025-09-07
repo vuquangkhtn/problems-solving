@@ -62,7 +62,8 @@ import ReactDOM from 'react-dom';
 **Phase 2: Component Mounting**
 ```javascript
 // Initial render
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
 ```
 
 **Phase 3: Virtual DOM Creation**

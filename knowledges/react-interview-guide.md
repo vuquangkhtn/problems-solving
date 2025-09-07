@@ -73,7 +73,8 @@ npm start
 **Runtime - Browser** (Node.js Not Required ❌):
 ```javascript
 // React runs in browser JavaScript engine
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
 ```
 
 **Server-Side Rendering** (Node.js Required ✅):
@@ -339,7 +340,17 @@ const [user, setUser] = useState({ name: '', email: '' });
 
 // Functional updates for complex state
 setUser(prevUser => ({ ...prevUser, name: 'John' }));
+
+// Lazy initial state for expensive computations
+const [data, setData] = useState(() => expensiveComputation());
 ```
+
+**Key Points**:
+- Returns stateful value and update function
+- Initial state used only on first render
+- setState function identity is stable (safe to omit from dependencies)
+- React bails out if new state equals current state (Object.is comparison)
+- State updates are batched for performance
 
 **useEffect** - Side Effects:
 ```javascript
@@ -353,7 +364,22 @@ useEffect(() => {
 useEffect(() => {
   fetchUserData(userId);
 }, [userId]); // Runs when userId changes
+
+// Conditional effect firing
+useEffect(() => {
+  if (shouldFetch) {
+    fetchData();
+  }
+}, [shouldFetch]); // Only recreated when shouldFetch changes
 ```
+
+**Key Concepts**:
+- **Timing**: Effects run after the browser has painted (deferred execution) <mcreference link="https://react.dev/reference/react/useEffect" index="0">0</mcreference>
+- **Default Behavior**: Effects run after every completed render
+- **Cleanup Order**: Previous effect is cleaned up before executing the next effect
+- **Conditional Firing**: Effects only recreate when dependencies change
+- **Mount-Only**: Empty dependency array `[]` means effect runs only after initial render
+- **Component Removal**: Cleanup functions run when component is removed from UI
 
 **useCallback** - Function Memoization:
 ```javascript
@@ -382,6 +408,40 @@ function Button() {
   return <button className={theme.buttonClass}>Click me</button>;
 }
 ```
+
+#### React 18 Features
+
+**Automatic Batching** - Performance Optimization:
+```javascript
+function App() {
+  const [count, setCount] = useState(0);
+  const [flag, setFlag] = useState(false);
+
+  function handleClick() {
+    // React 18: These are automatically batched into one re-render
+    setCount(c => c + 1);
+    setFlag(f => !f);
+    // Only one re-render happens, even in timeouts/promises
+  }
+
+  // Also works in async operations (new in React 18)
+  function handleAsyncClick() {
+    setTimeout(() => {
+      setCount(c => c + 1); // Batched
+      setFlag(f => !f);     // Batched
+    }, 1000);
+  }
+
+  return (
+    <div>
+      <button onClick={handleClick}>Sync Update</button>
+      <button onClick={handleAsyncClick}>Async Update</button>
+    </div>
+  );
+}
+```
+
+**Perfect Answer**: "React 18 introduced automatic batching for all state updates, including those in promises, timeouts, and native event handlers. This reduces re-renders and improves performance by grouping multiple setState calls into a single update."
 
 ---
 
