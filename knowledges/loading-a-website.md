@@ -84,6 +84,8 @@ Client → Server: ACK ("Great, let's talk")
 
 **Interview Tip**: "I use async for independent scripts and defer for scripts that need the DOM."
 
+**📖 Deep Dive**: For comprehensive coverage of JavaScript execution, frameworks like React, performance optimization, and interview questions, see [JavaScript Execution Guide](./javascript-execution.md)
+
 ### Step 8: Render Tree Creation
 
 **Formula**: DOM + CSSOM = Render Tree
