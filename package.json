@@ -28,7 +28,7 @@
     "search-algorithms",
     "two-pointers",
     "monorepo",
-    "yarn-workspaces"
+    "npm-scripts"
   ],
   "homepage": "https://github.com/vuquangkhtn/problems-solving#readme",
   "repository": {
@@ -45,17 +45,15 @@
     "url": "https://github.com/vuquangkhtn"
   },
   "type": "module",
-  "workspaces": [
-    "codespaces/*"
-  ],
+
   "scripts": {
-    "build": "yarn workspace @problem-solving/algorithms build && yarn workspace @problem-solving/react build && yarn workspace @problem-solving/system-design build",
-    "dev": "yarn workspace @problem-solving/react dev",
-    "lint": "yarn workspace @problem-solving/algorithms lint && yarn workspace @problem-solving/react lint && yarn workspace @problem-solving/system-design lint",
-    "lint:fix": "yarn workspace @problem-solving/algorithms lint:fix && yarn workspace @problem-solving/react lint:fix && yarn workspace @problem-solving/system-design lint:fix",
-    "format": "yarn workspace @problem-solving/algorithms format && yarn workspace @problem-solving/react format && yarn workspace @problem-solving/system-design format",
-    "type-check": "yarn workspace @problem-solving/algorithms type-check && yarn workspace @problem-solving/react type-check && yarn workspace @problem-solving/system-design type-check",
-    "clean": "yarn workspace @problem-solving/algorithms clean && yarn workspace @problem-solving/react clean && yarn workspace @problem-solving/system-design clean",
+    "build": "npm run build --prefix codespaces/algorithms",
+    "dev": "npm run dev --prefix codespaces/algorithms",
+    "lint": "npm run lint --prefix codespaces/algorithms",
+    "lint:fix": "npm run lint:fix --prefix codespaces/algorithms",
+    "format": "npm run format --prefix codespaces/algorithms",
+    "type-check": "npm run type-check --prefix codespaces/algorithms",
+    "clean": "npm run clean --prefix codespaces/algorithms",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
