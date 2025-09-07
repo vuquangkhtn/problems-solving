@@ -39,6 +39,43 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 
+# VitePress
+.vitepress/dist
+.vitepress/cache
+.temp
+*.tmp
+
+# Cache directories
+.cache
+.parcel-cache
+.next
+.nuxt
+.vuepress/dist
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
 # Yarn
 .yarn/*
 !.yarn/patches
