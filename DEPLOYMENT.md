@@ -19,16 +19,14 @@ This repository is configured for automatic deployment to GitHub Pages using Git
 ### Automatic Deployment
 
 The site will automatically deploy when:
-
 - You push to the `main` branch
 - You manually trigger the workflow from the Actions tab
 
 ### Deployment Process
 
 1. **Build Phase**:
-
-   - Installs Node.js and Yarn dependencies
-   - Runs `yarn docs:build` to generate static files
+   - Installs Node.js and npm dependencies
+   - Runs `npm run docs:build` to generate static files
    - Uploads the built site as an artifact
 
 2. **Deploy Phase**:
@@ -41,11 +39,13 @@ The site will automatically deploy when:
 To deploy manually:
 
 ```bash
-# Build the site locally
+# Using Yarn (recommended for local development)
 yarn docs:build
-
-# Preview the built site
 yarn docs:preview
+
+# Using npm (used in GitHub Actions)
+npm run docs:build
+npm run docs:preview
 ```
 
 ### Troubleshooting
@@ -65,14 +65,15 @@ yarn docs:preview
 ### Local Development
 
 ```bash
-# Start development server
+# Using Yarn (recommended)
 yarn docs:dev
-
-# Build for production
 yarn docs:build
-
-# Preview production build
 yarn docs:preview
+
+# Using npm
+npm run docs:dev
+npm run docs:build
+npm run docs:preview
 ```
 
 ### Configuration Files
