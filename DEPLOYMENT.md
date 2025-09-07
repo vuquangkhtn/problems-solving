@@ -54,7 +54,9 @@ npm run docs:preview
 
 1. **404 Errors**: Ensure the `base` URL in `.vitepress/config.js` matches your repository name
 2. **Build Failures**: Check the Actions tab for detailed error logs
-3. **Assets Not Loading**: Verify all links use relative paths or the correct base URL
+3. **Dead Link Errors**: VitePress may fail on broken internal links - use `ignoreDeadLinks: true` in config
+4. **Assets Not Loading**: Verify all links use relative paths or the correct base URL
+5. **Yarn Workspace Issues**: Use npm in GitHub Actions for public repositories
 
 **Checking Deployment Status:**
 

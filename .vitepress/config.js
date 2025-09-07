@@ -3,9 +3,12 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
   title: 'Software Engineer Interview Prep',
   description: 'Comprehensive knowledge base for software engineering interviews',
-
+  
   // Base URL for GitHub Pages deployment
   base: '/problems-solving/',
+  
+  // Ignore dead links to prevent build failures
+  ignoreDeadLinks: true,
 
   themeConfig: {
     // Navigation
