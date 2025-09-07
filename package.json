@@ -1,5 +1,5 @@
 {
-  "name": "problem-solving-algorithms-monorepo",
+  "name": "problem-solving",
   "version": "1.0.0",
   "description": "🧩 Comprehensive problem-solving algorithms, data structures, and coding interview solutions in TypeScript/JavaScript. Features HackerRank solutions, system design patterns, and algorithmic implementations for technical interviews and competitive programming.",
   "keywords": [
@@ -45,7 +45,6 @@
     "url": "https://github.com/vuquangkhtn"
   },
   "type": "module",
-
   "scripts": {
     "lint": "eslint \"codespaces/**/*.{ts,md}\" --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint \"codespaces/**/*.{ts,md}\" --fix",
