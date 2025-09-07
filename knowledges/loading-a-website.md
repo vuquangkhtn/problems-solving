@@ -56,6 +56,8 @@ Once the browser receives the HTML response, it begins parsing and processing th
 - Creates a tree structure representing the page content
 - Identifies and processes additional resources (CSS, JavaScript, images)
 
+**Preload Scanner**: Identifies and fetches high-priority resources (CSS, JavaScript, fonts) early, before the main parser encounters them.
+
 ### 7. Resource Loading
 - Browser discovers additional resources referenced in HTML
 - Initiates parallel downloads for:
@@ -75,10 +77,14 @@ Once the browser receives the HTML response, it begins parsing and processing th
 - Can block HTML parsing (unless async/defer attributes used)
 - May trigger additional resource requests
 
+**JavaScript Compilation**: Scripts are parsed into syntax trees, compiled to bytecode, and executed (mostly on main thread).
+
 ### 10. Render Tree Construction
 - Combines DOM and CSSOM into render tree
 - Determines which elements are visible and their styling
 - Excludes hidden elements (display: none)
+
+**Accessibility Tree**: Built alongside DOM to provide semantic information for screen readers and assistive technologies.
 
 ## Phase 2B: Browser Rendering
 
@@ -95,6 +101,16 @@ After processing is complete, the browser renders the visual representation.
 - Modern browsers use GPU acceleration for compositing
 
 ## Performance Considerations
+
+- **Time to First Byte (TTFB)**: The time between when the user made the request and the receipt of the first packet of HTML
+- **First Contentful Paint (FCP)**: When the first text or image is painted
+- **Largest Contentful Paint (LCP)**: When the largest text or image is painted
+- **Time to Interactive (TTI)**: When the page responds to user interactions within 50ms after First Contentful Paint
+- **Cumulative Layout Shift (CLS)**: Measures visual stability during loading
+
+### Interactivity Considerations
+
+Browsers are single-threaded - when the main thread is busy with JavaScript, it cannot respond to user interactions promptly.
 
 ### Single-Threaded Limitations
 - Browsers are largely single-threaded for DOM operations
