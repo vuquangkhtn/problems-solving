@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: "Software Engineer Interview Prep"
-  text: "Comprehensive Knowledge Base"
-  tagline: "Master the fundamentals, ace the interview"
+  name: 'Software Engineer Prep'
+  text: 'Comprehensive Knowledge Base'
+  tagline: 'Master the fundamentals, ace the interview'
   actions:
     - theme: brand
       text: Start Learning
@@ -37,6 +37,7 @@ features:
 ## Quick Navigation
 
 ### 📖 Knowledge Base
+
 Structured learning path covering essential software engineering topics:
 
 - **[Web Developer Todo](/knowledges/0.%20web-developer-todo)** - Essential skills checklist
@@ -50,12 +51,14 @@ Structured learning path covering essential software engineering topics:
 - **[Micro-Frontends](/knowledges/8.%20microfrontend)** - Scalable architectures
 
 ### 🔬 Research & Comparisons
+
 - **[Webpack vs Vite](/knowledges/fun-research/webpack-vs-vite)** - Modern bundler comparison
 
 ### 🎯 Practice Areas
+
 - **Algorithms** - Pattern-based problem solving
 - **System Design** - Scalable architecture design
 
 ---
 
-*This knowledge base is designed to help software engineers prepare for technical interviews while building a solid foundation in modern web development.*
+_This knowledge base is designed to help software engineers prepare for technical interviews while building a solid foundation in modern web development._
