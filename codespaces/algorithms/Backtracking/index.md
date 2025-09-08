@@ -305,6 +305,25 @@ function backtrack(path: any[], used: boolean[]): void {
 }
 ```
 
+## Problem Implementations
+
+This directory contains the following problem solutions:
+
+### TypeScript Solutions
+- **[Combination Sum](./combination-sum.ts)** - Find all unique combinations that sum to target
+- **[Combination Sum II](./combination-sum-ii.ts)** - Find combinations with duplicates handling
+- **[Generate Parentheses](./generate-parentheses.ts)** - Generate all valid parentheses combinations
+- **[Letter Combinations of Phone Number](./letter-combinations-of-a-phone-number.ts)** - Generate letter combinations from phone digits
+- **[Sudoku Solver](./sudoku-solver.ts)** - Solve Sudoku puzzle using backtracking
+- **[Word Search](./word-search.ts)** - Find if word exists in 2D board
+
+### Documentation
+- **[Technique Guide](./TECHNIQUE.md)** - Detailed explanation of backtracking techniques
+- **[Template](./TEMPLATE.md)** - Reusable backtracking code templates
+
+### Subdirectories
+- **[N-Queens](./n-queens/)** - N-Queens problem variations and solutions
+
 ## Common Problems
 
 ### Easy Level

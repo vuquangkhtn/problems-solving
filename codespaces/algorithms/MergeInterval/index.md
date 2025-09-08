@@ -366,6 +366,17 @@ class IntervalTree {
 - **Overall**: Usually O(n log n) due to sorting
 - **Space**: O(1) to O(n) depending on output requirements
 
+## Problem Implementations
+
+This directory contains the following problem solutions:
+
+### Problem Directories
+- **[Employee Free Time](./employee-free-time/)** - Find common free time slots across employees
+- **[Word Search](./word-search/)** - Word search problem using interval concepts
+
+### Resources
+- **[Images](./images/)** - Visual diagrams and illustrations for interval problems
+
 ## Practice Problems
 
 ### Easy

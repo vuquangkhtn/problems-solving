@@ -2,6 +2,18 @@
 
 Don't worry - DP is hard for everyone! Here's a structured approach to master it.
 
+## Problem Implementations
+
+This directory contains the following problem solutions:
+
+### Documentation
+- **[Technique Guide](./TECHNIQUE.md)** - Comprehensive DP techniques and patterns
+- **[Visualization](./VIZUALIZATION.md)** - Visual explanations of DP concepts
+
+### Problem Categories
+- **[1D Problems](./1D/)** - Linear dynamic programming problems
+- **[2D Problems](./2D/)** - Grid and matrix-based DP problems
+
 ## 🧠 Why DP is Hard
 
 - Requires pattern recognition

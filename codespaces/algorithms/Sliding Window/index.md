@@ -350,6 +350,13 @@ const testCases = [
 | **Character Frequency** | O(n) | O(min(m,k)) | m = alphabet size, k = window size |
 | **Multiple Conditions** | O(n) | O(k) | k = number of different states |
 
+## Problem Implementations
+
+This directory contains the following resources:
+
+### Documentation
+- **[Templates](./templates.md)** - Sliding window code templates and patterns
+
 ## Resources
 
 - 📖 **Templates**: See [templates.md](./templates.md) for detailed code templates

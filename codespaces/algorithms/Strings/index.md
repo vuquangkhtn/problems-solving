@@ -515,12 +515,13 @@ Where:
 - N = number of words
 - M = average length of words
 
-## Available Problem Solutions
+## Problem Implementations
 
-This directory contains solutions to specific string problems:
+This directory contains the following problem solutions:
 
-1. **Bear and Steady Gene.ts** - Gene sequence manipulation
-2. **Sherlock and Anagrams.ts** - Anagram counting problem
-3. **Sherlock and the Valid String.ts** - String validation with character frequency
+### TypeScript Solutions
+- **[Bear and Steady Gene](./Bear%20and%20Steady%20Gene.ts)** - Find minimum substring to make gene steady
+- **[Sherlock and Anagrams](./Sherlock%20and%20Anagrams.ts)** - Count anagrammatic pairs in string
+- **[Sherlock and the Valid String](./Sherlock%20and%20the%20Valid%20String.ts)** - Determine if string can be made valid
 
 These implementations demonstrate practical applications of the string algorithms and patterns covered in this guide.

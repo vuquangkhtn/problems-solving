@@ -197,6 +197,29 @@ const testCases = [
 ];
 ```
 
+## Problem Implementations
+
+This directory contains the following problem solutions:
+
+### TypeScript Solutions
+- **[Find First and Last Position](./find-first-and-last-position-of-element-in-sorted-array.ts)** - Find target boundaries in sorted array
+- **[Find Minimum in Rotated Sorted Array](./find-minimum-in-rotated-sorted-array.ts)** - Find minimum element in rotated array
+- **[Fruit Basket](./fruit-basket.ts)** - Binary search application problem
+- **[Search in Rotated Sorted Array](./search-in-rotated-sorted-array.ts)** - Search target in rotated sorted array
+
+### Documentation
+- **[Templates](./templates.md)** - Binary search code templates and patterns
+
+## Common Binary Search Problems
+
+1. **Classic Binary Search**: Find target in sorted array
+2. **First/Last Occurrence**: Find boundaries of target
+3. **Rotated Array Search**: Search in rotated sorted array
+4. **Peak Element**: Find local maximum
+5. **Square Root**: Find integer square root
+6. **Search Insert Position**: Find insertion point
+7. **Minimum in Rotated Array**: Find minimum element
+
 ## Practice Problems
 
 ### 🟢 Easy

@@ -610,14 +610,15 @@ function minMeetingRooms(intervals: Interval[]): number {
 - **File Systems**: Directory listing
 - **Search Engines**: Result ranking
 
-## Available Problem Solutions
+## Problem Implementations
 
-This directory contains solutions to specific sorting problems:
+This directory contains the following problem solutions:
 
-1. **Almost Sorted.ts** - Detecting if array is almost sorted
-2. **Fraudulent Activity Notifications.ts** - Median-based fraud detection
-3. **Lily's Homework.ts** - Minimum swaps to sort
-4. **The Full Counting Sort.ts** - Stable counting sort implementation
+### TypeScript Solutions
+- **[Almost Sorted](./Almost%20Sorted.ts)** - Determine minimum swaps to sort an array
+- **[Fraudulent Activity Notifications](./Fraudulent%20Activity%20Notifications.ts)** - Detect fraudulent transactions using sorting
+- **[Lily's Homework](./Lily's%20Homework.ts)** - Find minimum swaps for beautiful array
+- **[The Full Counting Sort](./The%20Full%20Counting%20Sort.ts)** - Stable counting sort implementation
 
 ## Practice Problems
 

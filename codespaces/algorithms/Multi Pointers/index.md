@@ -293,6 +293,14 @@ function merge(nums1: number[], m: number, nums2: number[], n: number): void {
 4. **Handle Edge Cases**: Empty arrays, single elements, etc.
 5. **Optimize**: Look for early termination opportunities
 
+## Problem Implementations
+
+This directory contains the following problem solutions:
+
+### TypeScript Solutions
+- **[Container With Most Water](./container-with-most-water.ts)** - Find maximum area between vertical lines
+- **[Highest Value Palindrome](./Highest%20Value%20Palindrome.ts)** - Create highest value palindrome with limited changes
+
 ## Practice Problems
 
 ### Easy

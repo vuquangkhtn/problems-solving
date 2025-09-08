@@ -62,6 +62,14 @@ This directory contains two heap implementations:
 1. **MaxHeap.ts** - Complete max heap implementation with detailed helper methods
 2. **MinHeap.ts** - Clean min heap implementation with modern TypeScript
 
+## Problem Implementations
+
+This directory contains the following implementations:
+
+### TypeScript Solutions
+- **[MaxHeap](./MaxHeap.ts)** - Maximum heap implementation with core operations
+- **[MinHeap](./MinHeap.ts)** - Minimum heap implementation with core operations
+
 ## Common Use Cases
 
 ### 1. Priority Queue
