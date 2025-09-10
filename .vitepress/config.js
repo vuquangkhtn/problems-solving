@@ -42,6 +42,12 @@ export default defineConfig({
           ],
         },
         {
+          text: 'Security',
+          items: [
+            { text: 'Security Fundamentals', link: '/knowledges/Security Fundamentals' },
+          ],
+        },
+        {
           text: 'Research & Comparisons',
           items: [{ text: 'Webpack vs Vite', link: '/knowledges/fun-research/webpack-vs-vite' }],
         },
