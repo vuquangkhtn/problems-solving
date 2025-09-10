@@ -63,6 +63,14 @@ Attackers can assume other users' identities and access sensitive data or functi
 
 Malicious scripts are injected into trusted websites and executed in users' browsers
 
+**Types of XSS:**
+- **Stored XSS**: Malicious script stored on server (e.g., in database)
+  - Example: Comment section storing `<script>alert('XSS')</script>` in database
+- **Reflected XSS**: Script reflected from user input in response
+  - Example: Search page with URL `?q=<script>alert('XSS')</script>` reflected in results
+- **DOM-based XSS**: Script executes via client-side DOM manipulation
+  - Example: `document.getElementById('output').innerHTML = location.hash` with `#<script>alert('XSS')</script>`
+
 #### What is the impact?
 
 Attackers can steal session cookies, redirect users, or perform actions on behalf of victims
@@ -71,6 +79,13 @@ Attackers can steal session cookies, redirect users, or perform actions on behal
 
 - Validate and sanitize all user input
 - Use Content Security Policy (CSP) headers
+
+**Content Security Policy (CSP):**
+CSP headers help prevent XSS attacks by controlling resource loading policies.
+
+```
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;
+```
 - Encode output data before rendering in HTML
 
 #### Example
@@ -139,6 +154,12 @@ Confidential information like personal data, financial records, or credentials c
 - Implement proper access controls and data classification
 - Use secure protocols (HTTPS, TLS) for data transmission
 
+**HTTPS/TLS Security:**
+- TLS 1.2+ for secure data transmission
+- Strong cipher suites and certificate validation
+- HTTP Strict Transport Security (HSTS) headers
+- Perfect Forward Secrecy (PFS) support
+
 #### Example
 
 - Credit card numbers are stored in plain text in databases
@@ -182,6 +203,12 @@ Attackers can perform unauthorized actions using the victim's credentials and se
 - Use anti-CSRF tokens in forms and state-changing requests
 - Implement SameSite cookie attributes
 - Verify the origin and referrer headers for sensitive operations
+
+**CSRF Protection Technologies:**
+- Anti-CSRF tokens (synchronizer token pattern)
+- SameSite cookie attributes (Strict/Lax/None)
+- Double Submit Cookie pattern
+- CORS (Cross-Origin Resource Sharing) policies
 
 #### Example
 
