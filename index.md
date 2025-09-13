@@ -50,6 +50,11 @@ Structured learning path covering essential software engineering topics:
 - **[Bundlers](/knowledges/7.%20bundler)** - Build tools evolution
 - **[Micro-Frontends](/knowledges/8.%20microfrontend)** - Scalable architectures
 
+### 🔒 Security
+
+- **[Security Fundamentals](/knowledges/Security%20Fundamentals)** - Core security concepts
+- **[Authentication vs Authorization](/knowledges/Authentication-vs-authorization)** - Identity and access control
+
 ### 🔬 Research & Comparisons
 
 - **[Webpack vs Vite](/knowledges/fun-research/webpack-vs-vite)** - Modern bundler comparison

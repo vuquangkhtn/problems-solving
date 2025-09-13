@@ -45,6 +45,7 @@ export default defineConfig({
           text: 'Security',
           items: [
             { text: 'Security Fundamentals', link: '/knowledges/Security Fundamentals' },
+            { text: 'Authentication vs Authorization', link: '/knowledges/Authentication-vs-authorization' },
           ],
         },
         {
