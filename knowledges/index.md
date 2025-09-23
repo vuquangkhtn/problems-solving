@@ -15,6 +15,7 @@ Core concepts every web developer should master:
 
 Modern frontend development stack:
 
+- **[DOM Comparison Guide](DOM-comparison.md)** - Real DOM vs Shadow DOM vs Virtual DOM - comprehensive interview guide
 - **[Module Systems](4.%20module-systems.md)** - ES6+ modules, CommonJS, and bundling strategies
 - **[React](5.%20react.md)** - Component architecture, hooks, and state management
 - **[TypeScript](6.%20typescript.md)** - Type safety, advanced types, and best practices

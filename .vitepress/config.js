@@ -34,6 +34,7 @@ export default defineConfig({
         {
           text: 'Frontend Technologies',
           items: [
+            { text: 'DOM Comparison Guide', link: '/knowledges/DOM-comparison' },
             { text: 'Module Systems', link: '/knowledges/4. module-systems' },
             { text: 'React', link: '/knowledges/5. react' },
             { text: 'TypeScript', link: '/knowledges/6. typescript' },
