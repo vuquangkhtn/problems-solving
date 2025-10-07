@@ -1,4 +1,58 @@
 import { defineConfig } from 'vitepress';
+import fs from 'fs';
+import path from 'path';
+
+// Build sidebar items from interview-questions directory, excluding resources
+const iqDir = path.resolve(process.cwd(), 'interview-questions');
+const preferredOrder = [
+  'React',
+  'JavaScript',
+  'NodeJS',
+  'Network and Security',
+  'HTML/CSS',
+  'Operation System',
+  'General',
+  'Design Patterns',
+  'TypeScript',
+];
+const h2Regex = /^##\s+(.+)$/m;
+
+function getFirstH2Title(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const m = content.match(h2Regex);
+    return m ? m[1].trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+function generateInterviewSidebarItems() {
+  const entries = fs.readdirSync(iqDir, { withFileTypes: true });
+  const mdPattern = /\.md$/i; // regex filter for markdown files
+  const files = entries
+    .filter((e) => e.isFile() && mdPattern.test(e.name))
+    .map((e) => {
+      const filePath = path.join(iqDir, e.name);
+      const title = getFirstH2Title(filePath) || e.name.replace(mdPattern, '');
+      const link = `/interview-questions/${e.name.replace(mdPattern, '')}`;
+      return { text: title, link };
+    });
+
+  // Sort by preferred order when possible, fallback to alphabetical
+  const orderIndex = (title) => {
+    const idx = preferredOrder.indexOf(title);
+    return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
+  };
+  files.sort((a, b) => {
+    const ai = orderIndex(a.text);
+    const bi = orderIndex(b.text);
+    if (ai !== bi) return ai - bi;
+    return a.text.localeCompare(b.text);
+  });
+
+  return files;
+}
 
 export default defineConfig({
   title: 'Software Engineer Interview',
@@ -17,10 +71,20 @@ export default defineConfig({
       { text: 'Knowledge Base', link: '/knowledges/' },
       { text: 'Algorithms', link: '/codespaces/algorithms/' },
       { text: 'System Design', link: '/codespaces/system-design/' },
+      { text: 'Interview Questions', link: '/interview-questions/resources/interview-questions' },
     ],
 
     // Sidebar configuration
     sidebar: {
+      '/interview-questions/': [
+        {
+          text: 'Interview Questions',
+          items: [
+            { text: 'All Questions', link: '/interview-questions/resources/interview-questions' },
+            ...generateInterviewSidebarItems(),
+          ],
+        },
+      ],
       '/knowledges/': [
         {
           text: 'Web Development Fundamentals',
@@ -73,10 +137,31 @@ export default defineConfig({
 
   // Markdown configuration
   markdown: {
+    html: false,
     lineNumbers: true,
     theme: {
       light: 'github-light',
       dark: 'github-dark',
+    },
+    // Strip HTML comments from rendering while keeping html disabled
+    config: (md) => {
+      md.core.ruler.push('strip_html_comments', (state) => {
+        const tokens = state.tokens;
+        for (let i = 0; i < tokens.length; i++) {
+          const token = tokens[i];
+          if (token.type === 'inline' && token.children) {
+            token.children = token.children.filter((child) => {
+              if (child.type === 'text') {
+                const c = child.content.trim();
+                if (c.startsWith('<!--') && c.endsWith('-->')) {
+                  return false;
+                }
+              }
+              return true;
+            });
+          }
+        }
+      });
     },
   },
 });
