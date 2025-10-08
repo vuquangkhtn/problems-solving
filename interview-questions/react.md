@@ -2,17 +2,20 @@
 
 ### What are the features of React?
 <!-- id: CXyf=jKNW+, noteType: Basic-66869 -->
-
-It uses the virtual DOM instead of the real DOM. It uses server-side rendering. It follows uni-directional data flow or data binding. It build the reusable/composable UI components to develop the view
+- Uses a virtual DOM instead of manipulating the real DOM directly.
+- Supports server-side rendering (SSR) with hydration.
+- Follows unidirectional data flow.
+- Encourages reusable, composable UI components.
 
 ### What do you know about the Virtual DOM?
 <!-- id: FoyA}$T9QX, noteType: Basic-66869 -->
+- The Virtual DOM (VDOM) is an in-memory representation of the real DOM.
+- It starts as a copy of the real DOM and updates are computed against it.
 
-- The Virtual DOM (VDOM) is an in-memory representation of Real DOM. - It starts as a copy of the real DOM. 3 Steps of Virtual DOM:
-
-1. Whenever any underlying data changes, the entire UI is re-rendered in Virtual DOM representation.
-2. A diff is performed between the previous DOM and current DOM.
-3. Real DOM is updated with just the new changes.
+Update steps:
+1) When data changes, React re-renders the UI into the Virtual DOM.
+2) React diffs the previous and current Virtual DOM trees.
+3) React applies minimal changes to the real DOM.
 
 ### Differentiate between Real DOM and Virtual DOM
 <!-- id: x7v|@{%0DI, noteType: Basic-66869 -->
@@ -21,18 +24,37 @@ It uses the virtual DOM instead of the real DOM. It uses server-side rendering. 
 
 ### What do you understand from “In React, everything is a component.”
 <!-- id: cC3W]O5b<X, noteType: Basic-66869 -->
-
-Components are the building blocks of a React application’s UI. These components split up the entire UI into small independent and reusable pieces. Then it renders each of these components independent of each other without affecting the rest of the UI.
+- Components are the building blocks of a React UI.
+- They split the UI into small, independent, reusable pieces.
+- Each component renders independently without affecting other parts of the UI.
 
 ### Explain the purpose of render() in React.
 <!-- id: x!BVn-%YPh, noteType: Basic-66869 -->
-
-Each React component must have a render() mandatorily. It returns a single React element which is the representation of the native DOM component.
+- Class components implement `render()` to return a React element.
+- The returned element describes what should appear in the DOM.
 
 ### How can you embed two or more components into one?
 <!-- id: xP@n:Hci!/, noteType: Basic-66869 -->
+```jsx
+class MyComponent extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Hello</h1>
+        <Header />
+      </div>
+    );
+  }
+}
 
-class MyComponent extends React.Component{ render(){ return( <div> <h1>Hello</h1> <Header/> </div> ); } } class Header extends React.Component{ render(){ return <h1>Header Component</h1> }; } ReactDOM.render( <MyComponent/>, document.getElementById('content') );
+class Header extends React.Component {
+  render() {
+    return <h1>Header Component</h1>;
+  }
+}
+
+ReactDOM.render(<MyComponent />, document.getElementById('content'));
+```
 
 ### What are Props?
 <!-- id: tD#fA>`[%T, noteType: Basic-66869 -->
@@ -41,13 +63,14 @@ Props are short hand for Properties in React. They are read-only components whic
 
 ### What is a state in React and how is it used?
 <!-- id: bLvjjlaMiO, noteType: Basic-66869 -->
-
-State of a component is an object that holds some information that may change over the lifetime of the component. State is similar to props, but it is private, mutable, and fully controlled by the component.
+- State is a component-owned object that holds information that changes over time.
+- Unlike props, state is private, mutable, and controlled by the component.
 
 ### What are the different phases of React component’s lifecycle?
 <!-- id: s|1Jjpm@vg, noteType: Basic-66869 -->
-
-Mounting: The component is ready to mount in the browser DOM. This phase covers initialization from constructor(), getDerivedStateFromProps(), render(), and componentDidMount() lifecycle methods. Updating: In this phase, the component gets updated in two ways, sending the new props and updating the state either from setState() or forceUpdate(). This phase covers getDerivedStateFromProps(), shouldComponentUpdate(), render(), getSnapshotBeforeUpdate() and componentDidUpdate() lifecycle methods. Unmounting: In this last phase, the component is not needed and gets unmounted from the browser DOM. This phase includes componentWillUnmount() lifecycle method.
+- Mounting: `constructor`, `getDerivedStateFromProps`, `render`, `componentDidMount`.
+- Updating: `getDerivedStateFromProps`, `shouldComponentUpdate`, `render`, `getSnapshotBeforeUpdate`, `componentDidUpdate`.
+- Unmounting: `componentWillUnmount`.
 
 ### Explain the lifecycle method componentWillMount()
 <!-- id: j)Q37W1S~;, noteType: Basic-66869 -->
@@ -91,23 +114,31 @@ Synthetic events are the objects which act as a cross-browser wrapper around the
 
 ### What are Higher Order Components(HOC)?
 <!-- id: p|p^V2r_Zd, noteType: Basic-66869 -->
-
-Put simply: just a React Component that wraps another one.Detailed explanation: Higher Order Component is an advanced way of reusing the component logic. Basically, it’s a pattern that is derived from React’s compositional nature. HOC are custom components which wraps another component within it. They can accept any dynamically provided child component but they won’t modify or copy any behavior from their input components. HOC are pure components and enable: 1. Code reuse, logic and bootstrap abstraction 2. Render Highjacking 3. State abstraction and manipulation 4. Props manipulation
+- A HOC is a component that wraps another component to reuse logic.
+- It’s a pattern leveraging React’s compositional nature.
+- HOCs don’t modify the input component’s behavior; they compose it.
+- Benefits include:
+  - Code reuse and logic abstraction
+  - Render hijacking
+  - State abstraction/manipulation
+  - Props manipulation
 
 ### In which lifecycle event do you make AJAX requests and why?
 <!-- id: z)(}a@a$=*, noteType: Basic-66869 -->
-
-AJAX requests should go in the componentDidMount lifecycle event. Reason: You can’t guarantee the AJAX request won’t resolve before the component mounts. If it did, that would mean that you’d be trying to setState on an unmounted component, which not only won’t work, but React will yell at you for. Doing AJAX in componentDidMount will guarantee that there’s a component to update.
+- Perform data fetching in `componentDidMount` (or `useEffect` in function components).
+- Ensures the component is mounted before calling `setState`.
+- Avoids updates on unmounted components.
 
 ### How do you tell React to build in Production mode and what will that do?
 <!-- id: uJ}BIoh[@B, noteType: Basic-66869 -->
-
-Typically you’d use Webpack’s DefinePlugin method to set NODE_ENV to production. This will strip out things like propType validation and extra warnings. On top of that, it’s also a good idea to minify your code because React uses Uglify’s dead-code elimination to strip out development only code and comments, which will drastically reduce the size of your bundle.
+- Configure your bundler to set `process.env.NODE_ENV = 'production'`.
+- Enables production optimizations and removes development warnings.
+- Minify code to leverage dead-code elimination and reduce bundle size.
 
 ### What is JSX (JS XML)?
 <!-- id: xq?sv-se$N, noteType: Basic-66869 -->
-
-Basically it provides syntactic sugar for the React.createElement() function, giving us the simple ways to create React components with HTML like template syntax.
+- JSX is syntax sugar for `React.createElement()`.
+- It lets you write component templates in HTML-like syntax that compile to JavaScript.
 
 ### What is React?
 <!-- id: OL!DT=<3S=, noteType: Basic-66869 -->
@@ -116,43 +147,57 @@ React is an open-source front-end JavaScript library that is used for building u
 
 ### What is the difference between state and props?
 <!-- id: L$ga}WG3v[, noteType: Basic-66869 -->
-
-Props get passed to the component similar to function parameters whereas state is managed within the component similar to variables declared within a function.
+- Props are inputs passed to a component (like function parameters).
+- State is managed within the component (like local variables) and can change over time.
 
 ### "What is ""key"" prop?"
 <!-- id: Ik1K8!QFj`, noteType: Basic-66869 -->
-
-A key is a special string attribute you should include when creating arrays of elements. It helps React identify which items have changed, are added, or are removed.
+- `key` is a special string attribute used in lists to help React identify items.
+- Improves diffing by tracking inserted, removed, or changed elements.
 
 ### What is context?
 <!-- id: s09rc`.>(;, noteType: Basic-66869 -->
-
-Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+- Context lets you pass data through the component tree without prop drilling.
 
 ### What is reconciliation?
 <!-- id: Ll)X1;&(:*, noteType: Basic-66869 -->
-
-When a component's props or state change, React decides whether an actual DOM update is necessary by comparing the newly returned element with the previously rendered one. When they are not equal, React will update the DOM. This process is called reconciliation.
+- When props/state change, React compares the new element with the previous.
+- If different, React updates the DOM minimally — this is reconciliation.
 
 ### What are fragments?
 <!-- id: Ix{-[~VBNX, noteType: Basic-66869 -->
-
-It's a common pattern in React which is used for a component to return multiple elements. Fragments let you group a list of children without adding extra nodes to the DOM.
+- Fragments let components return multiple children without extra DOM nodes.
+- Use `<>...</>` or `<React.Fragment>...</React.Fragment>`.
 
 ### What are error boundaries in React v16?
 <!-- id: jrI~R6S+um, noteType: Basic-66869 -->
-
-Error boundaries are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. A class component becomes an error boundary if it defines a new lifecycle method called componentDidCatch(error, info) or static getDerivedStateFromError()
+- Error boundaries catch errors in child components and render fallback UI.
+- Implement with `componentDidCatch(error, info)` and/or `static getDerivedStateFromError()`.
 
 ### What is the use of react-dom package?
 <!-- id: NS#J5g]Rh2, noteType: Basic-66869 -->
-
-The react-dom package provides DOM-specific methods that can be used at the top level of your app. Some of the methods of this package are:render(): Render a React element into the DOM in the supplied container and return a reference to the component (or returns null for stateless components).hydrate(): Same as render(), but is used to hydrate a container whose HTML contents were rendered by ReactDOMServer. React will attempt to attach event listeners to the existing markup.unmountComponentAtNode(): Remove a mounted React component from the DOM and clean up its event handlers and state. If no component was mounted in the container, calling this function does nothing. Returns true if a component was unmounted and false if there was no component to unmount.findDOMNode(): If this component has been mounted into the DOM, this returns the corresponding native browser DOM element. This method is useful for reading values out of the DOM, such as form field values and performing DOM measurements. In most cases, you can attach a ref to the DOM node and avoid using findDOMNode at all.createPortal(child, container): Creates a portal. Portals provide a way to render children into a DOM node that exists outside the hierarchy of the parent component.
+- Provides DOM-specific methods for React apps:
+  - `render(element, container)`
+  - `hydrate(element, container)` (for SSR hydration)
+  - `unmountComponentAtNode(container)`
+  - `findDOMNode(instance)` (prefer refs instead)
+  - `createPortal(child, container)`
 
 ### What is ReactDOMServer?
 <!-- id: fI:#fODmB`, noteType: Basic-66869 -->
+- Enables rendering components to static markup for SSR.
+- Common methods:
+  - `renderToString(component)`
+  - `renderToStaticMarkup(component)`
 
-The ReactDOMServer object enables you to render components to static markup (typically used on node server). This object is mainly used for server-side rendering (SSR). The following methods can be used in both the server and browser environments:renderToString()renderToStaticMarkup() For example, you call renderToString to render your root component to a string, which you then send as response.
+Example:
+
+```js
+import ReactDOMServer from 'react-dom/server';
+
+const html = ReactDOMServer.renderToString(<App />);
+// send html as response
+```
 
 ### Why is a component constructor called only once?
 <!-- id: QnC1mCl>/., noteType: Basic-66869 -->
@@ -161,8 +206,8 @@ React's reconciliation algorithm assumes that if a custom component appears in t
 
 ### What are the common folder structures for React?
 <!-- id: x4PNquO)-1, noteType: Basic-66869 -->
-
-- Grouping by features or routes - Grouping by file type
+- Grouping by feature or route (co-locate components, hooks, tests).
+- Grouping by file type (components, hooks, styles, tests in separate dirs).
 
 ### What is the benefit of styles modules?
 <!-- id: IEl=a.8`Zy, noteType: Basic-66869 -->
@@ -171,13 +216,20 @@ It is recommended to avoid hard coding style values in components. Any values th
 
 ### What is React Router?
 <!-- id: yX93pYzyV(, noteType: Basic-66869 -->
-
-React Router is a routing-specific library that helps you add new screens and flows to your application quickly, while keeping the URL in sync with what's being displayed on the page. Some hook methods this library provides are useHistory, useLocation, useParams. It covers: Configuring RoutesNavigating with LinkUsing Nested Routes for LayoutNavigating programmaticallyUsing URL params and Search params
+- A routing library that keeps the UI in sync with the URL.
+- Hooks: `useNavigate` (v6), `useLocation`, `useParams`.
+- Covers:
+  - Configuring routes
+  - Navigating with `Link`
+  - Nested routes/layouts
+  - Programmatic navigation
+  - URL params and search params
 
 ### How React Router is different from history library?
 <!-- id: BHB7^Vf4qD, noteType: Basic-66869 -->
-
-React Router is a wrapper around the history library which handles interaction between the browser's window.history with its browser and hash histories. It also provides memory history which is useful for environments that don't have global history, such as mobile app development (React Native) and unit testing with Node.
+- React Router wraps the `history` library, managing browser and hash histories.
+- Adds declarative routing components and React integration.
+- Provides memory history for non-browser environments (React Native, tests).
 
 ### What is React Interalization?
 <!-- id: HZ`|B1)+3~, noteType: Basic-66869 -->
@@ -186,18 +238,20 @@ is part of FormatJS which provides bindings to React. It helps to format strings
 
 ### What is Flux?
 <!-- id: JTC4IS2r3U, noteType: Basic-66869 -->
-
-Flux is an application design paradigm used as a replacement for the traditional MVC pattern. It is not a framework or a library but a new kind of architecture that complements React and the concept of Unidirectional Data Flow. Facebook uses this pattern internally when working with React.
+- Flux is an architectural pattern favoring unidirectional data flow over MVC.
+- Complements React; used internally at Facebook.
 
 ### What is Redux?
 <!-- id: D%yTdeOz31, noteType: Basic-66869 -->
-
-Redux is a predictable state container for JavaScript apps based on the Flux design pattern. Redux can be used together with React, or with any other view library. Hook functions: useSelector, useDispatch
+- Redux is a predictable state container inspired by Flux.
+- Works with React or other view libraries.
+- Hooks: `useSelector`, `useDispatch`.
 
 ### What are the core principles of Redux?
 <!-- id: L?3|K^p;nZ, noteType: Basic-66869 -->
-
-Redux follows three fundamental principles:Single source of truth: The state of your whole application is stored in an object tree within a single store. The single state tree makes it easier to keep track of changes over time and debug or inspect the application.State is read-only: The only way to change the state is to emit an action, an object describing what happened. This ensures that neither the views nor the network callbacks will ever write directly to the state.Changes are made with pure functions: To specify how the state tree is transformed by actions, you write reducers. Reducers are just pure functions that take the previous state and an action as parameters, and return the next state.
+- Single source of truth: entire app state in one store.
+- State is read-only: only actions describe state changes.
+- Changes via pure functions: reducers transform state based on actions.
 
 ### What is the difference between mapStateToProps() and mapDispatchToProps()?
 <!-- id: nT}{UKCH@y, noteType: Basic-66869 -->
@@ -246,8 +300,10 @@ Both Redux Thunk and Redux Saga take care of dealing with side effects. In most 
 
 ### What are Redux selectors and why to use them?
 <!-- id: D&@%=.daPO, noteType: Basic-66869 -->
-
-Selectors are functions that take Redux state as an argument and return some data to pass to the component. These selectors have two main benefits,The selector can compute derived data, allowing Redux to store the minimal possible stateThe selector is not recomputed unless one of its arguments changes
+- Selectors take state and return derived data for components.
+- Benefits:
+  - Compute derived data to keep state minimal.
+  - Memoize to avoid recomputation unless inputs change.
 
 ### What is an action in Redux?
 <!-- id: lQR+]!`<bS, noteType: Basic-66869 -->
@@ -261,8 +317,8 @@ Reselect is a selector library (for Redux) which uses same concept with Redux Se
 
 ### What are Styled Components?
 <!-- id: kI2bdErp*~, noteType: Basic-66869 -->
-
-styled-components is a JavaScript library for styling React applications. It removes the mapping between styles and components, and lets you write actual CSS augmented with JavaScript.
+- `styled-components` lets you style components using CSS-in-JS.
+- Co-locates styles with components and removes CSS-to-component mapping.
 
 ### Do I need to keep all my state into Redux? Should I ever use react internal state?
 <!-- id: s<_LqmJ_tz, noteType: Basic-66869 -->

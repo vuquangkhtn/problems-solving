@@ -7,7 +7,7 @@
 An id is a unique identifier for a single HTML element.
 A class is a reusable identifier that can be applied to multiple elements.
 
-In CSS, an id is selected using the # symbol, while a class is selected using the . symbol.
+In CSS, an id is selected using the `#` symbol, while a class is selected using the `.` symbol.
 
 ### Can you explain the box model in CSS?
 
@@ -29,11 +29,16 @@ The CSS box model describes the rectangular boxes generated for elements in the 
 
 In CSS, the difference between inline, inline-block, and block elements is on the way they’re rendered in the web page:
 
-Inline: Inline elements don’t have a width or height. Instead, they don’t start on a new line and take up only the width that’s required (based on their content). Examples: <span>, <a>.
+Inline: Inline elements don’t have a width or height.
+They don’t start on a new line and take up only the width that’s required (based on their content).
+Examples: `<span>`, `<a>`.
 
-Inline-block: Just like inline elements, here the DOM elements do not start on a new line, however, they do allow you to set a height and width on them. Example: <img>.
+Inline-block: Do not start on a new line, but allow you to set height and width.
+Example: `<img>`.
 
-Block: Elements start on a new line, taking up the full width available by default. Their width and height can be set by you. Examples: <div>, <p>.
+Block: Elements start on a new line, taking up the full width available by default.
+Their width and height can be set.
+Examples: `<div>`, `<p>`.
 
 ### What is the difference between the em and rem units?
 
@@ -43,7 +48,7 @@ They’re both relative units of measurement, however, they’re relative to dif
 
 “em” units are relative to the font size of their parent element. So if the parent element has a font size of 20px, then setting a “2em” font size, would equal to 40px.
 
-“rem” units are “root em”, which means they’re relative to the web page’s root element (the “<html>” element).
+“rem” units are “root em”, which means they’re relative to the web page’s root element (the `<html>` element).
 
 ### Flexbox vs Grid vs Box Layout
 
@@ -67,19 +72,26 @@ Box Layout is the default layout model in CSS. It’s based on the box model, wh
 
 <!-- id: wS1usH;.%,, noteType: Basic-66869 -->
 
-"Use CSS animations for simpler ""one-shot"" transitions, like toggling UI element states.Use JavaScript animations when you want to have advanced effects like bouncing, stop, pause, rewind, or slow down.If you choose to animate with JavaScript, use the Web Animations API or a modern framework that you're comfortable with."
+Use CSS animations for simpler “one-shot” transitions, like toggling UI element states.
+Use JavaScript animations when you want advanced effects like bouncing, stop, pause, rewind, or slowing down.
+If you choose to animate with JavaScript, use the Web Animations API or a modern framework you’re comfortable with.
 
 ### "Css Selector: ~, >, +, #, ."
 
 <!-- id: I=(rs!mcK2, noteType: Basic-66869 -->
 
-div p: Selects all <p> elements inside <div> elements
-p.intro:Selects all <p> elements with class=""intro""#firstname:Selects the element with id=""firstname""
-.name1.name2: Selects all elements with both name1 and name2 set within its class attribute
-.name1 .name2:Selects all elements with name2 that is a descendant of an element with name1
-div > p:Selects all <p> elements where the parent is a <div> element
-div + p:Selects the first <p> element that is placed immediately after <div> elements
-p ~ ul: Selects all <ul> elements that is placed after <p> elementCSS Selectors Reference (w3schools.com)"
+```css
+div p        /* Selects all <p> elements inside <div> elements */
+p.intro      /* Selects all <p> elements with class="intro" */
+#firstname   /* Selects the element with id="firstname" */
+.name1.name2 /* Selects elements with both name1 and name2 classes */
+.name1 .name2/* Selects descendants with name2 under an element with name1 */
+div > p      /* Selects <p> elements whose parent is a <div> */
+div + p      /* Selects the first <p> immediately after a <div> */
+p ~ ul       /* Selects all <ul> elements placed after a <p> */
+```
+
+Reference: CSS Selectors Reference (w3schools.com).
 
 ### css vs css-in-js
 

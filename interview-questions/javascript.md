@@ -10,9 +10,16 @@ The Document Object Model (DOM) is a programming interface for web documents. It
 
 <!-- id: =C10XTq[%+, noteType: Basic-66869 -->
 
-To add an event listener on an element, you have to first “get” that element through one of the many methods of the document object (i.e. getElementById, etc) and then use the addEventListener method of the obtained object.
+To add an event listener on an element, first get that element through one of the `document` methods (e.g. `getElementById`).
+Then use the element’s `addEventListener` method.
 
-The method will receive the event name (i.e. ‘click’, ‘keyup’, ‘mouseup’, etc), the event handler function and, optionally, a boolean indicating whether the event should be captured during the capturing phase.
+The method receives the event name (e.g. `click`, `keyup`, `mouseup`), the event handler function, and optionally options such as `capture`.
+
+```js
+const button = document.getElementById('submit');
+function handleClick(e) { console.log('Clicked!', e.target); }
+button.addEventListener('click', handleClick, { capture: false });
+```
 
 ### What is the difference between null and undefined?
 
@@ -105,37 +112,180 @@ Typical use cases
 
 <!-- id: lSIl-tvZ<*, noteType: Basic (and reversed card)-1cc8b -->
 
-Basically, the value of this depends on how the function is called.The following rules are applied:If the new keyword is used when calling the function, this inside the function is a brand new object.If apply, call, or bind are used to call/create a function, this inside the function is the object that is passed in as the argument.If a function is called as a method, such as obj.method() — this is the object that the function is a property of.If a function is invoked without any of the conditions present above, this is the global object. In a browser, it is the window object. If in strict mode ('use strict'), this will be undefined instead of the global object.If multiple of the above rules apply, the rule that is higher wins and will set the this value.If the function is an ES2015 arrow function, it ignores all the rules above and receives the this value of its surrounding scope at the time it is created.For an in-depth explanation, do check out his article on Medium.Can you give an example of one of the ways that working with this has changed in ES6?ES6 allows you to use arrow functions which uses the enclosing lexical scope. This is usually convenient, but does prevent the caller from controlling context via .call or .apply—the consequences being that a library such as jQuery will not properly bind this in your event handler functions. Thus, it's important to keep this in mind when refactoring large legacy applications.Referenceshttps://codeburst.io/the-simple-rules-to-this-in-javascript-35d97f31bde3https://stackoverflow.com/a/3127440/1751946
+The value of `this` depends on how the function is called.
+
+Rules:
+- Called with `new`: `this` is a brand new object.
+- Called via `apply`, `call`, or `bind`: `this` is the object passed as the first argument.
+- Called as a method (e.g., `obj.method()`): `this` is the object owning the method.
+- Called as a plain function: `this` is the global object (`window` in browsers). In strict mode, `this` is `undefined`.
+- If multiple rules apply, precedence determines `this`.
+- Arrow functions ignore all above and capture `this` from the enclosing lexical scope at creation.
+
+ES6 changes:
+- Arrow functions use enclosing lexical `this`. This is convenient but prevents callers from controlling context via `.call` or `.apply`.
+- Be mindful when refactoring legacy code relying on dynamic `this` binding.
+
+References:
+- https://codeburst.io/the-simple-rules-to-this-in-javascript-35d97f31bde3
+- https://stackoverflow.com/a/3127440/1751946
 
 ### Explain how prototypal inheritance works
 
 <!-- id: sSRksn3Lj>, noteType: Basic (and reversed card)-1cc8b -->
 
-"All JavaScript objects have a prototype property, that is a reference to another object. When a property is accessed on an object and if the property is not found on that object, the JavaScript engine looks at the object's prototype, and the prototype's prototype and so on, until it finds the property defined on one of the prototypes or until it reaches the end of the prototype chain. This behavior simulates classical inheritance, but it is really more of delegation than inheritance.Example of Prototypal InheritanceWe already have a build-in Object.create, but if you were to provide a polyfill for it, that might look like:if (typeof Object.create !== 'function') { Object.create = function (parent) { function Tmp() {} Tmp.prototype = parent; return new Tmp(); }; } const Parent = function() { this.name = ""Parent""; } Parent.prototype.greet = function() { console.log(""hello from Parent""); } const child = Object.create(Parent.prototype); child.cry = function() { console.log(""waaaaaahhhh!""); } child.cry(); // Outputs: waaaaaahhhh! child.greet(); // Outputs: hello from ParentThings to note are:.greet is not defined on the child, so the engine goes up the prototype chain and finds .greet off the inherited from Parent.We need to call Object.create in one of following ways for the prototype methods to be inherited:Object.create(Parent.prototype);Object.create(new Parent(null));Object.create(objLiteral);Currently, child.constructor is pointing to the Parent:child.constructor ƒ () { this.name = ""Parent""; } child.constructor.name ""Parent""If we'd like to correct this, one option would be to do:function Child() { Parent.call(this); this.name = 'child'; } Child.prototype = Parent.prototype; Child.prototype.constructor = Child; const c = new Child(); c.cry(); // Outputs: waaaaaahhhh! c.greet(); // Outputs: hello from Parent c.constructor.name; // Outputs: ""Child""Referenceshttps://www.quora.com/What-is-prototypal-inheritance/answer/Kyle-Simpsonhttps://davidwalsh.name/javascript-objectshttps://crockford.com/javascript/prototypal.htmlhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain"
+All JavaScript objects have a `prototype` property that references another object.
+When a property is accessed on an object and is not found, the engine looks up the prototype chain until it finds the property or reaches the end.
+This behavior simulates classical inheritance but is more accurately delegation.
+
+Example: polyfill for `Object.create`
+```js
+if (typeof Object.create !== 'function') {
+  Object.create = function (parent) {
+    function Tmp() {}
+    Tmp.prototype = parent;
+    return new Tmp();
+  };
+}
+```
+
+Example: inheritance via prototypes
+```js
+function Parent() { this.name = 'Parent'; }
+Parent.prototype.greet = function () { console.log('hello from Parent'); };
+
+const child = Object.create(Parent.prototype);
+child.cry = function () { console.log('waaaaaahhhh!'); };
+
+child.cry();   // waaaaaahhhh!
+child.greet(); // hello from Parent
+```
+
+Notes:
+- `.greet` is not defined on `child`, so the engine goes up the prototype chain and finds it on `Parent.prototype`.
+- Use `Object.create(Parent.prototype)` for prototype methods to be inherited.
+- `child.constructor` points to `Parent` by default.
+
+Correcting `constructor` with a subtype
+```js
+function Child() { Parent.call(this); this.name = 'child'; }
+Child.prototype = Object.create(Parent.prototype);
+Child.prototype.constructor = Child;
+
+const c = new Child();
+c.cry = function () { console.log('waaaaaahhhh!'); };
+c.cry();    // waaaaaahhhh!
+c.greet();  // hello from Parent
+console.log(c.constructor.name); // 'Child'
+```
+
+References:
+- https://www.quora.com/What-is-prototypal-inheritance/answer/Kyle-Simpson
+- https://davidwalsh.name/javascript-objects
+- https://crockford.com/javascript/prototypal.html
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 
 ### What's the difference between a variable that is: null, undefined or undeclared? How would you go about checking for any of these states?
 
 <!-- id: uxIl-AwVOe, noteType: Basic (and reversed card)-1cc8b -->
 
-Undeclared variables are created when you assign a value to an identifier that is not previously created using var, let or const. Undeclared variables will be defined globally, outside of the current scope. In strict mode, a ReferenceError will be thrown when you try to assign to an undeclared variable. Undeclared variables are bad just like how global variables are bad. Avoid them at all cost! To check for them, wrap its usage in a try/catch block.function foo() { x = 1; // Throws a ReferenceError in strict mode } foo(); console.log(x); // 1A variable that is undefined is a variable that has been declared, but not assigned a value. It is of type undefined. If a function does not return any value as the result of executing it is assigned to a variable, the variable also has the value of undefined. To check for it, compare using the strict equality (===) operator or typeof which will give the 'undefined' string. Note that you should not be using the abstract equality operator to check, as it will also return true if the value is null.var foo; console.log(foo); // undefined console.log(foo === undefined); // true console.log(typeof foo === 'undefined'); // true console.log(foo == null); // true. Wrong, don't use this to check! function bar() {} var baz = bar(); console.log(baz); // undefinedA variable that is null will have been explicitly assigned to the null value. It represents no value and is different from undefined in the sense that it has been explicitly assigned. To check for null, simply compare using the strict equality operator. Note that like the above, you should not be using the abstract equality operator (==) to check, as it will also return true if the value is undefined.var foo = null; console.log(foo === null); // true console.log(typeof foo === 'object'); // true console.log(foo == undefined); // true. Wrong, don't use this to check!As a personal habit, I never leave my variables undeclared or unassigned. I will explicitly assign null to them after declaring if I don't intend to use it yet. If you use a linter in your workflow, it will usually also be able to check that you are not referencing undeclared variables.Referenceshttps://stackoverflow.com/questions/15985875/effect-of-declared-and-undeclared-variableshttps://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/undefined
+Undeclared
+- Created when assigning to an identifier not previously declared with `var`, `let`, or `const`.
+- Defined globally (outside current scope). In strict mode, a `ReferenceError` is thrown on assignment.
+- Avoid at all costs. To detect, wrap usage in `try/catch`.
+```js
+function foo() { x = 1; } // ReferenceError in strict mode
+try { foo(); } catch (e) { console.error(e); }
+```
+
+Undefined
+- Declared but not assigned a value; type is `undefined`.
+- Functions without a return value evaluate to `undefined`.
+- Check using strict equality or `typeof`. Do not use `==` which also matches `null`.
+```js
+var foo;
+console.log(foo); // undefined
+console.log(foo === undefined); // true
+console.log(typeof foo === 'undefined'); // true
+console.log(foo == null); // true (wrong check)
+
+function bar() {}
+var baz = bar();
+console.log(baz); // undefined
+```
+
+Null
+- Explicitly assigned `null` represents no value; different from `undefined`.
+- Check using strict equality; avoid `==` which matches `undefined`.
+```js
+var foo = null;
+console.log(foo === null); // true
+console.log(typeof foo === 'object'); // true
+console.log(foo == undefined); // true (wrong check)
+```
+
+Personal habit: explicitly assign `null` if a variable is declared but not yet used.
+Linters will help catch references to undeclared variables.
+
+References:
+- https://stackoverflow.com/questions/15985875/effect-of-declared-and-undeclared-variables
+- https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/undefined
 
 ### What is a closure, and how/why would you use one?
 
 <!-- id: B#B(?XiGcl, noteType: Basic (and reversed card)-1cc8b -->
 
-Closures - JavaScript | MDN (mozilla.org) a closure gives you access to an outer function's scope from an inner function. A closure is the combination of a function and the lexical environment within which that function was declared. This environment consists of any local variables that were in-scope at the time the closure was createdThe closure has three scope chains:1. Own scope where variables defined between its curly brackets2. Outer functions' variables3. Global variables Why would you use one?Data privacy / emulating private methods with closures. Commonly used in the module pattern.Partial applications or currying function: a function that takes a function with multiple parameters and returns a function with fewer parameters
+A closure gives you access to an outer function's scope from an inner function.
+It combines a function and the lexical environment in which it was declared.
+
+Closure scope chains:
+1. Own scope (variables defined within the function).
+2. Outer function variables.
+3. Global variables.
+
+Why use closures?
+- Data privacy / emulate private methods (module pattern).
+- Partial application or currying.
+
+Reference: Closures - JavaScript | MDN (mozilla.org).
 
 ### Can you describe the main difference between a .forEach loop and a .map() loop and why you would pick one versus the other?
 
 <!-- id: L3n$_#_Xnp, noteType: Basic (and reversed card)-1cc8b -->
 
-"To understand the differences between the two, let's look at what each function does.forEachIterates through the elements in an array.Executes a callback for each element.Does not return a value.const a = [1, 2, 3]; const doubled = a.forEach((num, index) => { // Do something with num and/or index. }); // doubled = undefinedmapIterates through the elements in an array.""Maps"" each element to a new element by calling the function on each element, creating a new array as a result.const a = [1, 2, 3]; const doubled = a.map(num => { return num \* 2; }); // doubled = [2, 4, 6]The main difference between .forEach and .map() is that .map() returns a new array. If you need the result, but do not wish to mutate the original array, .map() is the clear choice. If you simply need to iterate over an array, forEach is a fine choice."
+To understand the differences, consider what each function does.
+
+`.forEach`
+- Iterates through array elements.
+- Executes a callback for each element.
+- Does not return a value.
+```js
+const a = [1, 2, 3];
+const doubled = a.forEach((num, index) => {
+  // Do something with num and/or index
+});
+console.log(doubled); // undefined
+```
+
+`.map`
+- Iterates through array elements.
+- Maps each element to a new element by calling a function on each element, creating a new array.
+```js
+const a = [1, 2, 3];
+const doubled = a.map(num => num * 2);
+console.log(doubled); // [2, 4, 6]
+```
+
+Main difference:
+- `.map()` returns a new array. If you need the result and do not wish to mutate the original array, `.map()` is the clear choice.
+- If you simply need to iterate over an array, `.forEach` is fine.
 
 ### What's the difference between host objects and native objects?
 
 <!-- id: j&fIguVlLP, noteType: Basic (and reversed card)-1cc8b -->
 
-Native objects are objects that are part of the JavaScript language defined by the ECMAScript specification, such as String, Math, RegExp, Object, Function, etc.Host objects are provided by the runtime environment (browser or Node), such as window, XMLHTTPRequest, etc.
+Native objects are part of the JavaScript language defined by the ECMAScript specification (e.g., `String`, `Math`, `RegExp`, `Object`, `Function`).
+Host objects are provided by the runtime environment (browser or Node), such as `window`, `XMLHttpRequest`, etc.
 
 ### What's the difference between .bind, .call and .apply?
 
@@ -253,13 +403,44 @@ document.getElementById('list').addEventListener('click', (e) => {
 
 <!-- id: t#z{vItZ[o, noteType: Basic (and reversed card)-1cc8b -->
 
-"Attributes are defined on the HTML markup but properties are defined on the DOM. To illustrate the difference, imagine we have this text field in our HTML: <input type=""text"" value=""Hello"">.const input = document.querySelector('input'); console.log(input.getAttribute('value')); // Hello console.log(input.value); // HelloBut after you change the value of the text field by adding ""World!"" to it, this becomes:console.log(input.getAttribute('value')); // Hello console.log(input.value); // Hello World!"
+Attributes are defined in HTML markup; properties are defined on the DOM node.
+Example:
+```html
+<input type="text" value="Hello">
+```
+```js
+const input = document.querySelector('input');
+console.log(input.getAttribute('value')); // Hello
+console.log(input.value); // Hello
+
+// After changing the field value to "World!"
+console.log(input.getAttribute('value')); // Hello
+console.log(input.value); // Hello World!
+```
 
 ### What is the difference between == and ===?
 
 <!-- id: GPr)]um6Aa, noteType: Basic (and reversed card)-1cc8b -->
 
-== is the abstract equality operator while === is the strict equality operator. The == operator will compare for equality after doing any necessary type conversions. The === operator will not do type conversion, so if two values are not the same type === will simply return false. When using ==, funky things can happen, such as:1 == '1'; // true 1 == [1]; // true 1 == true; // true 0 == ''; // true 0 == '0'; // true 0 == false; // trueMy advice is never to use the == operator, except for convenience when comparing against null or undefined, where a == null will return true if a is null or undefined.var a = null; console.log(a == null); // true console.log(a == undefined); // true
+`==` is the abstract equality operator; `===` is the strict equality operator.
+`==` compares after type conversion; `===` does not convert types.
+
+Examples of `==` pitfalls:
+```js
+1 == '1';        // true
+1 == [1];        // true
+1 == true;       // true
+0 == '';         // true
+0 == '0';        // true
+0 == false;      // true
+```
+
+Advice: avoid `==` except when comparing against `null` or `undefined` for convenience.
+```js
+var a = null;
+console.log(a == null);       // true
+console.log(a == undefined);  // true
+```
 
 ### Why is it, in general, a good idea to leave the global scope of a website as-is and never touch it?
 

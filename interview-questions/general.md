@@ -3,22 +3,43 @@
 ### Semantic Versioning
 <!-- id: eY:H2@%.4, noteType: Basic-66869 -->
 
-"Semantic versioning means versioning your software in a way that the version numbers have significant meaning. Node.js developers follow a three-digit versioning: •
+Semantic versioning means versioning your software in a way that the version numbers have significant meaning.
+Node.js developers follow a three-digit versioning scheme: `MAJOR.MINOR.PATCH`.
 
 ### Optimistic UI Design
 <!-- id: hN8B`-(Jk+, noteType: Basic-66869 -->
 
-Basically, It update the UI base on the predictable states immediately without waiting for the data response (The response time should be less than 2s)
+Updates the UI based on predictable states immediately, without waiting for the data response.
+The response time should be less than 2 seconds.
 
 ### Atomic design methodology
 <!-- id: N^VAY=#;8?, noteType: Basic-66869 -->
 
-Atomic design is a methodology composed of five distinct stages working together to create interface design systems in a more deliberate and hierarchical manner. The five stages of atomic design are:Atoms: The UI Elements that serve as the elemental building blocks of an interface.Molecules: are collections of atoms that form relatively simple UI components.Organisms: complex UI components composed of groups of molecules and/or atoms and/or other organismsTemplates: place components into a layout and demonstrate the design’s underlying content structurePages: apply real content to templates to demonstrate the final UI and test
+Atomic design is a methodology composed of five distinct stages working together to create interface design systems in a more deliberate and hierarchical manner.
+
+The five stages of atomic design are:
+- Atoms: elemental UI building blocks.
+- Molecules: collections of atoms forming simple UI components.
+- Organisms: complex UI components composed of groups of molecules and/or atoms and/or other organisms.
+- Templates: place components into a layout and demonstrate the design’s underlying content structure.
+- Pages: apply real content to templates to demonstrate the final UI and test.
 
 ### What are Micro Frontends? Pros and cons
 <!-- id: xl$L(ll3{<, noteType: Basic-66869 -->
 
-Micro frontends are a new pattern where web application UIs (front ends) are composed from semi-independent fragments that can be built by different teams using different technologies. Advantages: - Team Scalability - Strategic vs Tatical Focus - Reusability - Multiple frameworks Disavantages: - Complexity (Communication, Develop and deploy) - No Standards - Increased Payloads
+Micro frontends are a pattern where web application UIs are composed from semi-independent fragments.
+Fragments can be built by different teams using different technologies.
+
+Advantages:
+- Team scalability.
+- Strategic vs tactical focus.
+- Reusability.
+- Multiple frameworks.
+
+Disadvantages:
+- Complexity (communication, development, deployment).
+- No standards.
+- Increased payloads.
 
 ### SQL vs noSQL database
 <!-- id: BajKzoY8*c, noteType: Basic-66869 -->
@@ -28,12 +49,15 @@ SQL is the programming language used to interface with relational databases. NoS
 ### Consistency, Availability and Partition Tolerance Trade offs
 <!-- id: kUN[}Z<I0M, noteType: Basic-66869 -->
 
-Tradeoff between consistency, availability and latency exists even when there are no network partitions. Reason for tradeoff is that a high availability requirement implies that the system must replicate data.
+Tradeoff between consistency, availability, and latency exists even when there are no network partitions.
+Reason for the tradeoff is that a high availability requirement implies that the system must replicate data.
 
 ### Monolith Repo?
 <!-- id: IrHPS@zxIm, noteType: Basic-66869 -->
 
-An app architecture for managing multiple packages from your local files system within a singular top-level, root package. Dependencies can be linked together, which is also a better mechanism than yarn link All your project dependencies will be installed together
+An app architecture for managing multiple packages from your local file system within a singular top-level, root package.
+Dependencies can be linked together, which is a better mechanism than `yarn link`.
+All your project dependencies are installed together.
 
 ### How do you handle state management in single-page applications?
 <!-- id: x33bnAGIDa, noteType: Basic-66869 -->
@@ -42,23 +66,30 @@ Without a full framework or library like React or Vue.js, properly handling stat
 
 Some options available through the language itself are:
 
-Global Variables: You can use global variables, or perhaps a global object to centralize state. The problem with this approach is that it can become quite unmanageable for large applications. It’s also a lot harder to maintain local state inside single components.
-
-Module Pattern: You can use this pattern to encapsulate state and provide a clear API to manage it. You would have to instantiate local instances of these modules for individual components.
-
-Pub/Sub Pattern: This option is more sophisticated, and it decouples state changes using event-driven architecture. It’s a more complex solution, but it provides a bigger flexibility.
-
-State Management Libraries: You can always use something like Redux or similar libraries without frameworks.
+- Global variables: Centralize state in global variables or a global object. This can become unmanageable for large applications and makes local state harder to maintain.
+- Module pattern: Encapsulate state and provide a clear API to manage it. Instantiate local instances for individual components.
+- Pub/Sub pattern: Decouple state changes using event-driven architecture. More complex, but flexible.
+- State management libraries: Use Redux or similar libraries even without frameworks.
 
 ### Popular State Managements
 <!-- id: t@x*lA5n0K, noteType: Basic-66869 -->
 
-- Redux: Predictable state container - Zustand: state-management solution using simplified flux principles. The store is a hook which can be used anywhere, no provider needed. - RxJS: a library for reactive programming using Observables - React-query: data-fetching library for React. it makes fetching, caching, synchronizing and updating server state in React applications easier
+- Redux: predictable state container.
+- Zustand: state management using simplified Flux principles; store is a hook usable anywhere, no provider needed.
+- RxJS: library for reactive programming using Observables.
+- React Query: data-fetching library for React; handles fetching, caching, synchronizing, and updating server state.
 
 ### How to write effective unit test
 <!-- id: lyg>gf8Nk-, noteType: Basic-66869 -->
 
-Test Small Pieces of Code in Isolation Follow Arrange, Act, Assert Keep Tests Short and simple Cover Happy Path First then Test Edge Cases Write Tests Before Fixing Bugs Make Them Performant Keep Them Stateless and consistent Use Descriptive Names
+- Test small pieces of code in isolation.
+- Follow Arrange–Act–Assert.
+- Keep tests short and simple.
+- Cover happy path first, then test edge cases.
+- Write tests before fixing bugs.
+- Make them performant.
+- Keep them stateless and consistent.
+- Use descriptive names.
 
 ### What is Bundler? Webpack vs Rollup vs Parcel
 <!-- id: ifN|rI<[%Q, noteType: Basic-66869 -->
@@ -68,12 +99,21 @@ Test Small Pieces of Code in Isolation Follow Arrange, Act, Assert Keep Tests Sh
 ### CommonJS vs RequireJS (AMD) vs ES6 module
 <!-- id: C0,[2LZ@7Q, noteType: Basic-66869 -->
 
-- — — — — CommonJS vs AMD vs RequireJS vs ES6 Modules — — — — - | by Mohanesh Sridharan | Computed Comparisons | Medium - CommonJS: sync module loading, browsers cannot use directly without transpiling - AMD: async module loading, can be used in browser - ES6: native JS, both sync and async module loading, need a transpiler like Babel for old browsers
+- CommonJS: synchronous module loading; browsers cannot use directly without transpiling.
+- AMD (RequireJS): asynchronous module loading; usable in browsers.
+- ES6 modules: native JS modules; both sync and async loading; older browsers need a transpiler like Babel.
 
 ### Webpack properties: entry, output, resolve, module, plugins
 <!-- id: o?*gFk]U-l, noteType: Basic-66869 -->
 
-npx webpack takes entry script as entry point and generate output as output value - resolve: Configure how modules are resolved. + alias: Instead of using relative paths when importing, you can use the alias + extensions: Attempt to resolve these extensions in order. This will override the default array -> you can use '...' to access the default extensions - modules: determine how the different types of modules within a project will be treated. + rules: modify how the module is created. They can apply loaders to the module, or modify the parser. - plugins: array of webpack plugins which allowing different behavior between development builds and release builds.
+`npx webpack` takes an entry script as entry point and generates output as configured.
+
+- resolve: configure how modules are resolved.
+  - alias: use aliases instead of relative import paths.
+  - extensions: resolve extensions in order; use `'...'` to include defaults.
+- module: determine how different types of modules are treated.
+  - rules: apply loaders or modify the parser when creating modules.
+- plugins: array of webpack plugins; allow different behavior between development and release builds.
 
 ### Babel webpack plugins: @babel/core, @babel/plugin-transform-runtime, @babel/preset-env, @babel/preset-react
 <!-- id: Ir#)rPdX<J, noteType: Basic-66869 -->
@@ -97,16 +137,16 @@ Tree shaking is a technique used in JavaScript module bundlers, like Webpack or 
 
 Main benefits include:
 
-Reduced Bundle Size: Removing unused code reduces the size of the JavaScript bundle sent to the client, improving load times and reducing bandwidth usage.
-
-Improved Performance: Smaller bundle sizes can lead to faster parsing and execution times, resulting in improved performance and responsiveness of the web application.
-
-Better Resource Utilization: Developers can write modular code without worrying about unused dependencies bloating the final bundle size.
+- Reduced bundle size: removes unused code, improves load times and reduces bandwidth usage.
+- Improved performance: smaller bundles parse and execute faster, improving responsiveness.
+- Better resource utilization: write modular code without unused dependencies bloating the final bundle.
 
 ### Functional Programming
 <!-- id: pI8_%h25(#, noteType: Basic-66869 -->
 
-Functional programming is the process of building software by composing pure functions, avoiding shared state, mutable data, and side-effects. Functional programming is declarative rather than imperative, and application state flows through pure functions Fundamentals of functional programming with React - LogRocket Blog
+Functional programming builds software by composing pure functions, avoiding shared state, mutable data, and side effects.
+It is declarative rather than imperative, and application state flows through pure functions.
+Reference: Fundamentals of functional programming with React - LogRocket Blog.
 
 ### OOP (Object-oriented programming)
 <!-- id: L<`X3^^)Qq, noteType: Basic-66869 -->
@@ -116,19 +156,57 @@ Functional programming is the process of building software by composing pure fun
 ### Refactoring/Code Review
 <!-- id: nHvEZ*!+FP, noteType: Basic-66869 -->
 
-moving code to where it most logically belongsremoving duplicate codemaking names self-documentingsplitting methods into smaller piecesre-arranging inheritance hierarchies Refactoring: clean your code
+- Move code to where it most logically belongs.
+- Remove duplicate code.
+- Make names self-documenting.
+- Split methods into smaller pieces.
+- Re-arrange inheritance hierarchies.
+Reference: Refactoring: clean your code.
 
 ### Code Review checklist
 <!-- id: HTyE=OQv5s, noteType: Basic-66869 -->
 
-Should - Try to Identify Obvious Bugs - Look for Possible Security Issues - Look for “Clever” Code - Check for Code Duplication - Check for Code following a standardized process of the team - Check Whether Names Are Descriptive Enough - Look for Possible Performance Improvements an expensive operation inside a loopexcessive allocations of objectsinefficient string concatenationsinefficient logging - Check the Presence and Quality of Tests The presence of tests: Did the author create tests for their change?The quality of tests: Do the tests created seem to effectively exercise the system under test? Do they follow agreed-upon best practices?Readability: Remember tests are also documentation. They should be simple and easy to understand.Naming: Are the tests named according to the team’s convention? Is it easy to understand what they’re about? - Explain Your Changes - Optional: Code Documentation Should not - Cosmetic Concerns - Manual Testing - Mismatch standardized process of the team between different members What You Need in a Code Review Checklist (& What You Don't) - LinearB
+Should:
+- Identify obvious bugs.
+- Look for possible security issues.
+- Look for “clever” code that reduces readability or maintainability.
+- Check for code duplication.
+- Check for adherence to the team’s standardized process.
+- Check whether names are descriptive enough.
+- Look for possible performance improvements (expensive operations inside loops, excessive object allocations, inefficient string concatenations, inefficient logging).
+- Check the presence and quality of tests:
+  - Presence: Did the author create tests for their change?
+  - Quality: Do the tests effectively exercise the system under test and follow best practices?
+  - Readability: Tests are documentation; they should be simple and easy to understand.
+  - Naming: Are tests named according to the team’s convention and easy to understand?
+- Explain your changes.
+- Optional: add code documentation.
+
+Should not:
+- Focus on cosmetic concerns.
+- Rely on manual testing alone.
+- Mismatch standardized processes between different team members.
+
+Reference: What You Need in a Code Review Checklist (& What You Don't) - LinearB.
 
 ### Test Driven Development (TDD) Cycle
 <!-- id: dL.QS0ur6j, noteType: Basic-66869 -->
 
-1. Add a test 2. Run all tests. The new test should fail for expected reasons 3. Write the simplest code that passes the new test 4. All tests should now pass 5. Refactor as needed, using tests after each refactor to ensure that functionality is preserved 6. Repeat from step 1 Development Cycle - Writing the tests first - Each test case fails initially
+1. Add a test.
+2. Run all tests; the new test should fail for expected reasons.
+3. Write the simplest code that passes the new test.
+4. Run all tests; they should now pass.
+5. Refactor as needed, using tests after each refactor to ensure functionality is preserved.
+6. Repeat from step 1.
+
+Development cycle:
+- Write tests first.
+- Each test case fails initially.
 
 ### What is API gateway?
 <!-- id: IL>ndQ?-Zf, noteType: Basic-66869 -->
 
-An API gateway is an API management tool that sits between a client and a collection of backend services. An API gateway acts as a reverse proxy to accept all application programming interface (API) calls, aggregate the various services required to fulfill them, and return the appropriate result. When a client makes a request, the API gateway breaks it into multiple requests, routes them to the right places, produces a response, and keeps track of everything. What does an API gateway do? (redhat.com)
+An API gateway is an API management tool that sits between a client and a collection of backend services.
+It acts as a reverse proxy to accept all API calls, aggregate the various services required to fulfill them, and return the appropriate result.
+When a client makes a request, the API gateway breaks it into multiple requests, routes them to the right places, produces a response, and keeps track of everything.
+Reference: What does an API gateway do? (redhat.com).

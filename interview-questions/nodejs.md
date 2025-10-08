@@ -37,14 +37,64 @@ Node.js runs in a single process and the application code runs in a single threa
 ### What are the data types in Node.js?
 
 <!-- id: F|xw,Dj$}*, noteType: Basic-66869 -->
+Just like in JavaScript, Node.js has two broad categories of data types:
 
-Just like JS, there are two categories of data types in Node: Primitives and Objects. PrimitivesStringNumberBigintBooleanUndefinedNullSymbol Objects Function Array Buffer: Node.js includes an additional data type called Buffer (not available in browser's JavaScript). Buffer is mainly used to store binary data, while reading from a file or receiving packets over the network. Buffer is a class. other regular objects
+- Primitives: `string`, `number`, `bigint`, `boolean`, `undefined`, `null`, `symbol`.
+- Objects: `Object`, `Function`, `Array`, and Node-specific `Buffer`.
+
+Node.js includes an additional data type called `Buffer` (not available in browser JavaScript). Buffers store binary data, commonly used for file I/O and network packets.
+
+Example:
+
+```js
+const buf = Buffer.from('hello');
+console.log(buf); // <Buffer 68 65 6c 6c 6f>
+```
 
 ### How to create a simple server in Node.js that returns Hello World?
 
 <!-- id: O$6KfOi?mb, noteType: Basic-66869 -->
+1) Create a project directory and enter it:
 
-Step 01: Create a project directory mkdir myapp cd myapp Step 02: Initialize project and link it to npm npm init This creates a package.json file in your myapp folder. The file contains references for all npm packages you have downloaded to your project. The command will prompt you to enter a number of things. You can enter your way through all of them EXCEPT this one: entry point: (index.js) Rename this to: app.js Step 03: Install Express in the myapp directory npm install express --save Step 04: app.js var express = require('express'); var app = express(); app.get('/', function (req, res) { res.send('Hello World!'); }); app.listen(3000, function () { console.log('Example app listening on port 3000!'); }); Step 05: Run the app node app.js
+```bash
+mkdir myapp
+cd myapp
+```
+
+2) Initialize the project:
+
+```bash
+npm init -y
+```
+
+Optionally set the entry point to `app.js`.
+
+3) Install Express:
+
+```bash
+npm install express
+```
+
+4) Create `app.js`:
+
+```js
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+app.listen(3000, () => {
+  console.log('Example app listening on port 3000!');
+});
+```
+
+5) Run the app:
+
+```bash
+node app.js
+```
 
 ### What does the runtime environment mean in Node.js?
 
@@ -55,8 +105,19 @@ The Node.js runtime is the software stack responsible for installing your web se
 ### Explain usage of NODE_ENV?
 
 <!-- id: kDoIQ1/>X,, noteType: Basic-66869 -->
+`NODE_ENV` is an environment variable commonly used to control configuration (e.g., `development`, `production`). Your app can check its value and change behavior accordingly.
 
-NODE_ENV is an environment variable made popular by the express web server framework. When a node application is run, it can check the value of the environment variable and do different things based on the value.
+Example:
+
+```bash
+NODE_ENV=production node app.js
+```
+
+```js
+if (process.env.NODE_ENV === 'production') {
+  // enable production optimizations
+}
+```
 
 ### What are the core modules of Node.js?
 
@@ -79,8 +140,21 @@ In Node.js, assert is used to write tests. It only provides feedback only when a
 ### What is an error-first callback?
 
 <!-- id: P@l8LiU[Y3, noteType: Basic-66869 -->
+Error-first callbacks use the signature `(err, data)`. If an error occurs, `err` is non-null and should be handled; otherwise `data` contains the result.
 
-"fs.readFile( ""file.json"", function ( err, data ) { if ( err ) { console.error( err ); } console.log( data ); }); Error-first callbacks in Node.js are used to pass errors and data. The very first parameter you need to pass to these functions has to be an error object while the other parameters represent the associated data. Thus you can pass the error object for checking if anything is wrong and handle it. In case there is no issue, you can just go ahead and with the subsequent arguments."
+Example:
+
+```js
+const fs = require('fs');
+
+fs.readFile('file.json', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(data);
+});
+```
 
 ### List down the major benefits of using Node.js?
 
@@ -101,8 +175,51 @@ That means instead of waiting for a response javascript will keep executing whil
 ### What is an Event loop in Node.js and how does it work?
 
 <!-- id: vefp?mfIG*, noteType: Basic-66869 -->
+The Node.js event loop enables non-blocking I/O on a single thread. Async tasks are offloaded (via `libuv`) and their callbacks are queued for later execution.
 
-"The Node.js event loop is a core mechanism that allows it to handle asynchronous operations efficiently using a single thread, enabling non-blocking I/O. Instead of waiting for a task to finish, Node.js offloads it to the system kernel (via the libuv library) and continues with the rest of its code. When the task is complete, its callback is placed in a queue to be executed by the event loop. Core componentsCall Stack: A last-in, first-out (LIFO) stack that keeps track of the functions currently being executed. When synchronous code runs, functions are pushed onto the stack and popped off when they are completed.libuv: A C++ library that gives Node.js access to the underlying operating system and manages asynchronous tasks like file system operations, networking, and timers in the background.Callback Queues: Where asynchronous operation callbacks are placed once their associated task has completed. There are different queues for different types of callbacks.Microtask Queue: A high-priority queue that holds callbacks for Promise.then(), Promise.catch(), Promise.finally(), queueMicrotask(), and process.nextTick().Event Loop: A continuous process that checks if the call stack is empty. If it is, the event loop takes callbacks from the queues and pushes them onto the call stack for execution, in a specific order. Event loop phases and their order The event loop cycles continuously through several phases, executing callbacks from each phase's queue before moving to the next. After each phase, it processes the microtask queues completely before moving on. Timers: This phase executes setTimeout() and setInterval() callbacks whose specified time has elapsed.Pending Callbacks: This phase executes certain system-related callbacks, like deferred I/O callbacks from the previous loop iteration.Idle, Prepare: This is an internal phase used for housekeeping by libuv.Poll: This is the most important phase for processing I/O events.It retrieves new I/O events and executes their callbacks.If the poll queue is empty, the loop will either wait for new events or move to the next phase if setImmediate() callbacks are scheduled.Check: This phase executes all setImmediate() callbacks.Close Callbacks: This phase handles callbacks for closing handles, such as socket.on('close'). How microtasks are prioritized Microtasks have a higher priority than the callbacks in the main event loop phases. This ensures that promises and process.nextTick() are executed as quickly as possible. The high-level flow is: Execute all synchronous code in the call stack.Process all items in the microtask queues (process.nextTick() and Promises).Move to the first phase of the event loop (Timers).Execute all callbacks in the Timers queue.After clearing the Timers queue, process the microtask queues again.Move to the next phase (Pending Callbacks).Repeat this process until all phases and queues are empty. Example walkthrough javascript console.log('Start'); setTimeout(() => { console.log('setTimeout'); }, 0); Promise.resolve().then(() => { console.log('Promise'); }); setImmediate(() => { console.log('setImmediate'); }); console.log('End'); Use code with caution. Output:Start: Synchronous code is executed immediately.End: Synchronous code is executed immediately.Promise: The microtask queue is drained completely after the initial synchronous code finishes.setTimeout: The event loop moves to the ""timers"" phase and runs the setTimeout callback.setImmediate: The event loop moves to the ""check"" phase and runs the setImmediate callback. Note: While setTimeout(fn, 0) is a timer, the setImmediate() callback is specifically designed to execute in the ""check"" phase. In many cases, the exact order between setTimeout(fn, 0) and setImmediate() can be non-deterministic, but setImmediate will always run after the Poll phase, while setTimeout runs in the Timers phase."
+- Core components:
+  - Call Stack: executes synchronous code (LIFO).
+  - `libuv`: handles OS-level async I/O, timers, thread-pool work.
+  - Callback queues: separate queues per phase (timers, I/O, check, close).
+  - Microtask queues: `process.nextTick` and Promise callbacks (higher priority).
+
+- Event loop phases (simplified order):
+  - Timers: `setTimeout`, `setInterval`.
+  - Pending Callbacks: system-level callbacks from previous cycle.
+  - Idle/Prepare: internal.
+  - Poll: I/O events; may block waiting for new events.
+  - Check: `setImmediate` callbacks.
+  - Close Callbacks: e.g., `socket.on('close')`.
+
+- Microtasks priority:
+  - After each phase and after initial sync code, drain `process.nextTick` and Promise microtasks completely before moving on.
+
+Example:
+
+```js
+console.log('Start');
+
+setTimeout(() => {
+  console.log('setTimeout');
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log('Promise');
+});
+
+setImmediate(() => {
+  console.log('setImmediate');
+});
+
+console.log('End');
+```
+
+Typical output:
+
+- `Start`
+- `End`
+- `Promise` (microtask)
+- `setTimeout` (timers phase) or `setImmediate` (check phase) — order can vary depending on system conditions; `setImmediate` always runs in the check phase.
 
 ### Explain REPL in the context of Node.js.
 
@@ -131,8 +248,12 @@ Express.js is a framework built on top of Node.js that facilitates the managemen
 ### Differentiate between process.nextTick() and setImmediate()?
 
 <!-- id: v~cVm*8B`d, noteType: Basic-66869 -->
+Similarities:
+- Both schedule callbacks asynchronously.
 
-Same: both are functions of the Timers module which help in executing the code after a predefined period of time. Diff: setImmediate – Used to execute code at the end of the current event loop cycleprocess.nextTick – Used to schedule a callback function that needs to be invoked in the next iteration of the Event Loop
+Differences:
+- `process.nextTick`: runs before the next event loop phase (microtask queue), often immediately after current operation finishes.
+- `setImmediate`: runs in the "check" phase, after I/O events in the current loop iteration.
 
 ### How does Node.js handle the child threads?
 
@@ -143,14 +264,24 @@ In general, Node.js is a single threaded process and doesn’t expose the child 
 ### Explain stream in Node.js along with its various types.
 
 <!-- id: DdL6]^9eKy, noteType: Basic-66869 -->
+Streams let you process data chunk-by-chunk without loading it all into memory. Useful for large files and network data.
 
-Streams in Node.js are the collection of data similar to arrays and strings. They are objects using which you can read data from a source or write data to a destination in a continuous manner. It might not be available at once and need not to have fit in the memory. These streams are especially useful for reading and processing a large set of data. In Node.js, there are four fundamental types of streams:Readable: Used for reading large chunks of data from the source.Writeable: Use for writing large chunks of data to the destination.Duplex: Used for both the functions; read and write.Transform: It is a duplex stream that is used for modifying the data.
+Types:
+- Readable: read from a source.
+- Writable: write to a destination.
+- Duplex: both read and write.
+- Transform: duplex that transforms data as it passes through.
 
 ### List down the various timing features of Node.js.
 
 <!-- id: x+qX={hW:, noteType: Basic-66869 -->
+Reference: https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
 
-https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick Node.js provides a Timers module which contains various functions for executing the code after a specified period of time. Below I have listed down the various functions provided by this module:setTimeout/clearTimeout – Used to schedule code execution after a designated amount of millisecondssetInterval/clearInterval – Used to execute a block of code multiple timessetImmediate/clearImmediate – Used to execute code at the end of the current event loop cycleprocess.nextTick – Used to schedule a callback function that needs to be invoked in the next iteration of the Event Loop
+Timing APIs:
+- `setTimeout` / `clearTimeout`: run after N milliseconds.
+- `setInterval` / `clearInterval`: run repeatedly every N milliseconds.
+- `setImmediate` / `clearImmediate`: run in the event loop "check" phase.
+- `process.nextTick`: run before the next event loop phase (microtask queue).
 
 ### What do you understand by an Event Emitter in Node.js?
 
@@ -158,32 +289,55 @@ https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick Nod
 
 EventEmitter is a Node.js class that includes all the objects that are capable of emitting events. These objects contain an eventEmitter.on() function which can attach more than one function to the named events that are emitted by the object. Whenever an EventEmitter object throws an event (use evenEmitter.emit()), all the attached functions to that specific event are invoked synchronously.
 
-### The priority of require('something') module
-
-<!-- id: AU>a>ZW8!w, noteType: Basic-66869 -->
-
-"•
-
-### Scanning for node_modules
+### Module resolution and node_modules scanning
 
 <!-- id: ck!%(J[b<<, noteType: Basic-66869 -->
 
-"Ex: If a file /home/ryo/project/foo.js has a require call require('bar'), Node.js scans the file system for node_modules in the following order: •
+For `require('foo')`, Node.js searches `node_modules` directories starting from the current folder up through parent directories until the filesystem root.
+
+Example search order for `/home/user/project/app.js` requiring `bar`:
+- `/home/user/project/node_modules/bar`
+- `/home/user/node_modules/bar`
+- `/home/node_modules/bar`
+- `/node_modules/bar`
 
 ### File-Based Module characteristic
 
 <!-- id: JTrq&Lbe,S, noteType: Basic-66869 -->
-
-Conditionally Load a Module Blocking: The require function blocks further code execution until the module has been loaded. Cached: after the first time a require call is made to a particular file, the module.exports is cached. The next time a call made, the module.exports variable of the destination file is returned from memory, keeping things fast.
+Characteristics:
+- Conditional loading: `require` can be called inside code paths.
+- Blocking: `require` is synchronous; it blocks until the module loads.
+- Caching: modules are cached by resolved path after first load; subsequent `require` returns the cached `module.exports`.
 
 ### Types of modules? The require order?
 
 <!-- id: iUMzXO(8Ml, noteType: Basic-66869 -->
 
-- Core module: require('fs') - File-based module: require('../foo') - Folder-based module: require('../foo'), require('../foo/index'); - File/Folder in node_module: require('foo') - Folder with package.json and main property - Folder with index.js file -> If more than 1 case matched, the priority is based on the above order
+- Core module: `require('fs')`
+- File-based module: `require('../foo')`
+- Folder-based module: `require('../foo')`, `require('../foo/index')`
+- Module in `node_modules`: `require('foo')`
+- Folder with `package.json` and `main` field
+- Folder with `index.js`
+
+If more than one case matches, the priority follows the above order.
 
 ### main vs exports in package.json
 
 <!-- id: Jop|IV]kWN, noteType: Basic-66869 -->
+In `package.json`, these fields define how consumers resolve your package:
 
-In a package.json file, main, module, browser, types, and exports are fields used to define how a package is consumed in different environments and contexts. main: This field specifies the primary entry point for a CommonJS module. When a package is `require()`d in a Node.js environment, the file specified in main is loaded. It's a legacy field, primarily for CommonJS. module: This field specifies the primary entry point for an ES module (ESM). Bundlers and tools that understand ESM will use this field to resolve imports when a package is consumed as an ES module. This is particularly relevant for client-side applications that use bundlers like Webpack or Rollup. browser: This field allows you to specify a different entry point or even substitute specific files when your package is used in a browser environment. It can be a string pointing to a browser-specific entry file, or an object mapping Node.js-specific files to browser-compatible alternatives or false to exclude them. types (or typings): This field specifies the path to the TypeScript declaration file (.d.ts) for your package. This allows TypeScript projects consuming your package to benefit from type checking and autocompletion. exports: This is a modern and more powerful field that defines the package's entry points and subpath exports for different environments and module formats (CommonJS, ESM, browser, Node.js). It allows for conditional exports, enabling a single package to provide optimized versions for various consumers. The exports field takes precedence over main and module when present. It offers features like:Conditional Exports: Specifying different files for different environments (e.g., node, browser, import, require).Subpath Exports: Exposing specific internal files or directories as public entry points.Encapsulation: Limiting access to internal files not explicitly defined in exports. In essence, main and module define the main entry points for CommonJS and ESM respectively, browser handles browser-specific overrides, types provides TypeScript definitions, and exports offers a comprehensive and flexible way to manage entry points and module resolution across diverse environments and module systems. fallback priority: exports > browser > module > main In summary, the priority is generally: exports: If present, it dictates all entry point and type resolution.types (within exports conditions): Takes precedence for type resolution when exports is used.types (top-level): Used if exports is not present or does not specify types for a given condition.browser: When in a browser environment and exports is not used.module: For ESM consumption when exports is not used and browser doesn't apply.main: The fallback entry point for CommonJS consumption when exports is not used and browser or module don't apply.
+- `main`: CommonJS entry point (`require()` in Node).
+- `module`: ES module entry (used by bundlers supporting ESM).
+- `browser`: browser-specific entry or file map overrides.
+- `types` (or `typings`): TypeScript declaration file path.
+- `exports`: modern field for conditional and subpath exports; takes precedence over `main`/`module` when present.
+
+Highlights of `exports`:
+- Conditional exports: different files for `node`, `browser`, `import`, `require`.
+- Subpath exports: expose controlled internal files.
+- Encapsulation: hide files not exported.
+
+Fallback/priority (simplified):
+- `exports` > `browser` > `module` > `main`
+- `types` resolution may be specified in `exports` conditions; otherwise top-level `types` applies.
