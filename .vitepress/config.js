@@ -115,7 +115,7 @@ export default defineConfig({
         },
         {
           text: 'Research & Comparisons',
-          items: [{ text: 'Webpack vs Vite', link: '/knowledges/fun-research/webpack-vs-vite' }],
+          items: [{ text: 'Webpack vs Vite', link: '/knowledges/webpack-vs-vite' }],
         },
       ],
     },

@@ -26,7 +26,7 @@ Modern frontend development stack:
 
 In-depth analysis of technologies and migration strategies:
 
-- **[Webpack vs Vite](fun-research/webpack-vs-vite.md)** - Comprehensive comparison and migration guide
+- **[Webpack vs Vite](webpack-vs-vite.md)** - Comprehensive comparison and migration guide
 
 ## 📚 How to Use This Knowledge Base
 
