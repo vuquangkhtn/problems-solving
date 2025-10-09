@@ -55,10 +55,6 @@ For server access:
 
 In practice, I use cookies for authentication and server-required data, sessionStorage for temporary data and localStorage for persistent data. The key is matching the storage mechanism to your specific use case while keeping security and performance in mind.
 
-### How does the browser render a website?
-
-<!-- id: 5Bv7_9IB[3, noteType: Basic-66869 -->
-
 ### What are closures, and how/why would you use them?
 
 <!-- id: M^wUK1Tr?l, noteType: Basic-66869 -->
