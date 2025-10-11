@@ -12,6 +12,20 @@ The Document Object Model (DOM) is a programming interface for web documents. It
 
 To add an event listener on an element, first get that element through one of the `document` methods (e.g. `getElementById`).
 Then use the element’s `addEventListener` method.
+The method receives the event name (e.g. `click`, `keyup`, `mouseup`), the event handler function, and optionally options such as `capture`.
+
+### What is the Document Object Model (DOM)?
+
+<!-- id: Tm9i!mbr$?, noteType: Basic-66869 -->
+
+The Document Object Model (DOM) is a programming interface for web documents. It represents the structure of a document as a tree of objects, where each object corresponds to a part of the document (e.g., elements, attributes, text). The DOM allows developers to access and manipulate the content, structure, and style of a web page using JavaScript.
+
+### How do you add an event listener to an element?
+
+<!-- id: =C10XTq[%+, noteType: Basic-66869 -->
+
+To add an event listener on an element, first get that element through one of the `document` methods (e.g. `getElementById`).
+Then use the element’s `addEventListener` method.
 
 The method receives the event name (e.g. `click`, `keyup`, `mouseup`), the event handler function, and optionally options such as `capture`.
 
@@ -289,7 +303,7 @@ Why use closures?
 - Data privacy / emulate private methods (module pattern).
 - Partial application or currying.
 
-Reference: Closures - JavaScript | MDN (mozilla.org).
+Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures
 
 ### Can you describe the main difference between a .forEach loop and a .map() loop and why you would pick one versus the other?
 
@@ -948,29 +962,209 @@ new C(); // ok
 
 <!-- id: Ncgx-}+!hR, noteType: Basic-66869 -->
 
-"Bubbling and capturing (javascript.info) Bubbling and capturing describe the two phases of event propagation in the DOM when an event occurs on an element with ancestors. Bubbling (default): The event starts at the target element and then ""bubbles"" upwards through its parent elements in the DOM hierarchy, triggering event listeners attached to those ancestors along the way. Capturing: The event starts at the root of the DOM and ""captures"" downwards through the ancestors to the target element, triggering event listeners attached to those ancestors before reaching the target. Capturing is enabled by passing true as the third argument to addEventListener(). Both phases contribute to the event flow, allowing for flexible event handling and techniques like event delegation. Capturing happens before bubbling in Event Propagation If event.stopPropagation() is called during the capturing phase, then the event travel stops, no bubbling will occur. Non-bubbling events such as focus, blur, load can be handled by Capturing"
+Event propagation has two phases when an event fires on a target with ancestors:
+
+- Capturing (top-down): The event travels from `document` → ancestors → target.
+- Bubbling (bottom-up, default): The event travels from target → ancestors → `document`.
+
+Practical notes
+
+- Choose the phase via `addEventListener` options: `{ capture: true }` for capturing; omit for bubbling.
+- Use bubbling for event delegation (attach one listener on a container to handle many children).
+- Call `event.stopPropagation()` to stop further propagation in the current phase.
+- Some events don’t bubble (e.g., `focus`, `blur`, `load`). Use capturing or `focusin`/`focusout`.
+
+Example
+
+```html
+<div id="outer">
+  <button id="inner">Click</button>
+  <!-- click me -->
+</div>
+<script>
+  const outer = document.getElementById('outer');
+  const inner = document.getElementById('inner');
+
+  outer.addEventListener('click', () => console.log('outer capture'), { capture: true });
+  outer.addEventListener('click', () => console.log('outer bubble'));
+  inner.addEventListener('click', (e) => {
+    console.log('inner target');
+    // e.stopPropagation(); // uncomment to prevent bubbling to outer
+  });
+  // Logs order: outer capture → inner target → outer bubble
+</script>
+```
+
+Reference: https://javascript.info/bubbling-and-capturing
 
 ### [Array] iterative methods and empty slots
 
 <!-- id: mQQ}XK2yh$, noteType: Basic-66869 -->
 
-"iterative methods: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#iterative_methods iterative methods behave differently with empty slots sparse arrays: Arrays can contain ""empty slots"" -> Array methods and empty slots: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#array_methods_and_empty_slots"
+Sparse arrays can contain empty slots (holes), which are different from elements whose value is `undefined`.
+
+Key behaviors
+
+- Most iterative methods skip holes: `forEach`, `map`, `filter`, `some`, `every`, `find` (callbacks are not invoked for holes).
+- `reduce`/`reduceRight` skip holes but still compute over existing elements.
+- Iteration utilities like `for...of` and spread (`[...]`) skip holes.
+- `Array.from` converts holes to `undefined` (normalizes the array).
+- `flat` removes holes; they are treated as empty entries.
+- `index in arr` distinguishes holes from `undefined` values.
+
+Examples
+
+```js
+const a = [, 2, , 4]; // holes at 0 and 2
+
+a.map((x) => x * 2); // [ , 4, , 8 ] — holes preserved
+a.forEach((x) => console.log(x)); // logs 2, 4 — holes skipped
+a.filter(Boolean); // [2, 4] — holes skipped
+Array.from(a); // [undefined, 2, undefined, 4]
+[...a]; // [2, 4] — holes skipped
+a.flat(); // [2, 4] — holes removed
+0 in a; // false (hole)
+a[0] = undefined;
+0 in a; // true (present element with undefined)
+```
+
+Reference: MDN — Array methods and empty slots
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#array_methods_and_empty_slots
 
 ### CommonJS vs ESM
 
 <!-- id: c3{N:m-cw/, noteType: Basic-66869 -->
 
-CommonJS (CJS) uses synchronous require() and module.exports syntax, designed for Node.js, while ECMAScript Modules (ESM) use asynchronous import and export syntax, serving as the official JavaScript standard and supporting native browser environments and Node.js. The main distinctions are their syntax, synchronous vs. asynchronous module loading, and compatibility with different environments. ESM is the future standard, offering benefits like tree shaking and better performance, while CommonJS is still prevalent in the existing Node.js ecosystem. CommonJS (CJS) Syntax: Uses require() to import modules and module.exports to export them. Loading: Loads modules synchronously, which can block execution until the module is loaded. Environment: Primarily used in Node.js. Characteristics: Has been the long-standing standard for server-side JavaScript in Node.js. Provides Node-specific variables like **dirname and **filename. ECMAScript Modules (ESM) Syntax: Uses import and export keywords for module management. Loading: Supports asynchronous loading, enabling better parallelism. Environment: Natively supported in modern web browsers and modern Node.js environments. Characteristics: The official, standardized module system for JavaScript. Enables static analysis of dependencies, leading to more efficient tree shaking (dead code elimination). More suitable for modern web applications due to native browser support and performance benefits. Key Differences at a Glance Feature CommonJS (CJS) ECMAScript Modules (ESM) Syntax require() and module.exports import and export Loading Synchronous Asynchronous Standard De facto standard for Node.js Official JavaScript standard Browser Support Not native Native When to Use Which Use CommonJS for: Older Node.js projects or environments where it's the established standard and you prioritize simplicity. Use ESM for: Modern web applications, new Node.js projects, and situations where you need better performance, native browser support, and advanced features like tree shaking.
+Quick differences
+
+- Syntax: CJS uses `require`/`module.exports`; ESM uses `import`/`export`.
+- Loading: CJS is synchronous; ESM is asynchronous and supports top‑level `await`.
+- Analysis: ESM enables static analysis (tree‑shaking, bundling optimizations) and live bindings.
+- Environment: CJS is the legacy Node.js format; ESM is the official JS standard, native in browsers and modern Node.
+
+Examples
+
+```js
+// CommonJS
+const fs = require('fs');
+function sum(a, b) {
+  return a + b;
+}
+module.exports = { sum };
+
+// ECMAScript Modules
+import fs from 'node:fs';
+export function sum(a, b) {
+  return a + b;
+}
+export default sum;
+```
+
+Node.js interop notes
+
+- Use `"type": "module"` in `package.json` or `.mjs` files for ESM in Node.
+- In ESM, use `import.meta.url`; `__dirname`/`__filename` are not defined.
+- From ESM, load CJS via `createRequire` or a compatible import; from CJS, load ESM via dynamic `import()`.
+
+When to use
+
+- Choose ESM for modern apps, browsers, and code that benefits from tree‑shaking.
+- Use CJS for older Node projects or when a dependency only supports CJS.
 
 ### var vs let vs const
 
 <!-- id: E>Br&4AKXa, noteType: Basic-66869 -->
 
-"In JavaScript, var, let, and const are keywords used to declare variables, each with distinct characteristics regarding scope, reassignment, and hoisting. 1. Scope: var: Variables declared with var have function scope or global scope. This means they are accessible throughout the entire function in which they are declared, or globally if declared outside any function.let: Variables declared with let have block scope. They are only accessible within the specific block (e.g., if statements, for loops, or any curly braces {}) where they are defined.const: Similar to let, const also provides block scope. 2. Reassignment: var: Variables declared with var can be reassigned and redeclared within the same scope. let: Variables declared with let can be reassigned, but they cannot be redeclared within the same block scope. const: Variables declared with const cannot be reassigned after their initial assignment. They are used to declare constants or read-only references. However, if a const variable holds an object or array, its properties or elements can be modified, but the variable itself cannot be pointed to a different object or array. 3. Hoisting: var: Variables declared with var are hoisted to the top of their function or global scope. This means they can be accessed before their declaration, though their value will be undefined until the actual assignment. let and const: Variables declared with let and const are also hoisted, but they are subject to the ""Temporal Dead Zone"" (TDZ). This means accessing them before their declaration will result in a ReferenceError. In summary: Use const for values that should not change throughout the program's execution.Use let for variables whose values might need to be reassigned later in the code.Avoid using var in modern JavaScript development due to its less predictable scoping behavior, which can lead to unexpected bugs. let and const offer more controlled and intuitive variable declaration."
+Core differences
 
-Event capturing goes top-down (document → target); bubbling goes bottom-up (target → document). You can choose phase with the third parameter of `addEventListener`:
+- Scope: `var` is function/global scoped; `let`/`const` are block scoped.
+- Redeclare/reassign: `var` can redeclare; `let` cannot redeclare; `const` cannot reassign.
+- Hoisting: `var` hoists and initializes to `undefined`; `let`/`const` hoist into the Temporal Dead Zone (ReferenceError until declared).
+- Global binding: `var` at top level creates a property on `window` (browsers); `let`/`const` do not.
+
+Examples
 
 ```js
-el.addEventListener('click', handler, { capture: true }); // capture phase
-el.addEventListener('click', handler); // bubble phase (default)
+console.log(x); // undefined — var hoisted
+var x = 1;
+
+// console.log(y); // ReferenceError — TDZ
+let y = 2;
+
+if (true) {
+  let a = 10; // block-scoped
+  var b = 20; // function-scoped
+}
+// a is not accessible here; b is
+
+// Loop closures
+for (var i = 0; i < 3; i++) setTimeout(() => console.log(i), 0); // 3, 3, 3
+for (let j = 0; j < 3; j++) setTimeout(() => console.log(j), 0); // 0, 1, 2
+```
+
+Best practice
+
+- Prefer `const` by default; use `let` when you need reassignment.
+- Avoid `var` in modern code to reduce scoping/hoisting pitfalls.
+
+### What is window object in JavaScript?
+
+The `window` is the global object in browsers. It represents the current browser window or tab and acts as the top‑level scope for non‑module scripts. It owns the `document` and exposes the Browser Object Model (BOM): navigation, history, storage, timers, and more.
+
+Key responsibilities
+
+- Global scope for scripts (`var` declarations attach to `window`).
+- Owns the DOM via `window.document`.
+- Provides BOM APIs: `location`, `history`, `navigator`, `screen`, `console`.
+- Manages timers and rendering: `setTimeout`, `setInterval`, `requestAnimationFrame`.
+- Exposes storage and events: `localStorage`, `sessionStorage`, `addEventListener`.
+
+Notes
+
+- In ES modules, top‑level `this` is `undefined`; use `globalThis` if you need a global reference.
+- In Node.js there is no `window`; `globalThis` is the cross‑platform alias.
+- Avoid polluting `window` with globals; prefer module scope or namespaces.
+
+Example
+
+```js
+// BOM and global scope examples
+window.addEventListener('resize', () => {
+  console.log('width:', window.innerWidth);
+});
+console.log(window.document.title);
+console.log(window.location.href);
+setTimeout(() => console.log('tick'), 100);
+```
+
+### Global Scopes for var vs let/const
+
+- In non‑module scripts, top‑level `var` and function declarations create `window` properties; `let`/`const` create global bindings that do not attach to `window`.
+- In ES modules, no top‑level declarations (including `var`) attach to `window` — use `window.foo = ...` or `globalThis.foo = ...` if you need a global property.
+- ES module variables attach to the module’s own scope (module environment record) and are accessible outside only via `export`/`import`.
+
+- Global binding: a top‑level `let`/`const` name lives in the global lexical environment; it’s accessible as an identifier but is not a `window` property and cannot be removed with `delete`.
+- Global lexical environment: is the outermost scope in which code is executed. It is created when a script begins execution and represents the top-level environment for all variables, functions, and objects defined in the global scope.
+
+Example
+
+```
+
+// Global bindings vs window properties
+var a = 1;
+let b = 2;
+const c = 3;
+console.log(window.a); // 1
+console.log(window.b); // undefined
+console.log('c' in window); // false
+
+// ES module scope (module.js and other.js)
+// module.js
+export const x = 1;
+// Not on window: window.x === undefined
+
+// other.js
+import { x } from './module.js';
+console.log(x); // 1
+
 ```
