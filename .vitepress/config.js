@@ -14,6 +14,7 @@ const preferredOrder = [
   'General',
   'Design Patterns',
   'TypeScript',
+  'FE System Design',
 ];
 const h2Regex = /^##\s+(.+)$/m;
 
@@ -57,10 +58,10 @@ function generateInterviewSidebarItems() {
 export default defineConfig({
   title: 'Software Engineer Interview',
   description: 'Comprehensive knowledge base for software engineering interviews',
-  
+
   // Base URL for GitHub Pages deployment
   base: '/problems-solving/',
-  
+
   // Ignore dead links to prevent build failures
   ignoreDeadLinks: true,
 
@@ -110,7 +111,10 @@ export default defineConfig({
           text: 'Security',
           items: [
             { text: 'Security Fundamentals', link: '/knowledges/Security Fundamentals' },
-            { text: 'Authentication vs Authorization', link: '/knowledges/Authentication-vs-authorization' },
+            {
+              text: 'Authentication vs Authorization',
+              link: '/knowledges/Authentication-vs-authorization',
+            },
           ],
         },
         {
