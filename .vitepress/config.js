@@ -14,7 +14,7 @@ const preferredOrder = [
   'General',
   'Design Patterns',
   'TypeScript',
-  'FE System Design',
+  'FE Techniques',
 ];
 const h2Regex = /^##\s+(.+)$/m;
 
