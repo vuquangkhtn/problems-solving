@@ -104,7 +104,11 @@ export default defineConfig({
             { text: 'React', link: '/knowledges/5. react' },
             { text: 'TypeScript', link: '/knowledges/6. typescript' },
             { text: 'Bundlers', link: '/knowledges/7. bundler' },
-            { text: 'Micro-Frontends', link: '/knowledges/8. microfrontend' },
+            { text: 'Micro-Frontends', link: '/knowledges/microfrontend' },
+            {
+              text: 'Micro-Frontends in Webpack',
+              link: '/knowledges/8. microfrontend-with-webcomponents',
+            },
           ],
         },
         {
