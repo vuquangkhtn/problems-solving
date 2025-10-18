@@ -1,5 +1,36 @@
 # Micro-Frontends
 
+### What is Application Shell in Micro Frontend?
+
+The Application Shell (or App Shell) is a critical architectural pattern in micro-frontend implementations that serves as the container and orchestrator for all micro-frontend components. It provides the foundation for loading, rendering, and coordinating multiple independent micro-frontends within a unified application experience.
+
+Shell is responsible for:
+
+- **Bootstrapping the application**: Initializes the core application framework and loads essential resources.
+- **Routing and navigation**: Manages the top-level routing to determine which micro-frontend(s) should be loaded based on the current URL.
+- **Layout management**: Provides the overall page structure and layout containers where micro-frontends will be mounted.
+- **Micro-frontend loading**: Dynamically loads and unloads micro-frontends as users navigate through the application.
+- **Communication coordination**: Establishes the event bus or communication mechanisms that allow micro-frontends to interact with each other.
+- **Shared dependencies**: Manages common dependencies and shared libraries to avoid duplication.
+- **Error boundaries**: Provides fallback UI and error handling when micro-frontends fail to load or crash during execution.
+- **Global state management**: Maintains application-wide state that needs to be accessible across micro-frontends.
+
+There are different implementation approaches for the Application Shell in micro-frontends:
+
+1. **Lightweight shell**: Minimal shell that primarily handles routing and composition, with most functionality delegated to micro-frontends.
+2. **Feature-rich shell**: More comprehensive shell that provides shared services, state management, and UI components to micro-frontends.
+3. **Server-side shell**: Composition happens on the server, with the shell rendering the initial HTML structure before sending to the client.
+
+Best practices for Application Shell:
+
+- Keep the shell as thin as possible to maintain the autonomy of micro-frontends.
+- Clearly define the contract between the shell and micro-frontends.
+- Implement proper error boundaries to prevent a failing micro-frontend from breaking the entire application.
+- Consider performance implications when loading multiple micro-frontends.
+- Design the shell to be framework-agnostic if micro-frontends use different technologies.
+
+The Application Shell pattern is essential for creating a cohesive user experience while maintaining the independence and isolation benefits of micro-frontends.
+
 ### What is Web Components? Describe Web Components technologies
 
 Web Components are a set of web platform APIs that allow you to create reusable custom elements with their own encapsulated functionality. They are based on standard HTML, CSS, and JavaScript, and can be used in any web application.
@@ -11,6 +42,10 @@ Web Components consist of three main technologies:
 2. Shadow DOM: a set of JavaScript APIs that allow you to create encapsulated DOM trees, rendered separately from the main DOM. It allows you to hide the internal structure and styling of a custom element, so that it does not affect the rest of the page. It is created using the `attachShadow()` method, and can be styled using regular CSS.
 
 3. HTML Templates: HTML Templates allow you to define reusable HTML markup that can be cloned and inserted into the DOM. They are defined using the `<template>` element, and can be accessed using the `content` property.
+
+### What is LitElement?
+
+LitElement is a simple and lightweight library for building web components using the Lit library, which provides a set of tools and conventions for building web components.
 
 ### Why is it recommended to use unidirectional data flow in micro-frontends?
 
@@ -24,7 +59,7 @@ Overall, unidirectional data flow in micro-frontends helps to keep the applicati
 
 BFF (Backend for Frontend) is a server-side application that acts as a middleman between the frontend and the backend. It is responsible for handling requests from the frontend, fetching data from the backend, and returning the data to the frontend.
 
-In a micro-frontends architecture, each micro-frontend has its own BFF. This allows to create unique API entry point for each micro-frontend, which makes it easier to maintain and debug the application.
+In a micro-frontends architecture, each micro-frontend has its own BFF if it needs to communicate with the backend. This allows to create unique API entry point for each micro-frontend, which makes it easier to maintain and debug the application.
 
 Overall, BFF in micro-frontends helps to keep the application predictable and maintainable, and is a best practice for building scalable and modular applications.
 
