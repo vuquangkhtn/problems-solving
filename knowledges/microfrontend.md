@@ -379,6 +379,7 @@ When implementing micro-frontends with a Horizontal Split Architecture on the cl
 #### Module Federation (Webpack 5)
 
 **Pros:**
+
 - **Shared dependencies**: Efficiently shares common libraries to reduce bundle size and avoid duplication
 - **Runtime integration**: Loads micro-frontends dynamically at runtime without page reloads
 - **Native developer experience**: Feels like working with a monolithic codebase while maintaining separation
@@ -388,6 +389,7 @@ When implementing micro-frontends with a Horizontal Split Architecture on the cl
 - **Framework agnostic**: Works with React, Vue, Angular, and other frameworks
 
 **Cons:**
+
 - **Webpack dependency**: Requires Webpack 5, limiting technology choices
 - **Configuration complexity**: Setup can be complex and requires deep Webpack knowledge
 - **Build-time coupling**: Changes to shared dependencies may require coordinated rebuilds
@@ -398,6 +400,7 @@ When implementing micro-frontends with a Horizontal Split Architecture on the cl
 #### iFrames
 
 **Pros:**
+
 - **Strong isolation**: Complete JavaScript and CSS isolation between micro-frontends
 - **Security**: Robust security boundaries with cross-origin restrictions
 - **Technology independence**: Each micro-frontend can use completely different tech stacks
@@ -407,6 +410,7 @@ When implementing micro-frontends with a Horizontal Split Architecture on the cl
 - **Independent deployment**: Each frame can be deployed without affecting others
 
 **Cons:**
+
 - **Performance overhead**: Each iframe has its own JavaScript context and DOM
 - **UX limitations**: Challenges with responsive design, focus management, and scrolling
 - **Communication complexity**: Cross-frame communication requires postMessage API
@@ -418,6 +422,7 @@ When implementing micro-frontends with a Horizontal Split Architecture on the cl
 #### Web Components
 
 **Pros:**
+
 - **Browser standard**: Based on web standards (Custom Elements, Shadow DOM, HTML Templates)
 - **Framework agnostic**: Works with any JavaScript framework or vanilla JS
 - **CSS encapsulation**: Shadow DOM provides style isolation
@@ -427,6 +432,7 @@ When implementing micro-frontends with a Horizontal Split Architecture on the cl
 - **Lightweight**: Minimal overhead compared to full framework solutions
 
 **Cons:**
+
 - **Browser support**: May require polyfills for older browsers
 - **Limited ecosystem**: Fewer tools and libraries compared to popular frameworks
 - **State management**: No built-in state management solution
