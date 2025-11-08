@@ -61,8 +61,7 @@ Structured learning path covering essential software engineering topics:
 
 ### 🎯 Practice Areas
 
-- **Algorithms** - Pattern-based problem solving
-- **System Design** - Scalable architecture design
+- **[Questions](/interview-questions/resources/interview-questions)** - Interview Questions
 
 ---
 
