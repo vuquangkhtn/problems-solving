@@ -7,40 +7,50 @@
 ## React
 
 ### What are the features of React?
+
 <!-- id: CXyf=jKNW+, noteType: Basic-66869 -->
+
 - Uses a virtual DOM instead of manipulating the real DOM directly.
 - Supports server-side rendering (SSR) with hydration.
 - Follows unidirectional data flow.
 - Encourages reusable, composable UI components.
 
 ### What do you know about the Virtual DOM?
+
 <!-- id: FoyA}$T9QX, noteType: Basic-66869 -->
+
 - The Virtual DOM (VDOM) is an in-memory representation of the real DOM.
 - It starts as a copy of the real DOM and updates are computed against it.
 
 Update steps:
-1) When data changes, React re-renders the UI into the Virtual DOM.
-2) React diffs the previous and current Virtual DOM trees.
-3) React applies minimal changes to the real DOM.
+
+1. When data changes, React re-renders the UI into the Virtual DOM.
+2. React diffs the previous and current Virtual DOM trees.
+3. React applies minimal changes to the real DOM.
 
 ### Differentiate between Real DOM and Virtual DOM
+
 <!-- id: x7v|@{%0DI, noteType: Basic-66869 -->
 
-
-
 ### What do you understand from “In React, everything is a component.”
+
 <!-- id: cC3W]O5b<X, noteType: Basic-66869 -->
+
 - Components are the building blocks of a React UI.
 - They split the UI into small, independent, reusable pieces.
 - Each component renders independently without affecting other parts of the UI.
 
 ### Explain the purpose of render() in React.
+
 <!-- id: x!BVn-%YPh, noteType: Basic-66869 -->
+
 - Class components implement `render()` to return a React element.
 - The returned element describes what should appear in the DOM.
 
 ### How can you embed two or more components into one?
+
 <!-- id: xP@n:Hci!/, noteType: Basic-66869 -->
+
 ```jsx
 class MyComponent extends React.Component {
   render() {
@@ -63,63 +73,78 @@ ReactDOM.render(<MyComponent />, document.getElementById('content'));
 ```
 
 ### What are Props?
+
 <!-- id: tD#fA>`[%T, noteType: Basic-66869 -->
 
 Props are short hand for Properties in React. They are read-only components which must be kept pure i.e. immutable. They are always passed down from the parent to the child components throughout the application. A child component can never send a prop back to the parent component. This help in maintaining the unidirectional data flow and are generally used to render the dynamically generated data.
 
 ### What is a state in React and how is it used?
+
 <!-- id: bLvjjlaMiO, noteType: Basic-66869 -->
+
 - State is a component-owned object that holds information that changes over time.
 - Unlike props, state is private, mutable, and controlled by the component.
 
 ### What are the different phases of React component’s lifecycle?
+
 <!-- id: s|1Jjpm@vg, noteType: Basic-66869 -->
+
 - Mounting: `constructor`, `getDerivedStateFromProps`, `render`, `componentDidMount`.
 - Updating: `getDerivedStateFromProps`, `shouldComponentUpdate`, `render`, `getSnapshotBeforeUpdate`, `componentDidUpdate`.
 - Unmounting: `componentWillUnmount`.
 
 ### Explain the lifecycle method componentWillMount()
+
 <!-- id: j)Q37W1S~;, noteType: Basic-66869 -->
 
 Executed just before rendering takes place both on the client as well as server-side.
 
 ### Explain the lifecycle method componentDidMount()
+
 <!-- id: N>f,)5@dr3, noteType: Basic-66869 -->
 
 Executed on the client side only after the first render.
 
 ### Explain the lifecycle method componentWillReceiveProps()
+
 <!-- id: ho>RBCRWF0, noteType: Basic-66869 -->
 
 Invoked as soon as the props are received from the parent class and before another render is called.
 
 ### Explain the lifecycle method shouldComponentUpdate()
+
 <!-- id: vh)e2!`1]i, noteType: Basic-66869 -->
 
 Returns true or false value based on certain conditions. If you want your component to update, return true else return false. By default, it returns true.
 
 ### Explain the lifecycle method componentWillUpdate()
+
 <!-- id: d5&3Sa#z}z, noteType: Basic-66869 -->
 
 Called just before rendering takes place in the DOM.
 
 ### Explain the lifecycle method componentDidUpdate()
+
 <!-- id: NQ2y}4fy!;, noteType: Basic-66869 -->
 
 Called immediately after rendering takes place.
 
 ### Explain the lifecycle method componentWillUnmount()
+
 <!-- id: bDPgrPkhAj, noteType: Basic-66869 -->
 
 Called after the component is unmounted from the DOM. It is used to clear up the memory spaces.
 
 ### What is a synthetic event?
+
 <!-- id: m<ZO3o7eUB, noteType: Basic-66869 -->
 
 Synthetic events are the objects which act as a cross-browser wrapper around the browser’s native event. They combine the behavior of different browsers into one API. This is done to make sure that the events show consistent properties across different browsers. examples: onClick, onBlur, etc.
 
 ### What are Higher Order Components(HOC)?
+
 <!-- id: p|p^V2r_Zd, noteType: Basic-66869 -->
+
 - A HOC is a component that wraps another component to reuse logic.
 - It’s a pattern leveraging React’s compositional nature.
 - HOCs don’t modify the input component’s behavior; they compose it.
@@ -130,58 +155,79 @@ Synthetic events are the objects which act as a cross-browser wrapper around the
   - Props manipulation
 
 ### In which lifecycle event do you make AJAX requests and why?
+
 <!-- id: z)(}a@a$=*, noteType: Basic-66869 -->
+
 - Perform data fetching in `componentDidMount` (or `useEffect` in function components).
 - Ensures the component is mounted before calling `setState`.
 - Avoids updates on unmounted components.
 
 ### How do you tell React to build in Production mode and what will that do?
+
 <!-- id: uJ}BIoh[@B, noteType: Basic-66869 -->
+
 - Configure your bundler to set `process.env.NODE_ENV = 'production'`.
 - Enables production optimizations and removes development warnings.
 - Minify code to leverage dead-code elimination and reduce bundle size.
 
 ### What is JSX (JS XML)?
+
 <!-- id: xq?sv-se$N, noteType: Basic-66869 -->
+
 - JSX is syntax sugar for `React.createElement()`.
 - It lets you write component templates in HTML-like syntax that compile to JavaScript.
 
 ### What is React?
+
 <!-- id: OL!DT=<3S=, noteType: Basic-66869 -->
 
 React is an open-source front-end JavaScript library that is used for building user interfaces, especially for single-page applications. It is used for handling view layer for web and mobile apps.
 
 ### What is the difference between state and props?
+
 <!-- id: L$ga}WG3v[, noteType: Basic-66869 -->
+
 - Props are inputs passed to a component (like function parameters).
 - State is managed within the component (like local variables) and can change over time.
 
 ### "What is ""key"" prop?"
+
 <!-- id: Ik1K8!QFj`, noteType: Basic-66869 -->
+
 - `key` is a special string attribute used in lists to help React identify items.
 - Improves diffing by tracking inserted, removed, or changed elements.
 
 ### What is context?
+
 <!-- id: s09rc`.>(;, noteType: Basic-66869 -->
+
 - Context lets you pass data through the component tree without prop drilling.
 
 ### What is reconciliation?
+
 <!-- id: Ll)X1;&(:*, noteType: Basic-66869 -->
+
 - When props/state change, React compares the new element with the previous.
 - If different, React updates the DOM minimally — this is reconciliation.
 
 ### What are fragments?
+
 <!-- id: Ix{-[~VBNX, noteType: Basic-66869 -->
+
 - Fragments let components return multiple children without extra DOM nodes.
 - Use `<>...</>` or `<React.Fragment>...</React.Fragment>`.
 
 ### What are error boundaries in React v16?
+
 <!-- id: jrI~R6S+um, noteType: Basic-66869 -->
+
 - Error boundaries catch errors in child components and render fallback UI.
 - Implement with `componentDidCatch(error, info)` and/or `static getDerivedStateFromError()`.
 
 ### What is the use of react-dom package?
+
 <!-- id: NS#J5g]Rh2, noteType: Basic-66869 -->
+
 - Provides DOM-specific methods for React apps:
   - `render(element, container)`
   - `hydrate(element, container)` (for SSR hydration)
@@ -190,7 +236,9 @@ React is an open-source front-end JavaScript library that is used for building u
   - `createPortal(child, container)`
 
 ### What is ReactDOMServer?
+
 <!-- id: fI:#fODmB`, noteType: Basic-66869 -->
+
 - Enables rendering components to static markup for SSR.
 - Common methods:
   - `renderToString(component)`
@@ -206,22 +254,28 @@ const html = ReactDOMServer.renderToString(<App />);
 ```
 
 ### Why is a component constructor called only once?
+
 <!-- id: QnC1mCl>/., noteType: Basic-66869 -->
 
 React's reconciliation algorithm assumes that if a custom component appears in the same place on subsequent renders, it's the same component as before, so reuses the previous instance rather than creating a new one.
 
 ### What are the common folder structures for React?
+
 <!-- id: x4PNquO)-1, noteType: Basic-66869 -->
+
 - Grouping by feature or route (co-locate components, hooks, tests).
 - Grouping by file type (components, hooks, styles, tests in separate dirs).
 
 ### What is the benefit of styles modules?
+
 <!-- id: IEl=a.8`Zy, noteType: Basic-66869 -->
 
 It is recommended to avoid hard coding style values in components. Any values that are likely to be used across different UI components should be extracted into their own modules.
 
 ### What is React Router?
+
 <!-- id: yX93pYzyV(, noteType: Basic-66869 -->
+
 - A routing library that keeps the UI in sync with the URL.
 - Hooks: `useNavigate` (v6), `useLocation`, `useParams`.
 - Covers:
@@ -232,246 +286,300 @@ It is recommended to avoid hard coding style values in components. Any values th
   - URL params and search params
 
 ### How React Router is different from history library?
+
 <!-- id: BHB7^Vf4qD, noteType: Basic-66869 -->
+
 - React Router wraps the `history` library, managing browser and hash histories.
 - Adds declarative routing components and React integration.
 - Provides memory history for non-browser environments (React Native, tests).
 
 ### What is React Interalization?
+
 <!-- id: HZ`|B1)+3~, noteType: Basic-66869 -->
 
 is part of FormatJS which provides bindings to React. It helps to format strings, dates, numbers, or pluralization
 
 ### What is Flux?
+
 <!-- id: JTC4IS2r3U, noteType: Basic-66869 -->
+
 - Flux is an architectural pattern favoring unidirectional data flow over MVC.
 - Complements React; used internally at Facebook.
 
 ### What is Redux?
+
 <!-- id: D%yTdeOz31, noteType: Basic-66869 -->
+
 - Redux is a predictable state container inspired by Flux.
 - Works with React or other view libraries.
 - Hooks: `useSelector`, `useDispatch`.
 
 ### What are the core principles of Redux?
+
 <!-- id: L?3|K^p;nZ, noteType: Basic-66869 -->
+
 - Single source of truth: entire app state in one store.
 - State is read-only: only actions describe state changes.
 - Changes via pure functions: reducers transform state based on actions.
 
 ### What is the difference between mapStateToProps() and mapDispatchToProps()?
+
 <!-- id: nT}{UKCH@y, noteType: Basic-66869 -->
 
 mapStateToProps() is a utility which helps your component get updated state (which is updated by some other components) mapDispatchToProps() is a utility which will help your component to fire an action event (dispatching action which may cause change of application state)
 
 ### Can I dispatch an action in reducer?
+
 <!-- id: cW0lc`wjNe, noteType: Basic-66869 -->
 
 Your reducer should simply digest the action payload and returning a new state object. Adding listeners and dispatching actions within the reducer can lead to chained actions and other side effects.
 
 ### What is the difference between React context and React Redux?
+
 <!-- id: O|C$F95Ya-, noteType: Basic-66869 -->
 
 Context is built in tool with React and required minimal setup, whereas Redux requires additional installation and extensive setup to integrate it with a React Application. Context is specifically designed for static data, that is not often refreshed or updated, whereas Redux is better in the high-frequency update data field. Context used for UI logic and State Management Logic are in the same component, whereas Redux has better code organization with separate UI logic and State Management Logic Redux ease to debug with Redux Dev Tool
 
 ### How to make AJAX request in Redux?
+
 <!-- id: cO*hTP`t{X, noteType: Basic-66869 -->
 
 You can use redux-thunk middleware which allows you to define async actions.
 
 ### What is the difference between component and container in React Redux?
+
 <!-- id: h[:7?W`BQ;, noteType: Basic-66869 -->
 
 Component is a class or function component that describes the presentational part of your application. Container is an informal term for a component that is connected to a Redux store. Containers subscribe to Redux state updates and dispatch actions, and they usually don't render DOM elements; they delegate rendering to presentational child components.
 
 ### What is redux-saga and its benifits?
+
 <!-- id: yhp:KT%)!|, noteType: Basic-66869 -->
 
 redux-saga is a library that aims to make side effects (asynchronous things like data fetching and impure things like accessing the browser cache) in React/Redux applications easier and better. Benifits: - make asynchronous flows easy to read, write, and test - enable numerous approaches to tackling parallel execution, task concurrency, task racing, task cancellation, and more
 
 ### What are the differences between call() and put() in redux-saga?
+
 <!-- id: ltnzbOZ4mz, noteType: Basic-66869 -->
 
 Both call() and put() are effect creator functions. call() function is used to create effect description, which instructs middleware to call the promise. put() function creates an effect, which instructs middleware to dispatch an action to the store.
 
 ### What is Redux Thunk?
+
 <!-- id: E))z6dtXj3, noteType: Basic-66869 -->
 
 Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch() and getState() as parameters.
 
 ### What are the differences between redux-saga and redux-thunk?
+
 <!-- id: h3pZ0Tf[Zs, noteType: Basic-66869 -->
 
 Both Redux Thunk and Redux Saga take care of dealing with side effects. In most of the scenarios, Thunk uses Promises to deal with them, whereas Saga uses Generators. Thunk is simple to use and Promises are familiar to many developers, Sagas/Generators are more powerful but you will need to learn them. But both middleware can coexist, so you can start with Thunks and introduce Sagas when/if you need them.
 
 ### What are Redux selectors and why to use them?
+
 <!-- id: D&@%=.daPO, noteType: Basic-66869 -->
+
 - Selectors take state and return derived data for components.
 - Benefits:
   - Compute derived data to keep state minimal.
   - Memoize to avoid recomputation unless inputs change.
 
 ### What is an action in Redux?
+
 <!-- id: lQR+]!`<bS, noteType: Basic-66869 -->
 
 Actions are plain JavaScript objects or payloads of information that send data from your application to your store. Actions must have a type property that indicates the type of action being performed.
 
 ### What is reselect and how it works?
+
 <!-- id: K>1*eOxf5&, noteType: Basic-66869 -->
 
 Reselect is a selector library (for Redux) which uses same concept with Redux Selector. It was originally written to compute derived data from Redux-like applications state, and not recomputed unless one of it arguments changed. It supports to create a new selector which receive other selectors as argument.
 
 ### What are Styled Components?
+
 <!-- id: kI2bdErp*~, noteType: Basic-66869 -->
+
 - `styled-components` lets you style components using CSS-in-JS.
 - Co-locates styles with components and removes CSS-to-component mapping.
 
 ### Do I need to keep all my state into Redux? Should I ever use react internal state?
+
 <!-- id: s<_LqmJ_tz, noteType: Basic-66869 -->
 
 It is up to the developer's decision. There are the some rules to determine what kind of data should be put into Redux Is the same data existed in store?Do other parts of the application care about this data?Do you need to be able to create further derived data based on this original data?
 
 ### What is the purpose of registerServiceWorker in React?
+
 <!-- id: tZuNHD4?q@, noteType: Basic-66869 -->
 
 React creates a service worker for you without any configuration by default. The service worker is a web API that helps you cache your assets and other files so that when the user is offline or on a slow network, he/she can still see results on the screen, as such, it helps you build a better user experience. It's all about adding offline capabilities to your site.
 
 ### What is React memo function?
+
 <!-- id: C&Ugl6PT|A, noteType: Basic-66869 -->
 
 Class components can be restricted from re-rendering when their input props are the same using PureComponent or shouldComponentUpdate. Now you can do the same with function components by wrapping them in React.memo.
 
 ### What is React lazy function?
+
 <!-- id: sdfVTRnIMW, noteType: Basic-66869 -->
 
 The React.lazy function lets you render a dynamic import as a regular component. It will automatically load the seperated bundle containing the imported component when the component gets rendered. The module must be a default export containing a React component.
 
 ### What are hooks? What rules need to be followed for hooks?
+
 <!-- id: Qv$v0hsu4H, noteType: Basic-66869 -->
 
 Hooks is a new feature(React 16.8) that lets you use state and other React features without writing a class. You need to follow two rules in order to use hooks,Call Hooks only at the top level of your react functions. i.e, You shouldn’t call Hooks inside loops, conditions, or nested functions.Call Hooks from React Functions or another hooks only.The naming convention of hooks should start with the prefix use
 
 ### In which scenarios error boundaries do not catch errors?
+
 <!-- id: d9>c:-w]`Y, noteType: Basic-66869 -->
 
 Below are the cases in which error boundaries doesn't work:Inside Event handlers Asynchronous code using setTimeout or requestAnimationFrame callbacks During Server side rendering When errors thrown in the error boundary code itself
 
 ### What is the proper placement for error boundaries?
+
 <!-- id: kN0oYYZvfJ, noteType: Basic-66869 -->
 
 - You can wrap top-level route components to display a generic error message for the entire application. - You can also wrap individual components in an error boundary to protect them from crashing the rest of the application and create the error state for each of components independently
 
 ### What is the methods order when component re-rendered?
+
 <!-- id: 9E/elaX9], noteType: Basic-66869 -->
 
 An update can be caused by changes to props or state. The below methods are called in the following order when a component is being re-rendered.static getDerivedStateFromProps()shouldComponentUpdate()render()getSnapshotBeforeUpdate()componentDidUpdate()
 
 ### What are the methods invoked during error handling?
+
 <!-- id: Mm_cR69)FD, noteType: Basic-66869 -->
 
 Below methods are called when there is an error during rendering, in a lifecycle method, or in the constructor of any child component.static getDerivedStateFromError()componentDidCatch()
 
 ### What is the purpose of unmountComponentAtNode method?
+
 <!-- id: Hep+>5!.c>, noteType: Basic-66869 -->
 
 This method is available from react-dom package and it removes a mounted React component from the DOM and clean up its event handlers and state. If no component was mounted in the container, calling this function does nothing. Returns true if a component was unmounted and false if there was no component to unmount.
 
 ### What is NextJS and major features of it?
+
 <!-- id: NGBh@8n]?, noteType: Basic-66869 -->
 
 Next.js is a popular and lightweight framework for static and server‑rendered applications built with React. It also provides styling and routing solutions. Below are the major features provided by NextJS,Server-rendered by defaultAutomatic code splitting for faster page loadsSimple client-side routing (page based)Webpack-based dev environment which supports (HMR)Able to implement with Express or any other Node.js HTTP serverCustomizable with your own Babel and Webpack configurations
 
 ### Optimizing performance in a React application? List the React hook functions
+
 <!-- id: gA2?HOKfQ$, noteType: Basic-66869 -->
 
 Keeping component state local where necessary. (useState, useEffect)Split component to small ones if it becomes more complex.Avoid pass props down in many levels (State management: React-redux, useContext, useReducer)Memoizing React components to prevent unnecessary re-renders. (React.memo)Memoizing expensive React states or methods to reduce recomputation. (useMemo, useCallback)Building a custom hook to extract a logic into a reusable function Use refs to store mutable values without re-rendering the entire component.use debounce & throttle to avoid send multiple requests in a short time. Code-splitting in React using dynamic import()Windowing or list virtualizationLazy loading images
 
 ### React vs Angular
+
 <!-- id: QGo2Qir#W_, noteType: Basic-66869 -->
 
 React is a library, but Angular is a Full-featured Framework. The virtual DOM and one-way data binding are used by React.js, but the real DOM and two-way data binding are used by Angular.
 
 ### How to write unit tests for custom hooks?
+
 <!-- id: ENY(b|8)-X, noteType: Basic-66869 -->
 
 We would use react-hooks-testing-library write the unit test. There are two methods we need to know: renderHook: The renderHook can render custom hook, you can operations the custom hook like in the component.act: The act can execute the methods return from custom hook that makes sure all updates have been processed Reference: React | Write a unit test for custom hooks in ten minutes - DEV Community
 
 ### What is React Testing Library?
+
 <!-- id: Mh[jf[d7|q, noteType: Basic-66869 -->
 
 React Testing Library is a set of helpers builds on top of DOM Testing Library that let you test React components. This allows you to get your tests closer to using your components the way a user will It's supported by CRA as default. Sample test steps: - Arrange (render): The method renders a React element into the DOM. - Act (fireEvent): The method allows you to fire events to simulate user actions. - Assert: assert that the test case is correct
 
 ### Testing Recipes in React components
+
 <!-- id: h!$Xko2UDE, noteType: Basic-66869 -->
 
 Setup/Teardown (Arrange): setup a DOM element as a render target (beforeEach) or “clean up” and unmount the tree on exiting (afterEach) act / assert: makes sure all updates related to these “units” have been processed and applied to the DOM before you make any assertions Rendering: test whether a component renders correctly for given props. Data Fetching: mock requests with dummy data Mocking Modules: Mocking out modules (ex: 3rd libraries) with dummy replacements Events: dispatching real DOM events on DOM elements Timers: You can use fake timers only in some tests Snapshot Testing: you save “snapshots” of the rendered component output ensure that a change is correct
 
 ### What are end-to-end tests?
+
 <!-- id: LY)5dv7=b:, noteType: Basic-66869 -->
 
 End-to-end tests are useful for testing longer workflows, especially when they’re critical to your business (such as payments or signups). For these tests, you’d probably want to test how a real browser renders the whole app, fetches data from the real API endpoints, uses sessions and cookies, navigates between different links. We can assert on side effects not just in the browser, but potentially on the backend as well.
 
 ### Recoil State management core concepts
+
 <!-- id: Gyhl*=HSc`, noteType: Basic-66869 -->
 
 Recoil is a state management library for React. Recoil lets you create a data-flow graph that flows from atoms (shared state) through selectors (pure functions) and down into your React components. Atoms are units of state that components can subscribe to. When an atom is updated, each subscribed component is re-rendered with the new value. Atoms can be used in place of React local component state. If the same atom is used from multiple components, all those components share their state. Selectors is a pure function that accepts atoms or other selectors as input. When these upstream atoms or selectors are updated, the selector function will be re-evaluated. Components can subscribe to selectors just like atoms, and will then be re-rendered when the selectors change. Popular components: - RecoilRoot​: Components that use recoil state need RecoilRoot to appear somewhere in the parent tree. A good place to put this is in your root component - Atom​: An atom represents a piece of state. Atoms can be read from and written to from any component. Components that read the value of an atom are implicitly subscribed to that atom, so any atom updates will result in a re-render of all components subscribed to that atom - Selector​: A selector represents a piece of derived state. Derived state is a transformation of state. You can think of derived state as the output of passing state to a pure function that modifies the given state in some way - Components that need to read from and write to an atom should use useRecoilState() - We can use the useRecoilValue() hook to read the value of selector Getting Started | Recoil (recoiljs.org)
 
 ### Client Site Rendering (CSR), Server Site Rendering (SSR) and SSG (Static Site Generation)
+
 <!-- id: c,l~8(c`.7, noteType: Basic-66869 -->
 
 - CSR: Server sending HTML and JS files -> Browser downloads JS -> Browser executes React -> Page full dynamic (loaded) - SSR: Server built out HTML page and sends to the browser -> Static HTML is rendered and Browser downloads JS in background (loaded) -> Loaded React adds interactivity to the page -> Page full dynamic - SSG: HTML files are generated on build time -> Static HTML is rendered and Browser downloads JS in background-> Loaded React adds interactivity to the page -> Page full dynamic Usage: - CSR: Login page, dashboard page, ... and the pages don't need SEO - SSR: page with dynamic data but still have SEO and expect super fast initial loading - SSG: for pages which don't need to be updated frequently and expect super fast initial loading
 
 ### How to Create a React Component Library
+
 <!-- id: ukjH*S<[!,, noteType: Basic-66869 -->
 
 InitCreating ComponentsAdding TypescriptAdding RollupBuilding Your LibraryMore advances: Adding CSSOptimizingAdding TestsAdding StorybookAdding SCSS
 
 ### When should you memoize in React?
+
 <!-- id: O^J|aZOs#P, noteType: Basic-66869 -->
 
 When should you memoize in React (prateeksurana.me)
 
 ### What is React Fiber?
+
 <!-- id: gEdvk}bCx<, noteType: Basic-66869 -->
 
 Fiber is the new reconciliation engine in React 16. Its main goal is to enable incremental rendering of the virtual DOM. Fiber improves the Virtual DOM and comparation steps of reconcilation algo
 
 ### useState hook
+
 <!-- id: q(a+%30cl2, noteType: Basic-66869 -->
 
 - Returns a stateful value, and a function to update it. - During the initial render, the returned state (state) is the same as the value passed as the first argument (initialState). - Lazy initial state: The initialState argument is the state used during the initial render. In subsequent renders, it is disregarded. If the initial state is the result of an expensive computation, you may provide a function instead, which will be executed only on the initial render - The setState function is used to update the state. It accepts a new state value and enqueues a re-render of the component. - If the new state is computed using the previous state, you can pass a function to setState. The function will receive the previous value, and return an updated value. - During subsequent re-renders, the first value returned by useState will always be the most recent state after applying updates. - React guarantees that setState function identity is stable and won’t change on re-renders. This is why it’s safe to omit from the useEffect or useCallback dependency list. - Bailing out of a state update: If you update a State Hook to the same value as the current state, React will bail out without rendering the children or firing effects (React uses the Object.is comparison algorithm.) - Batching of state updates: React may group several state updates into a single re-render to improve performance.
 
 ### useRef
+
 <!-- id: o[>+!Bp3;=, noteType: Basic-66869 -->
 
 useRef returns a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component. The only difference between useRef() and creating a {current: ...} object yourself is that useRef will give you the same ref object on every render. Keep in mind that useRef doesn’t notify you when its content changes. Mutating the .current property doesn’t cause a re-render
 
 ### React Profiler API
+
 <!-- id: Nz8&|&mPsU, noteType: Basic-66869 -->
 
 The Profiler measures how often a React application renders and what the “cost” of rendering is. Its purpose is to help identify parts of an application that are slow and may benefit from optimizations such as memoization.
 
 ### When exactly does React clean up an effect?
+
 <!-- id: kd9Bf6FSN3, noteType: Basic-66869 -->
 
 React performs the cleanup when the component unmounts. However, effects run for every render and not just once. This is why React also cleans up effects from the previous render before running the effects next time.
 
 ### useEffect
+
 <!-- id: A<}Q3=<z&e, noteType: Basic-66869 -->
 
 - By default, effects run after every completed render - Allow us Cleaning up an effect before the component is removed from the UI - if a component renders multiple times (as they typically do), the previous effect is cleaned up before executing the next effect - Timing: useEffect is deferred until after the browser has painted (rendered) - Conditionally firing an effect + only be recreated when deps changes + If you pass an empty deps array, only be created after the intial rendered Practice challenge: https://www.greatfrontend.com/questions/javascript/use-query?framework=react&tab=coding https://react.dev/learn/synchronizing-with-effects
 
 ### useEffect vs useLayoutEffect
+
 <!-- id: 0nio)!l~N, noteType: Basic-66869 -->
 
 useEffect runs asynchronously after the browser paints, making it ideal for side effects that don't affect layout. useLayoutEffect runs synchronously before painting, perfect for DOM measurements or preventing visual flicker, but should be used sparingly as it blocks the browser's painting process
 
 ### NextJS + Astro
+
 <!-- id: J0~8W6;Q*@, noteType: Basic-66869 -->
 
 NextJS to Astro: more control = faster sites - YouTube
 
 ### useEffect called twice in react 18
+
 <!-- id: PHP~2a$F~o, noteType: Basic-66869 -->
 
 amazing features that Identifying unsafe lifecycles => we shouldn't disable it
@@ -499,7 +607,9 @@ The method receives the event name (e.g. `click`, `keyup`, `mouseup`), the event
 
 ```js
 const button = document.getElementById('submit');
-function handleClick(e) { console.log('Clicked!', e.target); }
+function handleClick(e) {
+  console.log('Clicked!', e.target);
+}
 button.addEventListener('click', handleClick, { capture: false });
 ```
 
@@ -597,6 +707,7 @@ Typical use cases
 The value of `this` depends on how the function is called.
 
 Rules:
+
 - Called with `new`: `this` is a brand new object.
 - Called via `apply`, `call`, or `bind`: `this` is the object passed as the first argument.
 - Called as a method (e.g., `obj.method()`): `this` is the object owning the method.
@@ -605,10 +716,12 @@ Rules:
 - Arrow functions ignore all above and capture `this` from the enclosing lexical scope at creation.
 
 ES6 changes:
+
 - Arrow functions use enclosing lexical `this`. This is convenient but prevents callers from controlling context via `.call` or `.apply`.
 - Be mindful when refactoring legacy code relying on dynamic `this` binding.
 
 References:
+
 - https://codeburst.io/the-simple-rules-to-this-in-javascript-35d97f31bde3
 - https://stackoverflow.com/a/3127440/1751946
 
@@ -621,6 +734,7 @@ When a property is accessed on an object and is not found, the engine looks up t
 This behavior simulates classical inheritance but is more accurately delegation.
 
 Example: polyfill for `Object.create`
+
 ```js
 if (typeof Object.create !== 'function') {
   Object.create = function (parent) {
@@ -632,36 +746,51 @@ if (typeof Object.create !== 'function') {
 ```
 
 Example: inheritance via prototypes
+
 ```js
-function Parent() { this.name = 'Parent'; }
-Parent.prototype.greet = function () { console.log('hello from Parent'); };
+function Parent() {
+  this.name = 'Parent';
+}
+Parent.prototype.greet = function () {
+  console.log('hello from Parent');
+};
 
 const child = Object.create(Parent.prototype);
-child.cry = function () { console.log('waaaaaahhhh!'); };
+child.cry = function () {
+  console.log('waaaaaahhhh!');
+};
 
-child.cry();   // waaaaaahhhh!
+child.cry(); // waaaaaahhhh!
 child.greet(); // hello from Parent
 ```
 
 Notes:
+
 - `.greet` is not defined on `child`, so the engine goes up the prototype chain and finds it on `Parent.prototype`.
 - Use `Object.create(Parent.prototype)` for prototype methods to be inherited.
 - `child.constructor` points to `Parent` by default.
 
 Correcting `constructor` with a subtype
+
 ```js
-function Child() { Parent.call(this); this.name = 'child'; }
+function Child() {
+  Parent.call(this);
+  this.name = 'child';
+}
 Child.prototype = Object.create(Parent.prototype);
 Child.prototype.constructor = Child;
 
 const c = new Child();
-c.cry = function () { console.log('waaaaaahhhh!'); };
-c.cry();    // waaaaaahhhh!
-c.greet();  // hello from Parent
+c.cry = function () {
+  console.log('waaaaaahhhh!');
+};
+c.cry(); // waaaaaahhhh!
+c.greet(); // hello from Parent
 console.log(c.constructor.name); // 'Child'
 ```
 
 References:
+
 - https://www.quora.com/What-is-prototypal-inheritance/answer/Kyle-Simpson
 - https://davidwalsh.name/javascript-objects
 - https://crockford.com/javascript/prototypal.html
@@ -672,18 +801,28 @@ References:
 <!-- id: uxIl-AwVOe, noteType: Basic (and reversed card)-1cc8b -->
 
 Undeclared
+
 - Created when assigning to an identifier not previously declared with `var`, `let`, or `const`.
 - Defined globally (outside current scope). In strict mode, a `ReferenceError` is thrown on assignment.
 - Avoid at all costs. To detect, wrap usage in `try/catch`.
+
 ```js
-function foo() { x = 1; } // ReferenceError in strict mode
-try { foo(); } catch (e) { console.error(e); }
+function foo() {
+  x = 1;
+} // ReferenceError in strict mode
+try {
+  foo();
+} catch (e) {
+  console.error(e);
+}
 ```
 
 Undefined
+
 - Declared but not assigned a value; type is `undefined`.
 - Functions without a return value evaluate to `undefined`.
 - Check using strict equality or `typeof`. Do not use `==` which also matches `null`.
+
 ```js
 var foo;
 console.log(foo); // undefined
@@ -697,8 +836,10 @@ console.log(baz); // undefined
 ```
 
 Null
+
 - Explicitly assigned `null` represents no value; different from `undefined`.
 - Check using strict equality; avoid `==` which matches `undefined`.
+
 ```js
 var foo = null;
 console.log(foo === null); // true
@@ -710,6 +851,7 @@ Personal habit: explicitly assign `null` if a variable is declared but not yet u
 Linters will help catch references to undeclared variables.
 
 References:
+
 - https://stackoverflow.com/questions/15985875/effect-of-declared-and-undeclared-variables
 - https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/undefined
 
@@ -721,11 +863,13 @@ A closure gives you access to an outer function's scope from an inner function.
 It combines a function and the lexical environment in which it was declared.
 
 Closure scope chains:
+
 1. Own scope (variables defined within the function).
 2. Outer function variables.
 3. Global variables.
 
 Why use closures?
+
 - Data privacy / emulate private methods (module pattern).
 - Partial application or currying.
 
@@ -738,9 +882,11 @@ Reference: Closures - JavaScript | MDN (mozilla.org).
 To understand the differences, consider what each function does.
 
 `.forEach`
+
 - Iterates through array elements.
 - Executes a callback for each element.
 - Does not return a value.
+
 ```js
 const a = [1, 2, 3];
 const doubled = a.forEach((num, index) => {
@@ -750,15 +896,18 @@ console.log(doubled); // undefined
 ```
 
 `.map`
+
 - Iterates through array elements.
 - Maps each element to a new element by calling a function on each element, creating a new array.
+
 ```js
 const a = [1, 2, 3];
-const doubled = a.map(num => num * 2);
+const doubled = a.map((num) => num * 2);
 console.log(doubled); // [2, 4, 6]
 ```
 
 Main difference:
+
 - `.map()` returns a new array. If you need the result and do not wish to mutate the original array, `.map()` is the clear choice.
 - If you simply need to iterate over an array, `.forEach` is fine.
 
@@ -774,16 +923,24 @@ Host objects are provided by the runtime environment (browser or Node), such as 
 <!-- id: u$0(Ek&Zf2, noteType: Basic (and reversed card)-1cc8b -->
 
 `call` and `apply` invoke a function immediately and set `this`.
+
 - `call(thisArg, a, b)` — comma-separated arguments.
 - `apply(thisArg, [a, b])` — arguments as an array.
-`bind` returns a new function with `this` (and optionally leading args) fixed.
-```js
-function add(a, b) { return a + b; }
-console.log(add.call(null, 1, 2));      // 3
-console.log(add.apply(null, [1, 2]));   // 3
+  `bind` returns a new function with `this` (and optionally leading args) fixed.
 
-function Temp() { this.c = 1; }
-Temp.prototype.add = function (a, b) { return (this.c || 0) + a + b; };
+```js
+function add(a, b) {
+  return a + b;
+}
+console.log(add.call(null, 1, 2)); // 3
+console.log(add.apply(null, [1, 2])); // 3
+
+function Temp() {
+  this.c = 1;
+}
+Temp.prototype.add = function (a, b) {
+  return (this.c || 0) + a + b;
+};
 
 const temp = new Temp();
 console.log(temp.add(1, 2)); // 4
@@ -799,17 +956,22 @@ console.log(bound(1, 2)); // 7
 <!-- id: d=D4Joc)~F, noteType: Basic (and reversed card)-1cc8b -->
 
 Definition
+
 - `bind(thisArg, ...args)` returns a new function with `this` fixed to `thisArg` and optionally prepends `args`.
 
 Why use it
+
 - Preserve method `this` when passing as a callback.
 - Partially apply leading arguments.
 
 Example
+
 ```js
 const module = {
   x: 42,
-  getX() { return this.x; }
+  getX() {
+    return this.x;
+  },
 };
 
 const unbound = module.getX;
@@ -818,7 +980,9 @@ console.log(unbound()); // undefined in strict mode
 const bound = module.getX.bind(module);
 console.log(bound()); // 42
 
-function add(a, b, c) { return a + b + c; }
+function add(a, b, c) {
+  return a + b + c;
+}
 const add5 = add.bind(null, 5);
 console.log(add5(1, 2)); // 8
 ```
@@ -828,13 +992,16 @@ console.log(add5(1, 2)); // 8
 <!-- id: P_L+L6Fx^f, noteType: Basic (and reversed card)-1cc8b -->
 
 Libraries used
+
 - Handlebars, Underscore/Lodash templates, AngularJS, JSX.
 
 Notes
+
 - JSX is concise and type-friendly; AngularJS string-heavy templates are prone to typos.
 - ES2015 template literals work for simple templates but do not escape by default.
 
 Example
+
 ```js
 const name = 'Ada';
 const template = `<div>My name is: ${name}</div>`;
@@ -848,6 +1015,7 @@ const template = `<div>My name is: ${name}</div>`;
 Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope before code execution. Remember that JavaScript only hoists declarations, not initialisation.
 
 Example
+
 ```js
 // Function declarations are hoisted
 hoisted(); // works
@@ -867,17 +1035,18 @@ let b = 2;
 <!-- id: OvAxocDxWd, noteType: Basic (and reversed card)-1cc8b -->
 
 When an event triggers on a DOM element, it is handled on that element and then bubbles up through ancestors to the document. Bubbling enables event delegation.
+
 ```html
 <ul id="list">
   <li>Item</li>
 </ul>
 <script>
-document.getElementById('list').addEventListener('click', (e) => {
-  // Delegate: handle clicks on child <li> elements
-  if (e.target.tagName === 'LI') {
-    console.log('Clicked:', e.target.textContent);
-  }
-});
+  document.getElementById('list').addEventListener('click', (e) => {
+    // Delegate: handle clicks on child <li> elements
+    if (e.target.tagName === 'LI') {
+      console.log('Clicked:', e.target.textContent);
+    }
+  });
 </script>
 ```
 
@@ -887,9 +1056,11 @@ document.getElementById('list').addEventListener('click', (e) => {
 
 Attributes are defined in HTML markup; properties are defined on the DOM node.
 Example:
+
 ```html
-<input type="text" value="Hello">
+<input type="text" value="Hello" />
 ```
+
 ```js
 const input = document.querySelector('input');
 console.log(input.getAttribute('value')); // Hello
@@ -908,20 +1079,22 @@ console.log(input.value); // Hello World!
 `==` compares after type conversion; `===` does not convert types.
 
 Examples of `==` pitfalls:
+
 ```js
-1 == '1';        // true
-1 == [1];        // true
-1 == true;       // true
-0 == '';         // true
-0 == '0';        // true
-0 == false;      // true
+1 == '1'; // true
+1 == [1]; // true
+1 == true; // true
+0 == ''; // true
+0 == '0'; // true
+0 == false; // true
 ```
 
 Advice: avoid `==` except when comparing against `null` or `undefined` for convenience.
+
 ```js
 var a = null;
-console.log(a == null);       // true
-console.log(a == undefined);  // true
+console.log(a == null); // true
+console.log(a == undefined); // true
 ```
 
 ### Why is it, in general, a good idea to leave the global scope of a website as-is and never touch it?
@@ -935,18 +1108,22 @@ Every script has access to the global scope, and if everyone uses the global sco
 <!-- id: QR/fx-@j4R, noteType: Basic (and reversed card)-1cc8b -->
 
 Definition
+
 - A Single Page Application (SPA) uses client-side rendering; navigation updates the URL without full page reloads.
 
 Benefits
+
 - Responsive navigation without flash between pages.
 - Fewer repeated asset downloads; clearer client/server separation.
 
 Downsides
+
 - Heavier initial load.
 - Requires server routing to a single entry point.
 - Content relies on JS execution, which can hurt SEO if crawlers don’t run JS.
 
 SEO-friendly approaches
+
 - Server-Side Rendering (SSR) or Static Site Generation (SSG).
 - Pre-rendering services (e.g., Prerender.io) to serve HTML to crawlers.
 - Ensure metadata: dynamic `<title>`, `<meta>` tags, canonical links.
@@ -957,11 +1134,13 @@ SEO-friendly approaches
 <!-- id: Gro(j1-0.P, noteType: Basic (and reversed card)-1cc8b -->
 
 Pros
+
 - Avoids callback hell; supports readable chaining via `.then()`.
 - Easy parallelism with `Promise.all`.
 - Safer semantics: avoids early/late/multiple callback invocation and error swallowing.
 
 Cons
+
 - Slightly more complex semantics for beginners.
 - Requires polyfills in older environments.
 
@@ -970,18 +1149,21 @@ Cons
 <!-- id: f4B<J6Zi=J, noteType: Basic (and reversed card)-1cc8b -->
 
 Definition
+
 - A Promise represents a future value: `pending` → `fulfilled` or `rejected`.
 - `then`/`catch` return new promises, enabling chaining.
 
 Example
+
 ```js
-const fetchData = () => new Promise((resolve, reject) => {
-  setTimeout(() => resolve('data'), 100);
-});
+const fetchData = () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => resolve('data'), 100);
+  });
 
 fetchData()
-  .then(v => v.toUpperCase())
-  .catch(err => console.error(err));
+  .then((v) => v.toUpperCase())
+  .catch((err) => console.error(err));
 ```
 
 ### What tools and techniques do you use for debugging JavaScript code?
@@ -989,10 +1171,12 @@ fetchData()
 <!-- id: xOaFh|/qlF, noteType: Basic (and reversed card)-1cc8b -->
 
 Tools
+
 - Chrome DevTools (sources, network, performance)
 - React DevTools, Redux DevTools; Vue DevTools
 
 Techniques
+
 - `debugger` statements to pause execution.
 - Structured `console.*` logging; log levels and grouping.
 - Narrow repro cases; isolate async flows and side effects.
@@ -1002,13 +1186,16 @@ Techniques
 <!-- id: h[x>(Ez0c~, noteType: Basic (and reversed card)-1cc8b -->
 
 Definitions
+
 - Mutable: state can change after creation.
 - Immutable: state cannot change after creation.
 
 Built-in
+
 - Primitives like numbers and strings are immutable; regular objects are mutable.
 
 Approaches
+
 ```js
 // Constant property
 const myObject = {};
@@ -1035,13 +1222,16 @@ const frozen = Object.freeze({ a: 1 }); // no adding/removing/changing
 <!-- id: nVy)4CLX9l, noteType: Basic (and reversed card)-1cc8b -->
 
 Synchronous
+
 - Blocks until work completes; code runs in order.
 
 Asynchronous
+
 - Returns immediately; completion handled via callbacks/promises/async-await.
 - Keeps UI responsive in browsers.
 
 Example
+
 ```js
 console.log('A');
 setTimeout(() => console.log('B'), 0);
@@ -1054,13 +1244,16 @@ console.log('C');
 <!-- id: P-jr#X^8>., noteType: Basic (and reversed card)-1cc8b -->
 
 Event loop
+
 - Monitors the call stack; when empty, dequeues tasks from queues to execute.
 
 Queues
+
 - Macro-task queue: `setTimeout`, I/O callbacks.
 - Micro-task queue: promises (`then`/`catch`), `queueMicrotask` — runs before macro-tasks between ticks.
 
 Example
+
 ```js
 console.log('start');
 setTimeout(() => console.log('timeout'), 0);
@@ -1074,18 +1267,24 @@ console.log('end');
 <!-- id: pTgUpHtFDS, noteType: Basic (and reversed card)-1cc8b -->
 
 Scope
+
 - `var`: function-scoped.
 - `let`/`const`: block-scoped.
+
 ```js
 function foo() {
-  var a = 1; let b = 2; const c = 3;
+  var a = 1;
+  let b = 2;
+  const c = 3;
 }
 // a,b,c not accessible outside
 ```
 
 Hoisting
+
 - `var` is hoisted and initialized to `undefined`.
 - `let`/`const` are hoisted but in Temporal Dead Zone until declared.
+
 ```js
 console.log(v); // undefined
 var v = 'v';
@@ -1094,10 +1293,13 @@ let l = 'l';
 ```
 
 Redeclaration & reassignment
+
 - `var` allows redeclaration; `let`/`const` do not.
 - `let` allows reassignment; `const` does not.
+
 ```js
-var x = 'x'; var x = 'x2'; // ok
+var x = 'x';
+var x = 'x2'; // ok
 let y = 'y'; // let y = 'y2'; // SyntaxError
 const z = 'z'; // z = 'z2'; // TypeError
 ```
@@ -1107,6 +1309,7 @@ const z = 'z'; // z = 'z2'; // TypeError
 <!-- id: l`fNWr-H@K, noteType: Basic-66869 -->
 
 Summary
+
 - ES6 (2015) introduced major features atop ES5: `let`/`const`, arrow functions, classes, template literals, destructuring, spread/rest, modules (`import`/`export`), promises, default parameters.
 - Largely backward compatible; improves scoping, async handling, and code organization.
 
@@ -1117,6 +1320,7 @@ Summary
 The Temporal Dead Zone is a behavior in JavaScript that occurs when declaring a variable with the let and const keywords, but not with var. The time span between the creation of a variable’s binding and its declaration, is called the temporal dead zone.
 
 Example
+
 ```js
 // Access before declaration throws
 // console.log(a); // ReferenceError
@@ -1134,6 +1338,7 @@ Heap(Or memory heap) is the memory location where objects are stored when we def
 <!-- id: mckQna;YlZ, noteType: Basic-66869 -->
 
 Microtask queue processes tasks (e.g., promise callbacks) before the macrotask/callback queue between event loop ticks.
+
 ```js
 setTimeout(() => console.log('macro'), 0);
 Promise.resolve().then(() => console.log('micro'));
@@ -1151,10 +1356,13 @@ Babel is a JavaScript transpiler to convert ECMAScript 2015+ code into a backwar
 <!-- id: nZqel6X)2V, noteType: Basic-66869 -->
 
 `new Function` creates functions in the global scope and does not close over local variables; declarations/expressions do close over outer scopes.
+
 ```js
 function outer() {
   const secret = 1;
-  const f1 = function () { return secret; }; // closes over secret
+  const f1 = function () {
+    return secret;
+  }; // closes over secret
   const f2 = new Function('return typeof secret'); // 'undefined'
   return [f1(), f2()];
 }
@@ -1166,8 +1374,10 @@ console.log(outer()); // [1, 'undefined']
 <!-- id: G~0z.k{&dh, noteType: Basic-66869 -->
 
 Hoisting
+
 - Function declarations are hoisted.
 - Class declarations are hoisted but not initialized; accessing before definition throws.
+
 ```js
 foo(); // ok
 function foo() {}
@@ -1181,17 +1391,40 @@ class Bar {}
 <!-- id: i]I,Q{rAlj, noteType: Basic-66869 -->
 
 Kinds
+
 - Generator function declaration
 - Generator function expression
 - Generator method in object literal
 - Generator method in class
 - Computed property generator (e.g., `Symbol.iterator`)
+
 ```js
-function* decl() { yield 1; yield 2; }
-const expr = function* () { yield 1; yield 2; };
-const obj = { *gen() { yield 1; yield 2; } };
-class C { *gen() { yield 1; yield 2; } }
-const iterObj = { *[Symbol.iterator]() { yield 1; yield 2; } };
+function* decl() {
+  yield 1;
+  yield 2;
+}
+const expr = function* () {
+  yield 1;
+  yield 2;
+};
+const obj = {
+  *gen() {
+    yield 1;
+    yield 2;
+  },
+};
+class C {
+  *gen() {
+    yield 1;
+    yield 2;
+  }
+}
+const iterObj = {
+  *[Symbol.iterator]() {
+    yield 1;
+    yield 2;
+  },
+};
 console.log(Array.from(iterObj)); // [1, 2]
 ```
 
@@ -1200,6 +1433,7 @@ console.log(Array.from(iterObj)); // [1, 2]
 <!-- id: s<_},]>oRd, noteType: Basic-66869 -->
 
 Node.js
+
 - `setTimeout(cb, ms)`: schedule after delay (macrotask).
 - `setImmediate(cb)`: schedule after current poll phase completes (macrotask, often after I/O).
 - `process.nextTick(cb)`: schedule microtask; runs before other queued work — use sparingly to avoid starvation.
@@ -1209,8 +1443,10 @@ Node.js
 <!-- id: OT)=[.-|$s, noteType: Basic-66869 -->
 
 Definitions
+
 - Debounce: delay execution until events stop for `n` ms.
 - Throttle: execute at most once every `n` ms during a burst of events.
+
 ```js
 function debounce(fn, wait) {
   let t;
@@ -1223,7 +1459,10 @@ function throttle(fn, wait) {
   let last = 0;
   return (...args) => {
     const now = Date.now();
-    if (now - last >= wait) { last = now; fn(...args); }
+    if (now - last >= wait) {
+      last = now;
+      fn(...args);
+    }
   };
 }
 ```
@@ -1233,8 +1472,8 @@ function throttle(fn, wait) {
 <!-- id: j<cP[%<ZSO, noteType: Basic-66869 -->
 
 ```js
-'1' + true;       // '1true' (string concatenation)
-'1true' - '1';    // NaN (numeric subtraction on non-numeric string)
+'1' + true; // '1true' (string concatenation)
+'1true' - '1'; // NaN (numeric subtraction on non-numeric string)
 ```
 
 ### "const a = ""abc"" a[2] = ""d"" console.log(a);"
@@ -1255,7 +1494,9 @@ console.log(a); // 'abc' — strings are immutable
 const person = { name: 'Anna' };
 const obj = {
   name: 'Quang',
-  showName(age) { console.log(`123 ${this.name} ${age}`); }
+  showName(age) {
+    console.log(`123 ${this.name} ${age}`);
+  },
 };
 const showName = obj.showName;
 showName(); // 123 undefined undefined — plain call, undefined this
@@ -1269,14 +1510,18 @@ showName.apply(person, [23]); // 123 Anna 23
 <!-- id: is?vWdm;EP, noteType: Basic-66869 -->
 
 Key differences
+
 - Arrow functions: lexical `this`, no `arguments`, not constructible.
 - Regular functions: own `this`, have `arguments`, constructible with `new`.
+
 ```js
 const arrow = (...args) => args.length;
-function regular() { return arguments.length; }
+function regular() {
+  return arguments.length;
+}
 
-console.log(arrow(1,2));   // 2
-console.log(regular(1,2)); // 2
+console.log(arrow(1, 2)); // 2
+console.log(regular(1, 2)); // 2
 
 // new arrow(); // TypeError: arrow is not a constructor
 function C() {}
@@ -1308,6 +1553,7 @@ CommonJS (CJS) uses synchronous require() and module.exports syntax, designed fo
 "In JavaScript, var, let, and const are keywords used to declare variables, each with distinct characteristics regarding scope, reassignment, and hoisting. 1. Scope: var: Variables declared with var have function scope or global scope. This means they are accessible throughout the entire function in which they are declared, or globally if declared outside any function.let: Variables declared with let have block scope. They are only accessible within the specific block (e.g., if statements, for loops, or any curly braces {}) where they are defined.const: Similar to let, const also provides block scope. 2. Reassignment: var: Variables declared with var can be reassigned and redeclared within the same scope. let: Variables declared with let can be reassigned, but they cannot be redeclared within the same block scope. const: Variables declared with const cannot be reassigned after their initial assignment. They are used to declare constants or read-only references. However, if a const variable holds an object or array, its properties or elements can be modified, but the variable itself cannot be pointed to a different object or array. 3. Hoisting: var: Variables declared with var are hoisted to the top of their function or global scope. This means they can be accessed before their declaration, though their value will be undefined until the actual assignment. let and const: Variables declared with let and const are also hoisted, but they are subject to the ""Temporal Dead Zone"" (TDZ). This means accessing them before their declaration will result in a ReferenceError. In summary: Use const for values that should not change throughout the program's execution.Use let for variables whose values might need to be reassigned later in the code.Avoid using var in modern JavaScript development due to its less predictable scoping behavior, which can lead to unexpected bugs. let and const offer more controlled and intuitive variable declaration."
 
 Event capturing goes top-down (document → target); bubbling goes bottom-up (target → document). You can choose phase with the third parameter of `addEventListener`:
+
 ```js
 el.addEventListener('click', handler, { capture: true }); // capture phase
 el.addEventListener('click', handler); // bubble phase (default)
@@ -1356,6 +1602,7 @@ Node.js runs in a single process and the application code runs in a single threa
 ### What are the data types in Node.js?
 
 <!-- id: F|xw,Dj$}*, noteType: Basic-66869 -->
+
 Just like in JavaScript, Node.js has two broad categories of data types:
 
 - Primitives: `string`, `number`, `bigint`, `boolean`, `undefined`, `null`, `symbol`.
@@ -1373,14 +1620,15 @@ console.log(buf); // <Buffer 68 65 6c 6c 6f>
 ### How to create a simple server in Node.js that returns Hello World?
 
 <!-- id: O$6KfOi?mb, noteType: Basic-66869 -->
-1) Create a project directory and enter it:
+
+1. Create a project directory and enter it:
 
 ```bash
 mkdir myapp
 cd myapp
 ```
 
-2) Initialize the project:
+2. Initialize the project:
 
 ```bash
 npm init -y
@@ -1388,13 +1636,13 @@ npm init -y
 
 Optionally set the entry point to `app.js`.
 
-3) Install Express:
+3. Install Express:
 
 ```bash
 npm install express
 ```
 
-4) Create `app.js`:
+4. Create `app.js`:
 
 ```js
 const express = require('express');
@@ -1409,7 +1657,7 @@ app.listen(3000, () => {
 });
 ```
 
-5) Run the app:
+5. Run the app:
 
 ```bash
 node app.js
@@ -1424,6 +1672,7 @@ The Node.js runtime is the software stack responsible for installing your web se
 ### Explain usage of NODE_ENV?
 
 <!-- id: kDoIQ1/>X,, noteType: Basic-66869 -->
+
 `NODE_ENV` is an environment variable commonly used to control configuration (e.g., `development`, `production`). Your app can check its value and change behavior accordingly.
 
 Example:
@@ -1459,6 +1708,7 @@ In Node.js, assert is used to write tests. It only provides feedback only when a
 ### What is an error-first callback?
 
 <!-- id: P@l8LiU[Y3, noteType: Basic-66869 -->
+
 Error-first callbacks use the signature `(err, data)`. If an error occurs, `err` is non-null and should be handled; otherwise `data` contains the result.
 
 Example:
@@ -1494,6 +1744,7 @@ That means instead of waiting for a response javascript will keep executing whil
 ### What is an Event loop in Node.js and how does it work?
 
 <!-- id: vefp?mfIG*, noteType: Basic-66869 -->
+
 The Node.js event loop enables non-blocking I/O on a single thread. Async tasks are offloaded (via `libuv`) and their callbacks are queued for later execution.
 
 - Core components:
@@ -1567,10 +1818,13 @@ Express.js is a framework built on top of Node.js that facilitates the managemen
 ### Differentiate between process.nextTick() and setImmediate()?
 
 <!-- id: v~cVm*8B`d, noteType: Basic-66869 -->
+
 Similarities:
+
 - Both schedule callbacks asynchronously.
 
 Differences:
+
 - `process.nextTick`: runs before the next event loop phase (microtask queue), often immediately after current operation finishes.
 - `setImmediate`: runs in the "check" phase, after I/O events in the current loop iteration.
 
@@ -1583,9 +1837,11 @@ In general, Node.js is a single threaded process and doesn’t expose the child 
 ### Explain stream in Node.js along with its various types.
 
 <!-- id: DdL6]^9eKy, noteType: Basic-66869 -->
+
 Streams let you process data chunk-by-chunk without loading it all into memory. Useful for large files and network data.
 
 Types:
+
 - Readable: read from a source.
 - Writable: write to a destination.
 - Duplex: both read and write.
@@ -1594,9 +1850,11 @@ Types:
 ### List down the various timing features of Node.js.
 
 <!-- id: x+qX={hW:, noteType: Basic-66869 -->
+
 Reference: https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
 
 Timing APIs:
+
 - `setTimeout` / `clearTimeout`: run after N milliseconds.
 - `setInterval` / `clearInterval`: run repeatedly every N milliseconds.
 - `setImmediate` / `clearImmediate`: run in the event loop "check" phase.
@@ -1615,6 +1873,7 @@ EventEmitter is a Node.js class that includes all the objects that are capable o
 For `require('foo')`, Node.js searches `node_modules` directories starting from the current folder up through parent directories until the filesystem root.
 
 Example search order for `/home/user/project/app.js` requiring `bar`:
+
 - `/home/user/project/node_modules/bar`
 - `/home/user/node_modules/bar`
 - `/home/node_modules/bar`
@@ -1623,7 +1882,9 @@ Example search order for `/home/user/project/app.js` requiring `bar`:
 ### File-Based Module characteristic
 
 <!-- id: JTrq&Lbe,S, noteType: Basic-66869 -->
+
 Characteristics:
+
 - Conditional loading: `require` can be called inside code paths.
 - Blocking: `require` is synchronous; it blocks until the module loads.
 - Caching: modules are cached by resolved path after first load; subsequent `require` returns the cached `module.exports`.
@@ -1644,6 +1905,7 @@ If more than one case matches, the priority follows the above order.
 ### main vs exports in package.json
 
 <!-- id: Jop|IV]kWN, noteType: Basic-66869 -->
+
 In `package.json`, these fields define how consumers resolve your package:
 
 - `main`: CommonJS entry point (`require()` in Node).
@@ -1653,11 +1915,13 @@ In `package.json`, these fields define how consumers resolve your package:
 - `exports`: modern field for conditional and subpath exports; takes precedence over `main`/`module` when present.
 
 Highlights of `exports`:
+
 - Conditional exports: different files for `node`, `browser`, `import`, `require`.
 - Subpath exports: expose controlled internal files.
 - Encapsulation: hide files not exported.
 
 Fallback/priority (simplified):
+
 - `exports` > `browser` > `module` > `main`
 - `types` resolution may be specified in `exports` conditions; otherwise top-level `types` applies.
 
@@ -1779,7 +2043,9 @@ Reference: CSS Selectors Reference (w3schools.com).
 ## Operation System
 
 ### What do you mean by an operating system?
+
 <!-- id: JKE3#s;N,~, noteType: Basic-66869 -->
+
 An Operating System (OS) is system software that manages computer hardware and software resources and provides common services for programs.
 
 - Manages CPU, memory, storage, I/O devices, and processes.
@@ -1788,7 +2054,9 @@ An Operating System (OS) is system software that manages computer hardware and s
 - Acts as an intermediary between users/applications and hardware.
 
 ### Scheduling Algorithm
+
 <!-- id: uv|en.AHg$, noteType: Basic-66869 -->
+
 Common CPU scheduling algorithms:
 
 - FCFS (First Come First Serve): processes execute in arrival order; easy to implement (FIFO queue) but may have high average waiting time.
@@ -1798,55 +2066,66 @@ Common CPU scheduling algorithms:
 - Round Robin (RR): each process gets a fixed time slice (quantum); preempted after quantum expires; improves responsiveness in time-sharing systems.
 
 ### Difference between Counting and Binary Semaphores
+
 <!-- id: yrzG*5gt,9, noteType: Basic-66869 -->
 
 - Binary semaphore: takes values 0/1; used for mutual exclusion (mutex-like behavior).
 - Counting semaphore: holds a non-negative integer; controls access to a resource pool with multiple instances.
 - Binary semaphores are simpler and enforce exclusive access; counting semaphores manage capacity.
 
-
-
 ### What is Deadlock?
+
 <!-- id: F[`oHyR0#+, noteType: Basic-66869 -->
+
 Deadlock occurs when processes are blocked, each holding a resource and waiting for others to release theirs.
 
 Necessary conditions (Coffman):
+
 - Mutual exclusion
 - Hold and wait
 - No preemption
 - Circular wait
 
 ### Ram vs Cache
+
 <!-- id: KlMh0bw.BW, noteType: Basic-66869 -->
+
 - Cache: very fast, small memory close to the CPU; stores frequently used data/instructions; organized in levels (L1/L2/L3).
 - RAM: larger main memory; stores programs and data currently in use; slower than cache but faster than disk.
 
 ### Thread vs Process
+
 <!-- id: j$;a%oDmvF, noteType: Basic-66869 -->
+
 - Process: an executing program with its own memory space.
 - Thread: lightweight execution unit within a process; shares process memory.
 
 ### Multi-thread vs multi-process
+
 <!-- id: Q-XGbT=@Ya, noteType: Basic-66869 -->
+
 - Multiprocessing: multiple processes (often across CPUs/cores) with isolated memory; improves parallelism and isolation; IPC required.
 - Multithreading: multiple threads within one process sharing memory; lower overhead; easier sharing; needs careful synchronization.
 
 ### Virtual Memory (VM), VM paging and Page Fault
+
 <!-- id: z=/6B}uLg9, noteType: Basic-66869 -->
 
 - Virtual Memory: abstraction that gives processes the illusion of a large, contiguous memory space; enables memory protection and isolation.
 - Paging: divides virtual memory into fixed-size pages mapped to physical frames; avoids external fragmentation.
 - Page Fault: occurs when a process accesses a page not in physical memory; OS loads the page from disk (swap/page file) into RAM.
 
-
-
 ### Ram vs Rom
+
 <!-- id: El7a?ezq/J, noteType: Basic-66869 -->
+
 - RAM (Random Access Memory): volatile; temporary working memory for active programs/data.
 - ROM (Read-Only Memory): non-volatile; permanently stores firmware/instructions.
 
 ### Solution to the Critical Section Problem
+
 <!-- id: yHS9$RuksI, noteType: Basic-66869 -->
+
 - A correct solution must satisfy:
   - Mutual Exclusion: only one process in the critical section at a time.
   - Progress: if no process is in the critical section, selection of the next entrant cannot be postponed indefinitely.
@@ -1859,23 +2138,27 @@ Necessary conditions (Coffman):
 ## General
 
 ### Semantic Versioning
+
 <!-- id: eY:H2@%.4, noteType: Basic-66869 -->
 
 Semantic versioning means versioning your software in a way that the version numbers have significant meaning.
 Node.js developers follow a three-digit versioning scheme: `MAJOR.MINOR.PATCH`.
 
 ### Optimistic UI Design
+
 <!-- id: hN8B`-(Jk+, noteType: Basic-66869 -->
 
 Updates the UI based on predictable states immediately, without waiting for the data response.
 The response time should be less than 2 seconds.
 
 ### Atomic design methodology
+
 <!-- id: N^VAY=#;8?, noteType: Basic-66869 -->
 
 Atomic design is a methodology composed of five distinct stages working together to create interface design systems in a more deliberate and hierarchical manner.
 
 The five stages of atomic design are:
+
 - Atoms: elemental UI building blocks.
 - Molecules: collections of atoms forming simple UI components.
 - Organisms: complex UI components composed of groups of molecules and/or atoms and/or other organisms.
@@ -1883,34 +2166,40 @@ The five stages of atomic design are:
 - Pages: apply real content to templates to demonstrate the final UI and test.
 
 ### What are Micro Frontends? Pros and cons
+
 <!-- id: xl$L(ll3{<, noteType: Basic-66869 -->
 
 Micro frontends are a pattern where web application UIs are composed from semi-independent fragments.
 Fragments can be built by different teams using different technologies.
 
 Advantages:
+
 - Team scalability.
 - Strategic vs tactical focus.
 - Reusability.
 - Multiple frameworks.
 
 Disadvantages:
+
 - Complexity (communication, development, deployment).
 - No standards.
 - Increased payloads.
 
 ### SQL vs noSQL database
+
 <!-- id: BajKzoY8*c, noteType: Basic-66869 -->
 
 SQL is the programming language used to interface with relational databases. NoSQL is a class of DBMs that are non-relational and generally do not use SQL.
 
 ### Consistency, Availability and Partition Tolerance Trade offs
+
 <!-- id: kUN[}Z<I0M, noteType: Basic-66869 -->
 
 Tradeoff between consistency, availability, and latency exists even when there are no network partitions.
 Reason for the tradeoff is that a high availability requirement implies that the system must replicate data.
 
 ### Monolith Repo?
+
 <!-- id: IrHPS@zxIm, noteType: Basic-66869 -->
 
 An app architecture for managing multiple packages from your local file system within a singular top-level, root package.
@@ -1918,6 +2207,7 @@ Dependencies can be linked together, which is a better mechanism than `yarn link
 All your project dependencies are installed together.
 
 ### How do you handle state management in single-page applications?
+
 <!-- id: x33bnAGIDa, noteType: Basic-66869 -->
 
 Without a full framework or library like React or Vue.js, properly handling state management is not a trivial task.
@@ -1930,6 +2220,7 @@ Some options available through the language itself are:
 - State management libraries: Use Redux or similar libraries even without frameworks.
 
 ### Popular State Managements
+
 <!-- id: t@x*lA5n0K, noteType: Basic-66869 -->
 
 - Redux: predictable state container.
@@ -1938,6 +2229,7 @@ Some options available through the language itself are:
 - React Query: data-fetching library for React; handles fetching, caching, synchronizing, and updating server state.
 
 ### How to write effective unit test
+
 <!-- id: lyg>gf8Nk-, noteType: Basic-66869 -->
 
 - Test small pieces of code in isolation.
@@ -1950,11 +2242,11 @@ Some options available through the language itself are:
 - Use descriptive names.
 
 ### What is Bundler? Webpack vs Rollup vs Parcel
+
 <!-- id: ifN|rI<[%Q, noteType: Basic-66869 -->
 
-
-
 ### CommonJS vs RequireJS (AMD) vs ES6 module
+
 <!-- id: C0,[2LZ@7Q, noteType: Basic-66869 -->
 
 - CommonJS: synchronous module loading; browsers cannot use directly without transpiling.
@@ -1962,6 +2254,7 @@ Some options available through the language itself are:
 - ES6 modules: native JS modules; both sync and async loading; older browsers need a transpiler like Babel.
 
 ### Webpack properties: entry, output, resolve, module, plugins
+
 <!-- id: o?*gFk]U-l, noteType: Basic-66869 -->
 
 `npx webpack` takes an entry script as entry point and generates output as configured.
@@ -1974,21 +2267,21 @@ Some options available through the language itself are:
 - plugins: array of webpack plugins; allow different behavior between development and release builds.
 
 ### Babel webpack plugins: @babel/core, @babel/plugin-transform-runtime, @babel/preset-env, @babel/preset-react
+
 <!-- id: Ir#)rPdX<J, noteType: Basic-66869 -->
 
-
-
 ### TypeScript configurations
+
 <!-- id: z|37yN*TyO, noteType: Basic-66869 -->
 
-
-
 ### Monorepo vs MultiRepo
+
 <!-- id: oWn$-@C,-u, noteType: Basic-66869 -->
 
 Should my component library be a monorepo? | Mae Capozzi's Blog
 
 ### What is tree shaking, and how does it help with the performance of a web application?
+
 <!-- id: |0!0CpBzT_, noteType: Basic-66869 -->
 
 Tree shaking is a technique used in JavaScript module bundlers, like Webpack or Vite, to remove unused code from the final bundled output.
@@ -2000,6 +2293,7 @@ Main benefits include:
 - Better resource utilization: write modular code without unused dependencies bloating the final bundle.
 
 ### Functional Programming
+
 <!-- id: pI8_%h25(#, noteType: Basic-66869 -->
 
 Functional programming builds software by composing pure functions, avoiding shared state, mutable data, and side effects.
@@ -2007,11 +2301,11 @@ It is declarative rather than imperative, and application state flows through pu
 Reference: Fundamentals of functional programming with React - LogRocket Blog.
 
 ### OOP (Object-oriented programming)
+
 <!-- id: L<`X3^^)Qq, noteType: Basic-66869 -->
 
-
-
 ### Refactoring/Code Review
+
 <!-- id: nHvEZ*!+FP, noteType: Basic-66869 -->
 
 - Move code to where it most logically belongs.
@@ -2019,12 +2313,14 @@ Reference: Fundamentals of functional programming with React - LogRocket Blog.
 - Make names self-documenting.
 - Split methods into smaller pieces.
 - Re-arrange inheritance hierarchies.
-Reference: Refactoring: clean your code.
+  Reference: Refactoring: clean your code.
 
 ### Code Review checklist
+
 <!-- id: HTyE=OQv5s, noteType: Basic-66869 -->
 
 Should:
+
 - Identify obvious bugs.
 - Look for possible security issues.
 - Look for “clever” code that reduces readability or maintainability.
@@ -2041,6 +2337,7 @@ Should:
 - Optional: add code documentation.
 
 Should not:
+
 - Focus on cosmetic concerns.
 - Rely on manual testing alone.
 - Mismatch standardized processes between different team members.
@@ -2048,6 +2345,7 @@ Should not:
 Reference: What You Need in a Code Review Checklist (& What You Don't) - LinearB.
 
 ### Test Driven Development (TDD) Cycle
+
 <!-- id: dL.QS0ur6j, noteType: Basic-66869 -->
 
 1. Add a test.
@@ -2058,10 +2356,12 @@ Reference: What You Need in a Code Review Checklist (& What You Don't) - LinearB
 6. Repeat from step 1.
 
 Development cycle:
+
 - Write tests first.
 - Each test case fails initially.
 
 ### What is API gateway?
+
 <!-- id: IL>ndQ?-Zf, noteType: Basic-66869 -->
 
 An API gateway is an API management tool that sits between a client and a collection of backend services.
@@ -2076,6 +2376,7 @@ Reference: What does an API gateway do? (redhat.com).
 ## Design Patterns
 
 ### Singleton Pattern
+
 <!-- id: O)gkj,qXu:, noteType: Basic-66869 -->
 
 Share a single global instance throughout our application.
@@ -2084,6 +2385,7 @@ In React, we often rely on a global state through state management tools such as
 Although their global state behavior might seem similar to that of a Singleton, these tools provide a read-only state rather than the mutable state of the Singleton.
 
 ### Proxy Pattern
+
 <!-- id: u_nwd~iW?V, noteType: Basic-66869 -->
 
 Intercept and control interactions to target objects.
@@ -2091,11 +2393,13 @@ Proxy can help with validation, formatting, notifications, or debugging.
 The two most common methods of Proxy handler are `get` and `set`.
 
 ### Provider Pattern/Context API
+
 <!-- id: pP3h4;;xo<, noteType: Basic-66869 -->
 
 Makes it possible to pass data to many components, without having to manually pass it through each component layer.
 
 ### Export and Import in ES6
+
 <!-- id: (Pgm]fGAa, noteType: Basic-66869 -->
 
 There are two different types of export: named and default.
@@ -2111,10 +2415,11 @@ export * from '…'; // does not set the default export
 export * as name1 from '…'; // ECMAScript® 2020
 export { name1, name2, nameN } from '…';
 export { import1 as name1, import2 as name2, nameN } from '…';
-export { default, /* others */ } from '…';
+export { default /* others */ } from '…';
 ```
 
 ### Hook vs HOC
+
 <!-- id: m*1(H_^I<$, noteType: Basic-66869 -->
 
 Best use-cases for a HOC:
@@ -2135,7 +2440,9 @@ Reference: HOC Pattern (patterns.dev)
 ## TypeScript
 
 ### Generic Type
+
 <!-- id: wU[uW_$?r~, noteType: Basic-66869 -->
+
 Generics let you parameterize types so they can be reused across different shapes.
 
 Common generic utilities and examples:
@@ -2158,17 +2465,23 @@ const r2 = wrap(123); // T is inferred as number
 ```
 
 ### What are the primitive types in TypeScript?
+
 <!-- id: O.YxF`&i?., noteType: Basic-66869 -->
+
 - `string`, `number`, `boolean`, `bigint`, `symbol`, `null`, `undefined`.
 
 ### What is any type, and when to use it?
+
 <!-- id: kn8xBaO07(, noteType: Basic-66869 -->
+
 - `any` disables type checking for a value. Use sparingly.
 - Implicit `any` can occur when the compiler cannot infer a type and no annotation is provided.
 - Prefer `unknown` or specific types to keep safety.
 
 ### What is void, and when to use the void type?
+
 <!-- id: K&oN:86Sv&, noteType: Basic-66869 -->
+
 - `void` indicates a function returns no value.
 
 ```ts
@@ -2178,7 +2491,9 @@ function log(msg: string): void {
 ```
 
 ### What is an unknown type, and when to use it in TypeScript?
+
 <!-- id: hht^kbbi|a, noteType: Basic-66869 -->
+
 - `unknown` is a type-safe counterpart of `any`.
 - You can assign anything to `unknown`, but you must narrow it before using it.
 
@@ -2192,7 +2507,9 @@ function handle(input: unknown) {
 ```
 
 ### Note to Create Strongly typed Component Events and Event Handlers
+
 <!-- id: d,FQ@[~uaq, noteType: Basic-66869 -->
+
 - Inline event handlers often infer correct types automatically.
 - Named handlers may require explicit annotations.
 - Tip: hover handlers in your editor to see inferred types.
@@ -2208,40 +2525,36 @@ function Input() {
 ```
 
 ### "<input type=""text"" onKeyDown={e:React.KeyboardEvent<HTMLInputElement> => console.log(e.key)} /> What is wrong?"
+
 <!-- id: q+B]J_`xvE, noteType: Basic-66869 -->
+
 You must wrap the parameter and annotation in parentheses.
 
 Correct:
 
 ```tsx
-<input
-  type="text"
-  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => console.log(e.key)}
-/>
+<input type="text" onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => console.log(e.key)} />
 ```
 
 ### declare type for actions and dispatchs of redux-thunk
+
 <!-- id: dsd,r&{3eh, noteType: Basic-66869 -->
 
 ```ts
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
-type AppState = { /* ... */ };
+type AppState = {
+  /* ... */
+};
 
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppState,
-  unknown,
-  AnyAction
->;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, AnyAction>;
 
 export type AppDispatch = ThunkDispatch<AppState, unknown, AnyAction>;
 ```
 
-
-
 ### declare enum type
+
 <!-- id: BLXGnxR].3, noteType: Basic-66869 -->
 
 ```ts
@@ -2276,4 +2589,3 @@ setStatus(Status.Loading);
   - Conduct security code reviews.
 
 :::
-

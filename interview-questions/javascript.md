@@ -1,4 +1,6 @@
-## JavaScript
+# JavaScript
+
+[[toc]]
 
 ### What is the Document Object Model (DOM)?
 

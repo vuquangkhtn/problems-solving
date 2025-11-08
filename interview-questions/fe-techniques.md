@@ -1,4 +1,6 @@
-## FE Techniques
+# FE Techniques
+
+[[toc]]
 
 ### Pagination
 

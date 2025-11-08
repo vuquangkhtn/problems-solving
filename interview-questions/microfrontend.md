@@ -1,5 +1,7 @@
 # Micro-Frontends
 
+[[toc]]
+
 ### What is Application Shell in Micro Frontend?
 
 The Application Shell (or App Shell) is a critical architectural pattern in micro-frontend implementations that serves as the container and orchestrator for all micro-frontend components. It provides the foundation for loading, rendering, and coordinating multiple independent micro-frontends within a unified application experience.

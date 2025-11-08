@@ -1,4 +1,6 @@
-## General
+# General
+
+[[toc]]
 
 ### How does the browser render a website?
 

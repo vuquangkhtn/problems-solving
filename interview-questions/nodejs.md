@@ -1,4 +1,6 @@
-## NodeJS
+# NodeJS
+
+[[toc]]
 
 ### What is Node.js? / How does Node.js work?
 
@@ -37,6 +39,7 @@ Node.js runs in a single process and the application code runs in a single threa
 ### What are the data types in Node.js?
 
 <!-- id: F|xw,Dj$}*, noteType: Basic-66869 -->
+
 Just like in JavaScript, Node.js has two broad categories of data types:
 
 - Primitives: `string`, `number`, `bigint`, `boolean`, `undefined`, `null`, `symbol`.
@@ -54,14 +57,15 @@ console.log(buf); // <Buffer 68 65 6c 6c 6f>
 ### How to create a simple server in Node.js that returns Hello World?
 
 <!-- id: O$6KfOi?mb, noteType: Basic-66869 -->
-1) Create a project directory and enter it:
+
+1. Create a project directory and enter it:
 
 ```bash
 mkdir myapp
 cd myapp
 ```
 
-2) Initialize the project:
+2. Initialize the project:
 
 ```bash
 npm init -y
@@ -69,13 +73,13 @@ npm init -y
 
 Optionally set the entry point to `app.js`.
 
-3) Install Express:
+3. Install Express:
 
 ```bash
 npm install express
 ```
 
-4) Create `app.js`:
+4. Create `app.js`:
 
 ```js
 const express = require('express');
@@ -90,7 +94,7 @@ app.listen(3000, () => {
 });
 ```
 
-5) Run the app:
+5. Run the app:
 
 ```bash
 node app.js
@@ -105,6 +109,7 @@ The Node.js runtime is the software stack responsible for installing your web se
 ### Explain usage of NODE_ENV?
 
 <!-- id: kDoIQ1/>X,, noteType: Basic-66869 -->
+
 `NODE_ENV` is an environment variable commonly used to control configuration (e.g., `development`, `production`). Your app can check its value and change behavior accordingly.
 
 Example:
@@ -140,6 +145,7 @@ In Node.js, assert is used to write tests. It only provides feedback only when a
 ### What is an error-first callback?
 
 <!-- id: P@l8LiU[Y3, noteType: Basic-66869 -->
+
 Error-first callbacks use the signature `(err, data)`. If an error occurs, `err` is non-null and should be handled; otherwise `data` contains the result.
 
 Example:
@@ -175,6 +181,7 @@ That means instead of waiting for a response javascript will keep executing whil
 ### What is an Event loop in Node.js and how does it work?
 
 <!-- id: vefp?mfIG*, noteType: Basic-66869 -->
+
 The Node.js event loop enables non-blocking I/O on a single thread. Async tasks are offloaded (via `libuv`) and their callbacks are queued for later execution.
 
 - Core components:
@@ -248,10 +255,13 @@ Express.js is a framework built on top of Node.js that facilitates the managemen
 ### Differentiate between process.nextTick() and setImmediate()?
 
 <!-- id: v~cVm*8B`d, noteType: Basic-66869 -->
+
 Similarities:
+
 - Both schedule callbacks asynchronously.
 
 Differences:
+
 - `process.nextTick`: runs before the next event loop phase (microtask queue), often immediately after current operation finishes.
 - `setImmediate`: runs in the "check" phase, after I/O events in the current loop iteration.
 
@@ -264,9 +274,11 @@ In general, Node.js is a single threaded process and doesn’t expose the child 
 ### Explain stream in Node.js along with its various types.
 
 <!-- id: DdL6]^9eKy, noteType: Basic-66869 -->
+
 Streams let you process data chunk-by-chunk without loading it all into memory. Useful for large files and network data.
 
 Types:
+
 - Readable: read from a source.
 - Writable: write to a destination.
 - Duplex: both read and write.
@@ -275,9 +287,11 @@ Types:
 ### List down the various timing features of Node.js.
 
 <!-- id: x+qX={hW:, noteType: Basic-66869 -->
+
 Reference: https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
 
 Timing APIs:
+
 - `setTimeout` / `clearTimeout`: run after N milliseconds.
 - `setInterval` / `clearInterval`: run repeatedly every N milliseconds.
 - `setImmediate` / `clearImmediate`: run in the event loop "check" phase.
@@ -296,6 +310,7 @@ EventEmitter is a Node.js class that includes all the objects that are capable o
 For `require('foo')`, Node.js searches `node_modules` directories starting from the current folder up through parent directories until the filesystem root.
 
 Example search order for `/home/user/project/app.js` requiring `bar`:
+
 - `/home/user/project/node_modules/bar`
 - `/home/user/node_modules/bar`
 - `/home/node_modules/bar`
@@ -304,7 +319,9 @@ Example search order for `/home/user/project/app.js` requiring `bar`:
 ### File-Based Module characteristic
 
 <!-- id: JTrq&Lbe,S, noteType: Basic-66869 -->
+
 Characteristics:
+
 - Conditional loading: `require` can be called inside code paths.
 - Blocking: `require` is synchronous; it blocks until the module loads.
 - Caching: modules are cached by resolved path after first load; subsequent `require` returns the cached `module.exports`.
@@ -325,6 +342,7 @@ If more than one case matches, the priority follows the above order.
 ### main vs exports in package.json
 
 <!-- id: Jop|IV]kWN, noteType: Basic-66869 -->
+
 In `package.json`, these fields define how consumers resolve your package:
 
 - `main`: CommonJS entry point (`require()` in Node).
@@ -334,10 +352,12 @@ In `package.json`, these fields define how consumers resolve your package:
 - `exports`: modern field for conditional and subpath exports; takes precedence over `main`/`module` when present.
 
 Highlights of `exports`:
+
 - Conditional exports: different files for `node`, `browser`, `import`, `require`.
 - Subpath exports: expose controlled internal files.
 - Encapsulation: hide files not exported.
 
 Fallback/priority (simplified):
+
 - `exports` > `browser` > `module` > `main`
 - `types` resolution may be specified in `exports` conditions; otherwise top-level `types` applies.

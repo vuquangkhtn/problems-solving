@@ -145,6 +145,7 @@ export default defineConfig({
 
   // Markdown configuration
   markdown: {
+    toc: { level: [2, 3] },
     html: false,
     lineNumbers: true,
     theme: {

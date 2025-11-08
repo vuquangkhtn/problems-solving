@@ -1,4 +1,6 @@
-## HTML/CSS
+# HTML/CSS
+
+[[toc]]
 
 ### What is the difference between an id and a class in HTML/CSS?
 
