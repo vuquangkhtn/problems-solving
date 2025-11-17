@@ -132,3 +132,7 @@ function setStatus(s: Status) {}
 
 setStatus(Status.Loading);
 ```
+
+### TypeScript configurations
+
+<!-- id: z|37yN*TyO, noteType: Basic-66869 -->

@@ -8,10 +8,10 @@
 
 Phase 1: Network operations
 
-1. DNS lookup
-2. TCP Connection
-3. TLS Handshake
-4. HTTP Request/Reponse
+1. DNS lookup: go through multiple cache levels. If not found, it processes DNS lookup
+2. TCP Connection: 3 round trips
+3. TLS Handshake: 3 + 5 = 8 round trips. connection reuse and keep alive headers are good for perf
+4. HTTP Request/Reponse: get HTML content. TTFB measures how long server responds
 
 Phase 2: Browser rendering
 
@@ -31,6 +31,10 @@ Critical Rendering Path: is the sequence of steps the browser takes to render a 
 
 Semantic versioning means versioning your software in a way that the version numbers have significant meaning.
 Node.js developers follow a three-digit versioning scheme: `MAJOR.MINOR.PATCH`.
+
+MAJOR: For breaking changes
+MINOR: For new features without breaking changes
+PATCH: For bug fixes without breaking changes
 
 ### Optimistic UI Design
 
@@ -73,48 +77,14 @@ Disadvantages:
 - No standards.
 - Increased payloads.
 
-### SQL vs noSQL database
+### Monorepo vs MultiRepo
 
-<!-- id: BajKzoY8*c, noteType: Basic-66869 -->
+<!-- id: oWn$-@C,-u, noteType: Basic-66869 -->
 
-SQL is the programming language used to interface with relational databases. NoSQL is a class of DBMs that are non-relational and generally do not use SQL.
+- **Monorepo**: Single repository containing multiple packages; Dependencies can be linked together; easier dependency management, atomic commits, code sharing, but can be dependent and become complex at scale.
+- **MultiRepo**: Separate repositories per package; better isolation, independent versioning, easier to manage permissions, but requires coordination across repos and duplicated dependencies.
 
-### Consistency, Availability and Partition Tolerance Trade offs
-
-<!-- id: kUN[}Z<I0M, noteType: Basic-66869 -->
-
-Tradeoff between consistency, availability, and latency exists even when there are no network partitions.
-Reason for the tradeoff is that a high availability requirement implies that the system must replicate data.
-
-### Monolith Repo?
-
-<!-- id: IrHPS@zxIm, noteType: Basic-66869 -->
-
-An app architecture for managing multiple packages from your local file system within a singular top-level, root package.
-Dependencies can be linked together, which is a better mechanism than `yarn link`.
-All your project dependencies are installed together.
-
-### How do you handle state management in single-page applications?
-
-<!-- id: x33bnAGIDa, noteType: Basic-66869 -->
-
-Without a full framework or library like React or Vue.js, properly handling state management is not a trivial task.
-
-Some options available through the language itself are:
-
-- Global variables: Centralize state in global variables or a global object. This can become unmanageable for large applications and makes local state harder to maintain.
-- Module pattern: Encapsulate state and provide a clear API to manage it. Instantiate local instances for individual components.
-- Pub/Sub pattern: Decouple state changes using event-driven architecture. More complex, but flexible.
-- State management libraries: Use Redux or similar libraries even without frameworks.
-
-### Popular State Managements
-
-<!-- id: t@x*lA5n0K, noteType: Basic-66869 -->
-
-- Redux: predictable state container.
-- Zustand: state management using simplified Flux principles; store is a hook usable anywhere, no provider needed.
-- RxJS: library for reactive programming using Observables.
-- React Query: data-fetching library for React; handles fetching, caching, synchronizing, and updating server state.
+Should my component library be a monorepo? | Mae Capozzi's Blog
 
 ### How to write effective unit test
 
@@ -129,9 +99,21 @@ Some options available through the language itself are:
 - Keep them stateless and consistent.
 - Use descriptive names.
 
-### What is Bundler? Webpack vs Rollup vs Parcel
+### Test Driven Development (TDD) Cycle
 
-<!-- id: ifN|rI<[%Q, noteType: Basic-66869 -->
+<!-- id: dL.QS0ur6j, noteType: Basic-66869 -->
+
+1. Add a test.
+2. Run all tests; the new test should fail for expected reasons.
+3. Write the simplest code that passes the new test.
+4. Run all tests; they should now pass.
+5. Refactor as needed, using tests after each refactor to ensure functionality is preserved.
+6. Repeat from step 1.
+
+Development cycle:
+
+- Write tests first.
+- Each test case fails initially.
 
 ### CommonJS vs RequireJS (AMD) vs ES6 module
 
@@ -141,38 +123,25 @@ Some options available through the language itself are:
 - AMD (RequireJS): asynchronous module loading; usable in browsers.
 - ES6 modules: native JS modules; both sync and async loading; older browsers need a transpiler like Babel.
 
-### Webpack properties: entry, output, resolve, module, plugins
+### What is Bundler? Webpack vs Rollup vs Parcel
 
-<!-- id: o?*gFk]U-l, noteType: Basic-66869 -->
+<!-- id: ifN|rI<[%Q, noteType: Basic-66869 -->
 
-`npx webpack` takes an entry script as entry point and generates output as configured.
+A bundler is a tool that takes multiple JavaScript files and their dependencies, combines them into one or more optimized files (bundles) for deployment.
 
-- resolve: configure how modules are resolved.
-  - alias: use aliases instead of relative import paths.
-  - extensions: resolve extensions in order; use `'...'` to include defaults.
-- module: determine how different types of modules are treated.
-  - rules: apply loaders or modify the parser when creating modules.
-- plugins: array of webpack plugins; allow different behavior between development and release builds.
+Bundlers improve performance by reducing HTTP requests, enabling code splitting, minification, and dead code elimination (tree shaking).
 
-### Babel webpack plugins: @babel/core, @babel/plugin-transform-runtime, @babel/preset-env, @babel/preset-react
+Key bundlers:
 
-<!-- id: Ir#)rPdX<J, noteType: Basic-66869 -->
-
-### TypeScript configurations
-
-<!-- id: z|37yN*TyO, noteType: Basic-66869 -->
-
-### Monorepo vs MultiRepo
-
-<!-- id: oWn$-@C,-u, noteType: Basic-66869 -->
-
-Should my component library be a monorepo? | Mae Capozzi's Blog
+- **Webpack**: Use for large, complex applications requiring fine-grained control;
+- **Rollup**: Use for libraries and optimized production bundles;
+- **Parcel**: Use for quick prototypes and small to medium projects;
 
 ### What is tree shaking, and how does it help with the performance of a web application?
 
 <!-- id: |0!0CpBzT_, noteType: Basic-66869 -->
 
-Tree shaking is a technique used in JavaScript module bundlers, like Webpack or Vite, to remove unused code from the final bundled output.
+Tree shaking is a technique used in JavaScript module bundlers, to remove unused code from the final bundled output.
 
 Main benefits include:
 
@@ -180,17 +149,67 @@ Main benefits include:
 - Improved performance: smaller bundles parse and execute faster, improving responsiveness.
 - Better resource utilization: write modular code without unused dependencies bloating the final bundle.
 
+### How do you handle state management in single-page applications?
+
+<!-- id: x33bnAGIDa, noteType: Basic-66869 -->
+
+State management in single-page applications can be handled through several approaches:
+
+**Without frameworks:**
+
+- Global variables or objects for centralized state (simple but difficult to scale)
+- Module pattern to encapsulate state with a clear API
+- Pub/Sub pattern for event-driven, decoupled state changes
+- Observer pattern for reactive state updates and subscriptions
+- Decorator pattern for adding behavior to objects dynamically without modifying their structure (HOC, HOF)
+
+**With frameworks:**
+
+- Use built-in state management (React hooks, Vue reactivity)
+- Implement state management libraries (Redux, Zustand, RxJS, React Query)
+
+Key considerations: scalability, predictability, debugging capability, and team familiarity.
+
+### Popular State Managements
+
+<!-- id: t@x*lA5n0K, noteType: Basic-66869 -->
+
+- **Redux**: Use for complex, large-scale applications with intricate state logic and middleware needs.
+- **Zustand**: Use for simple to medium projects requiring lightweight state management without provider boilerplate.
+- **RxJS**: Use for event-driven architectures and complex async operations with reactive streams.
+- **React Query**: Use for server state management, caching, and synchronization in data-fetching scenarios.
+
+### Pure function
+
+Every time we call the function with the same input, we always get the same output.
+
+The function does not affect anything outside of itself and never modifies the input that passes in
+
 ### Functional Programming
 
 <!-- id: pI8_%h25(#, noteType: Basic-66869 -->
 
 Functional programming builds software by composing pure functions, avoiding shared state, mutable data, and side effects.
 It is declarative rather than imperative, and application state flows through pure functions.
-Reference: Fundamentals of functional programming with React - LogRocket Blog.
+
+Used when: building systems that require immutability, composability, and predictable behavior; common in data processing, UI frameworks (React), and functional languages (JavaScript, Haskell).
+
+Reference: https://blog.logrocket.com/fundamentals-functional-programming-react/
 
 ### OOP (Object-oriented programming)
 
 <!-- id: L<`X3^^)Qq, noteType: Basic-66869 -->
+
+OOP (Object-oriented programming) is a programming paradigm that organizes software around objects (instances of classes) rather than functions.
+
+Key concepts:
+
+- **Encapsulation**: Bundle data and methods together; hide internal details.
+- **Inheritance**: Create class hierarchies; child classes inherit from parent classes.
+- **Polymorphism**: Objects can take multiple forms; same method works differently based on context.
+- **Abstraction**: Simplify complex systems by modeling classes appropriately.
+
+Used when: building large systems with complex relationships, need code reusability, or require clear structure and maintainability.
 
 ### Refactoring/Code Review
 
@@ -202,6 +221,28 @@ Reference: Fundamentals of functional programming with React - LogRocket Blog.
 - Split methods into smaller pieces.
 - Re-arrange inheritance hierarchies.
   Reference: Refactoring: clean your code.
+
+### What is API gateway?
+
+<!-- id: IL>ndQ?-Zf, noteType: Basic-66869 -->
+
+An API gateway is an API management tool that sits between a client and a collection of backend services.
+It acts as a reverse proxy to accept all API calls, aggregate the various services required to fulfill them, and return the appropriate result.
+When a client makes a request, the API gateway breaks it into multiple requests, routes them to the right places, produces a response, and keeps track of everything.
+Reference: What does an API gateway do? (redhat.com).
+
+### SQL vs noSQL database
+
+<!-- id: BajKzoY8*c, noteType: Basic-66869 -->
+
+SQL is the programming language used to interface with relational databases. NoSQL is a class of DBMs that are non-relational and generally do not use SQL.
+
+### Consistency, Availability and Partition Tolerance Trade offs
+
+<!-- id: kUN[}Z<I0M, noteType: Basic-66869 -->
+
+Tradeoff between consistency, availability, and latency exists even when there are no network partitions.
+Reason for the tradeoff is that a high availability requirement implies that the system must replicate data.
 
 ### Code Review checklist
 
@@ -231,28 +272,3 @@ Should not:
 - Mismatch standardized processes between different team members.
 
 Reference: What You Need in a Code Review Checklist (& What You Don't) - LinearB.
-
-### Test Driven Development (TDD) Cycle
-
-<!-- id: dL.QS0ur6j, noteType: Basic-66869 -->
-
-1. Add a test.
-2. Run all tests; the new test should fail for expected reasons.
-3. Write the simplest code that passes the new test.
-4. Run all tests; they should now pass.
-5. Refactor as needed, using tests after each refactor to ensure functionality is preserved.
-6. Repeat from step 1.
-
-Development cycle:
-
-- Write tests first.
-- Each test case fails initially.
-
-### What is API gateway?
-
-<!-- id: IL>ndQ?-Zf, noteType: Basic-66869 -->
-
-An API gateway is an API management tool that sits between a client and a collection of backend services.
-It acts as a reverse proxy to accept all API calls, aggregate the various services required to fulfill them, and return the appropriate result.
-When a client makes a request, the API gateway breaks it into multiple requests, routes them to the right places, produces a response, and keeps track of everything.
-Reference: What does an API gateway do? (redhat.com).

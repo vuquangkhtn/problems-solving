@@ -579,3 +579,20 @@ NextJS to Astro: more control = faster sites - YouTube
 <!-- id: PHP~2a$F~o, noteType: Basic-66869 -->
 
 amazing features that Identifying unsafe lifecycles => we shouldn't disable it
+
+### Webpack properties: entry, output, resolve, module, plugins
+
+<!-- id: o?*gFk]U-l, noteType: Basic-66869 -->
+
+`npx webpack` takes an entry script as entry point and generates output as configured.
+
+- resolve: configure how modules are resolved.
+  - alias: use aliases instead of relative import paths.
+  - extensions: resolve extensions in order; use `'...'` to include defaults.
+- module: determine how different types of modules are treated.
+  - rules: apply loaders or modify the parser when creating modules.
+- plugins: array of webpack plugins; allow different behavior between development and release builds.
+
+### Babel webpack plugins: @babel/core, @babel/plugin-transform-runtime, @babel/preset-env, @babel/preset-react
+
+<!-- id: Ir#)rPdX<J, noteType: Basic-66869 -->
