@@ -14,20 +14,6 @@ The Document Object Model (DOM) is a programming interface for web documents. It
 
 To add an event listener on an element, first get that element through one of the `document` methods (e.g. `getElementById`).
 Then use the element’s `addEventListener` method.
-The method receives the event name (e.g. `click`, `keyup`, `mouseup`), the event handler function, and optionally options such as `capture`.
-
-### What is the Document Object Model (DOM)?
-
-<!-- id: Tm9i!mbr$?, noteType: Basic-66869 -->
-
-The Document Object Model (DOM) is a programming interface for web documents. It represents the structure of a document as a tree of objects, where each object corresponds to a part of the document (e.g., elements, attributes, text). The DOM allows developers to access and manipulate the content, structure, and style of a web page using JavaScript.
-
-### How do you add an event listener to an element?
-
-<!-- id: =C10XTq[%+, noteType: Basic-66869 -->
-
-To add an event listener on an element, first get that element through one of the `document` methods (e.g. `getElementById`).
-Then use the element’s `addEventListener` method.
 
 The method receives the event name (e.g. `click`, `keyup`, `mouseup`), the event handler function, and optionally options such as `capture`.
 
