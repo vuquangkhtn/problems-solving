@@ -3,16 +3,22 @@
 ## Question 1: Can you describe a time when you had to explain a complex technical concept to a non-technical stakeholder? How did you ensure they understood?
 
 ### Key notes
+
 Situation: Migrating from Webpack to Vite
+
 Task: Explain why the migration matters without overwhelming developers with technical details.
+
 Action:
+
 - Explain the technical issues: old toolchain, slow builds, and lack of support for modern features, carried security findings.
 - Simplify the explanation: Webpack was like maintaining an old car with unavailable repair parts, while Vite is like driving a new car with better performance and supported replacements.
 - Provide the detail steps for the migration, plus the prompts and commands to automate the migration.
 - Clarify the timeline and expectations for the migration, including when teams need to update their projects.
+
 Result: Audiences understood the need for the migration and were able to follow the steps to update their projects.
 
 ### Talk track
+
 One example was when we migrated from Webpack to Vite.
 
 My responsibility was to explain why the migration was necessary without overwhelming developers with technical details.
@@ -28,6 +34,7 @@ As a result, teams understood why the migration mattered and had clear guidance 
 ## Question 2: Describe a project where you collaborated with others to achieve a common goal. What role did you play, and how did you contribute to the team's success?
 
 ### Key notes
+
 - Project: Improving the Release Hub and technical communications.
 - Common goal: Make platform updates easier to find and understand.
 - My role: Created Release dashboards to keep track of release information. Use Cursor commands to automate the process of generating announcements and release emails.
@@ -38,6 +45,7 @@ As a result, teams understood why the migration mattered and had clear guidance 
 - Key takeaway: Supported the team in improving processes and reducing manual effort.
 
 ### Talk track
+
 I worked on a project to improve the Release Hub and technical communications for our platform. The goal was to make platform updates easier for the team to find and understand.
 
 My role was to create release dashboards to help track release information. I also used Cursor commands to automate the generation of release announcements and emails, which reduced manual work for the team.
@@ -69,6 +77,7 @@ Benefits: Reuse features, reduce duplicated work, and maintain consistency acros
 My contribution: Build and improve the shared platform that makes this possible.
 
 ### Talk track
+
 I am working on Core Platform, which is the Shared SDK and runtime monorepo behind NAB Platform.
 
 The main purpose of Core Platform is to support a microfrontend architecture, allowing miniapps to be embedded into multiple shells. This means teams can build a feature once and reuse it across different host applications, rather than rebuilding the same feature for each app.
