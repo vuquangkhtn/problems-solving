@@ -9,6 +9,7 @@
 - [HTML/CSS](../htmlcss)
 - [Operation System](../operation-system)
 - [General](../general)
+- [Behavioral Questions](../behavioral-questions)
 - [Design Patterns](../design-patterns)
 - [TypeScript](../typescript)
 - [FE Techniques](../fe-techniques)
