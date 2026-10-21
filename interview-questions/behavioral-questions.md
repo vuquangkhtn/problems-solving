@@ -10,10 +10,10 @@ Task: Explain why the migration matters without overwhelming developers with tec
 
 Action:
 
-- Explain the technical issues: old toolchain, slow builds, and lack of support for modern features, carried security findings.
-- Simplify the explanation: Webpack was like maintaining an old car with unavailable repair parts, while Vite is like driving a new car with better performance and supported replacements.
-- Provide the detail steps for the migration, plus the prompts and commands to automate the migration.
-- Clarify the timeline and expectations for the migration, including when teams need to update their projects.
+- Explain the technical issues: old toolchain, slow builds, and lack of maintenance support, carried security findings.
+- Simplify the explanation: Webpack was like maintaining an old car, whereas Vite is like driving a new car.
+- Provide the detailed steps, plus the prompts and commands to automate the migration.
+- Clarify the timeline, including when teams need to update their projects.
 
 Result: Audiences understood the need for the migration and were able to follow the steps to update their projects.
 
