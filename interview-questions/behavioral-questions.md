@@ -1,91 +1,63 @@
 # Behavioral Questions
 
-## Question 1: Can you describe a time when you had to explain a complex technical concept to a non-technical stakeholder? How did you ensure they understood?
+## Question 1: Describe your current project and how it aligns with the company's goals.
 
 ### Key notes
 
-Situation: Migrating from Webpack to Vite
-
-Task: Explain why the migration matters without overwhelming developers with technical details.
-
-Action:
-
-- Explain the technical issues: old toolchain, slow builds, and lack of maintenance support, carried security findings.
-- Simplify the explanation: Webpack was like maintaining an old car, whereas Vite is like driving a new car.
-- Provide the detailed steps, plus the prompts and commands to automate the migration.
-- Clarify the timeline, including when teams need to update their projects.
-
-Result: Audiences understood the need for the migration and were able to follow the steps to update their projects.
+- **Situation:** I work on Core Platform, the shared SDK and runtime behind NAB Platform. It provides shared features for both miniapps, which deliver capabilities such as payments, accounts, and products, and the shells that host them.
+- **Task:** Build and improve the shared platform that enables miniapps to be reused across shells.
+- **Actions:**
+  - Contribute to the shared platform, which supports miniapp loading, authentication, communication, and NAB system integration.
+- **Result:** The platform supports the project’s Domain-Driven Design approach by enabling domain teams to deliver capabilities for their areas, while promoting feature reuse, reducing duplication, and helping maintain consistency across web and mobile.
 
 ### Talk track
 
-One example was when we migrated from Webpack to Vite.
+My current project is Core Platform, the shared SDK and runtime behind NAB Platform. The SDK provides shared features for both miniapps, which deliver capabilities like payments, accounts, and products, and the shells that host them. It supports miniapp loading, authentication, communication, and integration with NAB systems. The project follows Domain-Driven Design, with domain teams delivering capabilities for their areas. Core Platform provides shared capabilities that help teams reuse features, reduce duplication, and maintain a consistent experience across web and mobile.
 
-My responsibility was to explain why the migration was necessary without overwhelming developers with technical details.
+### Follow-up question: What are the key challenges you are facing, and how are you addressing them?
 
-I explained that our old toolchain was becoming outdated, builds were slow, and it lacked support for modern features. It also had security findings that needed to be addressed.
+#### Key notes
 
-To make this easier to understand, I used an analogy. Maintaining Webpack was like maintaining an old car with spare parts that were no longer available, while Vite was like driving a newer car with better performance and supported replacement parts.
+- **Situation:** Core Platform is built on complex infrastructure provided by the NAB SDK and serves miniapps and shells owned by different domain teams.
+- **Task:** Quickly understand the infrastructure and learn how to engage with and support those teams.
+- **Actions:**
+  - Build my understanding of the microfrontend and Backend for Frontend (BFF) concepts used by the platform.
+  - Learn how to engage with and support miniapps and shells across NAB domain teams while contributing to the shared platform.
+- **Result:** This learning helps me contribute to the platform and support its use across miniapps and shells.
 
-I also provided clear migration steps, along with prompts and commands to automate parts of the process. I clarified the timeline and explained when each team needed to update their projects.
+#### Talk track
 
-As a result, teams understood why the migration mattered and had clear guidance to complete the migration.
+A key challenge is quickly understanding the complex infrastructure provided by the NAB SDK, especially the microfrontend and BFF concepts. I also need to learn how to engage with and support miniapps and shells owned by different domain teams across NAB. I’m building that understanding while contributing to the shared platform and learning how the teams use it.
 
-## Question 2: Describe a project where you collaborated with others to achieve a common goal. What role did you play, and how did you contribute to the team's success?
+## Question 2: Can you describe a time when you had to explain a complex technical concept to a non-technical stakeholder? How did you ensure they understood?
 
 ### Key notes
 
-- Project: Improving the Release Hub and technical communications.
-- Common goal: Make platform updates easier to find and understand.
-- My role: Created Release dashboards to keep track of release information. Use Cursor commands to automate the process of generating announcements and release emails.
-- My contributions:
-  - Automated the process of generating announcements and release emails, reducing manual effort for the team.
-  - Collaborated with the team to gather requirements and ensure the solution met their needs.
-  - Provided ongoing support and maintenance for the automated solution.
-- Key takeaway: Supported the team in improving processes and reducing manual effort.
+- Situation: Migrated from Webpack to Vite.
+- Task: Explain the need for migration clearly, without overwhelming developers.
+- Actions:
+  - Highlighted slow builds, limited maintenance support, and security findings.
+  - Migrated configurations and scripts; checked dependency compatibility and validated with builds and tests.
+  - Shared timelines, steps, prompts, and commands.
+- Result: Reduced bundle size by 20%, with faster hot reloads and builds; teams understood the rationale and had migration guidance.
 
 ### Talk track
 
-I worked on a project to improve the Release Hub and technical communications for our platform. The goal was to make platform updates easier for the team to find and understand.
+I was leading the migration from Webpack to Vite, and the key was making the value understandable without getting lost in tooling details. I explained the business and engineering reasons in simple terms: slow builds were affecting delivery speed, the older setup had limited maintenance support, and there were security concerns. I then broke the work into clear phases, checked compatibility, updated the configuration, and validated the changes with real builds and tests. I also shared the timeline and the exact commands and prompts the team needed, so they could follow the transition confidently. In the end, we reduced bundle size by 20% and improved hot reload and build performance, and the team understood both the reason for the change and how to move forward safely.
 
-My role was to create release dashboards to help track release information. I also used Cursor commands to automate the generation of release announcements and emails, which reduced manual work for the team.
-
-During the project, I worked with the team to understand their requirements and make sure the solution met their needs. I also provided ongoing support and maintenance to keep the automation working properly.
-
-Overall, I helped the team improve the release process, reduce repetitive tasks, and make our technical communications more efficient.
-
-## Question 3: Describe your current project and how it aligns with the company's goals. What are the key challenges you are facing, and how are you addressing them?
+## Question 3: Describe a project where you collaborated with others to achieve a common goal. What role did you play, and how did you contribute to the team's success?
 
 ### Key notes
 
-Project: Core Platform — Shared SDK and runtime behind NAB Platform.
-
-Main purpose: Support microfrontends, allowing miniapps to be reused across multiple shells.
-
-Architecture:
-
-Miniapps: Individual features like payments, accounts, and cards.
-
-Shells: Host apps that contain and display miniapps.
-
-Core Platform: The foundation that connects everything.
-
-Key capabilities: Load miniapps, authentication, communication between features, and integration with NAB systems.
-
-Benefits: Reuse features, reduce duplicated work, and maintain consistency across web and mobile.
-
-My contribution: Build and improve the shared platform that makes this possible.
+- **Situation:** Releases included contributions from multiple teams, making it difficult to identify and manage new features and fixes in the codebase.
+- **Task:** Improve how contributions were tracked and how release information was communicated.
+- **Actions:**
+  - Set contribution requirements, including adding a label, documentation, and a Test Summary Report (test evidence).
+  - Used AI to track contributions and upcoming features and fixes for each release.
+  - Created dashboards to track release information and used Cursor commands to automate announcements and release emails.
+  - Gathered team requirements and maintained the solution.
+- **Result:** Improved visibility of release contributions, reduced manual effort, and made release communications clearer.
 
 ### Talk track
 
-I am working on Core Platform, which is the Shared SDK and runtime monorepo behind NAB Platform.
-
-The main purpose of Core Platform is to support a microfrontend architecture, allowing miniapps to be embedded into multiple shells. This means teams can build a feature once and reuse it across different host applications, rather than rebuilding the same feature for each app.
-
-Think of it like a shopping centre. Each feature, such as payments, accounts, cards, and authentication, is like a shop. These are called miniapps. Different shells are like different shopping centres that can host these shops.
-
-Core Platform provides the shared foundation that makes this possible. It helps shells load and run miniapps safely, while providing common capabilities such as authentication, communication between features, and integration with NAB systems.
-
-It also helps teams avoid duplicating common functionality and keeps the platform consistent, secure, and maintainable across web and mobile.
-
-In short, Core Platform enables NAB teams to build reusable features that can be delivered across multiple applications, improving development efficiency and consistency.
+I worked with the team to improve how we managed and communicated releases. Because each release included contributions from multiple teams, it could be difficult to identify and manage new features and fixes in the codebase. I set contribution requirements, including a label, documentation, and a Test Summary Report with test evidence, and used AI to track contributions and upcoming release items. I also created dashboards to track release information and used Cursor commands to automate announcements and release emails. This improved visibility into release contributions, reduced manual effort, and made our communications clearer.
