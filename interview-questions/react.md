@@ -59,6 +59,10 @@
 <!-- id: xP@n:Hci!/, noteType: Basic-66869 -->
 
 ```jsx
+// Legacy React 17 and earlier:
+// ReactDOM.render(<MyComponent />, document.getElementById('content'));
+
+// React 18/19:
 class MyComponent extends React.Component {
   render() {
     return (
@@ -76,7 +80,10 @@ class Header extends React.Component {
   }
 }
 
-ReactDOM.render(<MyComponent />, document.getElementById('content'));
+import { createRoot } from 'react-dom/client';
+
+const root = createRoot(document.getElementById('content'));
+root.render(<MyComponent />);
 ```
 
 ### What are Props?
@@ -104,11 +111,13 @@ ReactDOM.render(<MyComponent />, document.getElementById('content'));
 - Updating: `getDerivedStateFromProps`, `shouldComponentUpdate`, `render`, `getSnapshotBeforeUpdate`, `componentDidUpdate`.
 - Unmounting: `componentWillUnmount`.
 
-### Explain the lifecycle method componentWillMount()
+### Explain `componentWillMount()`
 
 <!-- id: j)Q37W1S~;, noteType: Basic-66869 -->
 
-- Executes just before rendering on both the client and server.
+- **Deprecated/unsafe legacy lifecycle:** use `componentDidMount` or an Effect in a function component instead.
+- The old method could run more than once in development or concurrent rendering and should not be used for side effects.
+- **Historical behavior:** it executed just before rendering on both the client and server.
 
 ### Explain the lifecycle method componentDidMount()
 
@@ -116,11 +125,13 @@ ReactDOM.render(<MyComponent />, document.getElementById('content'));
 
 - Executes on the client only, after the first render.
 
-### Explain the lifecycle method componentWillReceiveProps()
+### Explain `componentWillReceiveProps()`
 
 <!-- id: ho>RBCRWF0, noteType: Basic-66869 -->
 
-- Invoked when props are received from the parent and before another render.
+- **Deprecated/unsafe legacy lifecycle:** use derived values during render, `componentDidUpdate`, or an Effect when synchronization is genuinely needed.
+- Do not copy props into state unless there is a clear synchronization requirement.
+- **Historical behavior:** it ran when a parent supplied new props, before the next render.
 
 ### Explain the lifecycle method shouldComponentUpdate()
 
@@ -129,11 +140,12 @@ ReactDOM.render(<MyComponent />, document.getElementById('content'));
 - Returns `true` or `false` based on conditions to determine whether the component should update.
 - Returns `true` by default.
 
-### Explain the lifecycle method componentWillUpdate()
+### Explain `componentWillUpdate()`
 
 <!-- id: d5&3Sa#z}z, noteType: Basic-66869 -->
 
-- Called just before rendering takes place in the DOM.
+- **Deprecated/unsafe legacy lifecycle:** use `getSnapshotBeforeUpdate` for DOM snapshots or `componentDidUpdate` for post-update work.
+- **Historical behavior:** it ran immediately before React updated the DOM.
 
 ### Explain the lifecycle method componentDidUpdate()
 
@@ -152,29 +164,19 @@ ReactDOM.render(<MyComponent />, document.getElementById('content'));
 
 <!-- id: m<ZO3o7eUB, noteType: Basic-66869 -->
 
-- Synthetic events wrap browser-native events to provide a consistent, cross-browser API.
-- Examples include `onClick` and `onBlur`.
-
-### What are Higher Order Components(HOC)?
-
-<!-- id: p|p^V2r_Zd, noteType: Basic-66869 -->
-
-- A HOC is a component that wraps another component to reuse logic.
-- It’s a pattern leveraging React’s compositional nature.
-- HOCs don’t modify the input component’s behavior; they compose it.
-- Benefits include:
-  - Code reuse and logic abstraction
-  - Render hijacking
-  - State abstraction/manipulation
-  - Props manipulation
+- React provides `SyntheticEvent` objects to event handlers such as `onClick` and `onBlur`.
+- They expose a consistent API across browsers, including `preventDefault()`, `stopPropagation()`, `target`, and `nativeEvent`.
+- React DOM removed event pooling in React 17, so event properties are no longer cleared after the handler finishes.
+- In React DOM, `event.persist()` is no longer necessary and does nothing; it may still matter in React Native.
 
 ### In which lifecycle event do you make AJAX requests and why?
 
 <!-- id: z)(}a@a$=*, noteType: Basic-66869 -->
 
-- Perform data fetching in `componentDidMount` (or `useEffect` in function components).
-- Ensures the component is mounted before calling `setState`.
-- Avoids updates on unmounted components.
+- In class components, perform client-side data fetching in `componentDidMount`.
+- In function components, use an Effect only for synchronization with an external system; framework loaders or a data library are often better for route/API data.
+- Abort or ignore stale requests in cleanup to avoid race conditions.
+- **Older explanation:** fetching in `componentDidMount` ensured the component was mounted before calling `setState`.
 
 ### How do you tell React to build in Production mode and what will that do?
 
@@ -232,32 +234,62 @@ ReactDOM.render(<MyComponent />, document.getElementById('content'));
 - Fragments let components return multiple children without extra DOM nodes.
 - Use `<>...</>` or `<React.Fragment>...</React.Fragment>`.
 
-### What are error boundaries in React v16?
+### What are error boundaries in modern React?
 
 <!-- id: jrI~R6S+um, noteType: Basic-66869 -->
 
-- Error boundaries catch errors in child components and render fallback UI.
-- Implement with `componentDidCatch(error, info)` and/or `static getDerivedStateFromError()`.
+- Error boundaries catch rendering errors in descendant components and render fallback UI.
+- The built-in API is still class-based: implement `static getDerivedStateFromError()` for fallback state and/or `componentDidCatch(error, info)` for logging.
 
-### What is the use of react-dom package?
+```jsx
+class ErrorBoundary extends Component {
+  state = { hasError: false };
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    logError(error, info.componentStack);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <p>Something went wrong.</p>;
+    }
+
+    return this.props.children;
+  }
+}
+```
+
+- They do not catch event-handler errors, most asynchronous errors, server-rendering errors, or errors thrown by the boundary itself.
+
+### What is the use of the `react-dom` package?
 
 <!-- id: NS#J5g]Rh2, noteType: Basic-66869 -->
 
-- Provides DOM-specific methods for React apps:
-  - `render(element, container)`
-  - `hydrate(element, container)` (for SSR hydration)
-  - `unmountComponentAtNode(container)`
-  - `findDOMNode(instance)` (prefer refs instead)
-  - `createPortal(child, container)`
+- Provides browser-DOM integrations for React applications:
+  - `createRoot(container)` and `root.render()` for client rendering.
+  - `hydrateRoot(container, element)` for hydrating server-rendered HTML.
+  - `createPortal(children, container)` for rendering into another DOM node.
+  - `flushSync(callback)` for rare cases that require a synchronous flush.
+- **Removed in React 19:** `ReactDOM.render`, `ReactDOM.hydrate`, `unmountComponentAtNode`, and `findDOMNode`.
+- Use `root.unmount()` and refs instead of the removed APIs.
+- **Legacy React 17 and earlier:** applications commonly used `render`, `hydrate`, `unmountComponentAtNode`, and `findDOMNode` from `react-dom`.
 
 ### What is ReactDOMServer?
 
 <!-- id: fI:#fODmB`, noteType: Basic-66869 -->
 
-- Enables rendering components to static markup for SSR.
-- Common methods:
-  - `renderToString(component)`
-  - `renderToStaticMarkup(component)`
+- Provides server-rendering APIs from `react-dom/server`.
+- Common APIs:
+  - `renderToString(element)` for a non-streaming HTML string.
+  - `renderToStaticMarkup(element)` when React-specific attributes are not needed.
+  - `renderToPipeableStream(element, options)` for streaming SSR in Node.js.
+  - `renderToReadableStream(element, options)` for Web Streams environments.
+- Prefer streaming APIs for new SSR systems that need Suspense and progressive output.
+- **Older non-streaming approach:** call `renderToString` or `renderToStaticMarkup` and send the complete HTML response before hydration.
 
 Example:
 
@@ -268,26 +300,54 @@ const html = ReactDOMServer.renderToString(<App />);
 // send html as response
 ```
 
-### Why is a component constructor called only once?
+### Why is a component constructor usually called only once?
 
 <!-- id: QnC1mCl>/., noteType: Basic-66869 -->
 
-- React's reconciliation algorithm assumes that a custom component in the same place on subsequent renders is the same component.
-- It reuses the previous instance rather than creating a new one.
+- A class component’s constructor runs once for each mounted component instance.
+- During ordinary updates, React reuses that instance and calls `render()` again.
+- If the component is unmounted, its type changes, or its `key` changes, React creates a new instance and runs the constructor again.
 
 ### What are the common folder structures for React?
 
 <!-- id: x4PNquO)-1, noteType: Basic-66869 -->
 
-- Grouping by feature or route (co-locate components, hooks, tests).
-- Grouping by file type (components, hooks, styles, tests in separate dirs).
+- **Feature-based structure — usually recommended:** Keep the components, hooks, tests, styles, and API logic for one business feature together.
 
-### What is the benefit of styles modules?
+```text
+src/
+  features/
+    checkout/
+      CheckoutPage.jsx
+      CheckoutForm.jsx
+      useCheckout.js
+      checkoutApi.js
+      CheckoutForm.test.jsx
+```
 
-<!-- id: IEl=a.8`Zy, noteType: Basic-66869 -->
+- Benefits:
+  - Related code is easy to find and change together.
+  - Features can be developed, tested, and removed with less cross-folder movement.
+  - Works well for large applications and team ownership by domain.
 
-- Avoid hard-coding style values in components.
-- Extract values that are reused across UI components into their own modules.
+- **Type-based structure:** Group files by technical role.
+
+```text
+src/
+  components/
+  hooks/
+  pages/
+  services/
+  styles/
+  tests/
+```
+
+- Benefits:
+  - Simple for small applications.
+  - Easy to discover all components or hooks in one place.
+- Drawback: A single feature's files become spread across many folders as the application grows.
+
+- **Practical approach:** Use feature-based folders for business logic and shared folders for truly reusable code such as `components/ui`, `hooks`, `lib`, and `utils`.
 
 ### What is React Router?
 
@@ -317,149 +377,13 @@ const html = ReactDOMServer.renderToString(<App />);
 - React Intl is part of FormatJS, which provides bindings to React.
 - It helps format strings, dates, numbers, and pluralization.
 
-### What is Flux?
-
-<!-- id: JTC4IS2r3U, noteType: Basic-66869 -->
-
-- Flux is an architectural pattern favoring unidirectional data flow over MVC.
-- Complements React; used internally at Facebook.
-
-### What is Redux?
-
-<!-- id: D%yTdeOz31, noteType: Basic-66869 -->
-
-- Redux is a predictable state container inspired by Flux.
-- Works with React or other view libraries.
-- Hooks: `useSelector`, `useDispatch`.
-
-### What are the core principles of Redux?
-
-<!-- id: L?3|K^p;nZ, noteType: Basic-66869 -->
-
-- Single source of truth: entire app state in one store.
-- State is read-only: only actions describe state changes.
-- Changes via pure functions: reducers transform state based on actions.
-
-### What is the difference between mapStateToProps() and mapDispatchToProps()?
-
-<!-- id: nT}{UKCH@y, noteType: Basic-66869 -->
-
-- `mapStateToProps()` provides a component with state from the store.
-- `mapDispatchToProps()` lets a component dispatch actions that may change application state.
-
-### Can I dispatch an action in reducer?
-
-<!-- id: cW0lc`wjNe, noteType: Basic-66869 -->
-
-- A reducer should process the action payload and return a new state object.
-- Avoid adding listeners or dispatching actions in a reducer; this can cause chained actions and other side effects.
-
-### What is the difference between React context and React Redux?
-
-<!-- id: O|C$F95Ya-, noteType: Basic-66869 -->
-
-- Context is built into React and requires minimal setup; Redux requires an additional installation and more setup.
-- Context is suitable for data that changes infrequently; Redux is often a better fit for frequently updated data.
-- Context can colocate UI and state-management logic, while Redux separates them.
-- Redux can be debugged with Redux DevTools.
-
-### How to make AJAX request in Redux?
-
-<!-- id: cO*hTP`t{X, noteType: Basic-66869 -->
-
-- Use Redux Thunk middleware to define asynchronous actions.
-
-### What is the difference between component and container in React Redux?
-
-<!-- id: h[:7?W`BQ;, noteType: Basic-66869 -->
-
-- A component describes the presentational part of an application and can be a class or function component.
-- A container is an informal term for a component connected to a Redux store.
-- Containers subscribe to Redux state updates and dispatch actions.
-- They usually delegate rendering to presentational child components.
-
-### What is redux-saga and its benifits?
-
-<!-- id: yhp:KT%)!|, noteType: Basic-66869 -->
-
-- Redux Saga helps manage side effects in React/Redux applications, such as data fetching or accessing the browser cache.
-- Benefits:
-  - Makes asynchronous flows easier to read, write, and test.
-  - Supports parallel execution, task concurrency, task racing, and task cancellation.
-
-### What are the differences between call() and put() in redux-saga?
-
-<!-- id: ltnzbOZ4mz, noteType: Basic-66869 -->
-
-- Both `call()` and `put()` are effect creator functions.
-- `call()` creates an effect description instructing middleware to call a function or promise.
-- `put()` creates an effect instructing middleware to dispatch an action to the store.
-
-### What is Redux Thunk?
-
-<!-- id: E))z6dtXj3, noteType: Basic-66869 -->
-
-- Redux Thunk lets action creators return a function instead of an action.
-- A thunk can delay dispatching an action or dispatch only when a condition is met.
-- The inner function receives the store methods `dispatch()` and `getState()`.
-
-### What are the differences between redux-saga and redux-thunk?
-
-<!-- id: h3pZ0Tf[Zs, noteType: Basic-66869 -->
-
-- Both Redux Thunk and Redux Saga handle side effects.
-- Thunk commonly uses Promises; Saga uses Generators.
-- Thunk is simpler and uses a familiar pattern, while Saga offers more powerful workflows but requires learning Generators.
-- The middleware can coexist, so you can start with Thunk and introduce Saga if needed.
-
-### What are Redux selectors and why to use them?
-
-<!-- id: D&@%=.daPO, noteType: Basic-66869 -->
-
-- Selectors take state and return derived data for components.
-- Benefits:
-  - Compute derived data to keep state minimal.
-  - Memoize to avoid recomputation unless inputs change.
-
-### What is an action in Redux?
-
-<!-- id: lQR+]!`<bS, noteType: Basic-66869 -->
-
-- Actions are plain JavaScript objects that send information from an application to its store.
-- Each action must have a `type` property indicating the action being performed.
-
-### What is reselect and how it works?
-
-<!-- id: K>1*eOxf5&, noteType: Basic-66869 -->
-
-- Reselect is a selector library for Redux that computes derived data from application state.
-- It avoids recomputation unless an input changes.
-- It lets you create selectors that receive other selectors as inputs.
-
-### What are Styled Components?
-
-<!-- id: kI2bdErp*~, noteType: Basic-66869 -->
-
-- `styled-components` lets you style components using CSS-in-JS.
-- Co-locates styles with components and removes CSS-to-component mapping.
-
-### Do I need to keep all my state into Redux? Should I ever use react internal state?
-
-<!-- id: s<_LqmJ_tz, noteType: Basic-66869 -->
-
-- The choice depends on the data and how it is used.
-- Consider putting data in Redux if:
-  - The same data already exists in the store.
-  - Other parts of the application need the data.
-  - You need to derive additional data from it.
-
-### What is the purpose of registerServiceWorker in React?
+### What is the purpose of `registerServiceWorker` in React?
 
 <!-- id: tZuNHD4?q@, noteType: Basic-66869 -->
 
-- A service worker is a web API that can cache assets and other files.
-- This can help users access the app when offline or on a slow network.
-- Service workers add offline capabilities and can improve the user experience.
+- **Not a React API:** `registerServiceWorker` was a Create React App template helper.
+- A service worker is a browser API that can cache assets, intercept requests, and support offline behavior.
+- Configure service workers with the chosen build tool or PWA strategy; do not assume the helper exists in a React 18/19 project.
 
 ### What is React memo function?
 
@@ -468,13 +392,14 @@ const html = ReactDOMServer.renderToString(<App />);
 - Class components can avoid re-rendering when their props are unchanged by using `PureComponent` or `shouldComponentUpdate`.
 - Wrap a function component in `React.memo` for similar behavior.
 
-### What is React lazy function?
+### What is `React.lazy`?
 
 <!-- id: sdfVTRnIMW, noteType: Basic-66869 -->
 
 - `React.lazy` lets you render a dynamic import as a regular component.
 - It loads the separate bundle containing the component when it is rendered.
 - The imported module must have a default export that is a React component.
+- Wrap it in `<Suspense fallback={...}>` while the module is loading.
 
 ### What are hooks? What rules need to be followed for hooks?
 
@@ -490,11 +415,71 @@ const html = ReactDOMServer.renderToString(<App />);
 
 <!-- id: d9>c:-w]`Y, noteType: Basic-66869 -->
 
-- Error boundaries do not catch errors:
-  - In event handlers.
-  - In asynchronous code such as `setTimeout` or `requestAnimationFrame` callbacks.
-  - During server-side rendering.
-  - In the error boundary itself.
+- Error boundaries do not catch errors in event handlers. Handle them with `try/catch` or an error state:
+
+```jsx
+function SaveButton() {
+  const [error, setError] = useState(null);
+
+  function handleClick() {
+    try {
+      saveData();
+    } catch (error) {
+      setError(error);
+    }
+  }
+
+  return (
+    <>
+      <button onClick={handleClick}>Save</button>
+      {error && <p>Save failed</p>}
+    </>
+  );
+}
+```
+
+- Error boundaries do not catch most errors from asynchronous callbacks. Handle the error where the async work runs:
+
+```jsx
+function Timer() {
+  const [error, setError] = useState(null);
+
+  function startTimer() {
+    setTimeout(() => {
+      try {
+        riskyOperation();
+      } catch (error) {
+        setError(error);
+      }
+    }, 1000);
+  }
+
+  return <button onClick={startTimer}>{error ? 'Failed' : 'Start'}</button>;
+}
+```
+
+- Error boundaries do not provide a fallback during server-side rendering. Catch server-rendering failures at the server boundary:
+
+```js
+try {
+  const html = renderToString(<App />);
+  sendHtml(html);
+} catch (error) {
+  sendServerErrorResponse(error);
+}
+```
+
+- An error boundary cannot catch an error thrown by its own fallback or lifecycle methods. Put an outer boundary around it if that failure also needs protection:
+
+```jsx
+<OuterErrorBoundary>
+  <InnerErrorBoundary>
+    <App />
+  </InnerErrorBoundary>
+</OuterErrorBoundary>
+```
+
+- **Important:** Errors thrown while rendering a child component are the cases Error Boundaries are designed to catch. `try/catch` around JSX in the parent is not a replacement for an Error Boundary.
 
 ### What is the proper placement for error boundaries?
 
@@ -523,34 +508,26 @@ const html = ReactDOMServer.renderToString(<App />);
   - `static getDerivedStateFromError()`
   - `componentDidCatch()`
 
-### What is the purpose of unmountComponentAtNode method?
+### What is the purpose of `unmountComponentAtNode()`?
 
 <!-- id: Hep+>5!.c>, noteType: Basic-66869 -->
 
-- `unmountComponentAtNode()` is available from the `react-dom` package.
-- It removes a mounted React component from the DOM and cleans up its event handlers and state.
-- If no component is mounted in the container, it does nothing.
-- Returns `true` if a component was unmounted and `false` if there was none.
+- **Removed in React 19; deprecated since React 18.**
+- With `createRoot`, keep the root reference and call `root.unmount()`:
 
-### What is NextJS and major features of it?
+```js
+const root = createRoot(container);
+root.render(<App />);
+root.unmount();
+```
 
-<!-- id: NGBh@8n]?, noteType: Basic-66869 -->
-
-- Next.js is a React framework for static and server-rendered applications.
-- It also provides styling and routing solutions.
-- Major features:
-  - Server rendering by default.
-  - Automatic code splitting for faster page loads.
-  - Simple page-based client-side routing.
-  - A Webpack-based development environment with HMR support.
-  - Integration with Express or another Node.js HTTP server.
-  - Customizable Babel and Webpack configurations.
+- **Legacy behavior:** `unmountComponentAtNode(container)` removed a mounted tree, cleaned it up, and returned `true` or `false` depending on whether a tree was found.
 
 ### Optimizing performance in a React application? List the React hook functions
 
 <!-- id: gA2?HOKfQ$, noteType: Basic-66869 -->
 
-- Keep component state local when appropriate (`useState`, `useEffect`).
+- Keep component state local when appropriate (`useState`, `useReducer`).
 - Split complex components into smaller ones.
 - Avoid passing props through many levels; consider React Redux, `useContext`, or `useReducer`.
 - Memoize components to prevent unnecessary re-renders (`React.memo`).
@@ -561,13 +538,9 @@ const html = ReactDOMServer.renderToString(<App />);
 - Use code splitting with dynamic `import()`.
 - Use windowing or list virtualization.
 - Lazy-load images.
-
-### React vs Angular
-
-<!-- id: QGo2Qir#W_, noteType: Basic-66869 -->
-
-- React is a library, while Angular is a full-featured framework.
-- React uses a virtual DOM and one-way data binding; Angular uses the real DOM and two-way data binding.
+- Use `useTransition` or `startTransition` for non-urgent updates.
+- Use `useDeferredValue` when a derived value can lag behind urgent input.
+- Measure with the React Profiler before adding memoization.
 
 ### How to write unit tests for custom hooks?
 
@@ -603,53 +576,6 @@ const html = ReactDOMServer.renderToString(<App />);
 - Events: dispatch real DOM events on elements.
 - Timers: use fake timers when needed.
 - Snapshot testing: save snapshots of rendered output to check for unexpected changes.
-
-### What are end-to-end tests?
-
-<!-- id: LY)5dv7=b:, noteType: Basic-66869 -->
-
-- End-to-end tests cover longer, business-critical workflows such as payments or signups.
-- They can test how a real browser renders the app, fetches data from real APIs, uses sessions and cookies, and navigates between links.
-- Assertions can cover side effects in the browser and, when needed, on the backend.
-
-### Recoil State management core concepts
-
-<!-- id: Gyhl*=HSc`, noteType: Basic-66869 -->
-
-- Recoil is a state-management library for React that creates a data-flow graph from atoms, through selectors, to components.
-- Atoms:
-  - Represent shared units of state that components can subscribe to.
-  - Re-render subscribed components when updated.
-  - Can be shared across components or used instead of local component state.
-- Selectors:
-  - Are pure functions that accept atoms or other selectors as inputs.
-  - Recompute when upstream atoms or selectors change.
-  - Can be subscribed to by components, which then re-render when selector values change.
-- Common APIs:
-  - `RecoilRoot`: Wraps components that use Recoil state; it is commonly placed near the app root.
-  - `useRecoilState()`: Reads and writes an atom.
-  - `useRecoilValue()`: Reads an atom or selector value.
-- Reference: Getting Started | Recoil (recoiljs.org)
-
-### Client Site Rendering (CSR), Server Site Rendering (SSR) and SSG (Static Site Generation)
-
-<!-- id: c,l~8(c`.7, noteType: Basic-66869 -->
-
-- CSR:
-  - The server sends HTML and JavaScript files.
-  - The browser downloads the JavaScript and runs React to make the page dynamic.
-- SSR:
-  - The server builds and sends the HTML page.
-  - The browser renders the HTML and downloads JavaScript in the background.
-  - React adds interactivity to the page.
-- SSG:
-  - HTML files are generated at build time.
-  - The browser renders the HTML and downloads JavaScript in the background.
-  - React adds interactivity to the page.
-- Typical uses:
-  - CSR: login and dashboard pages that do not need SEO.
-  - SSR: pages with dynamic data that need SEO and fast initial loading.
-  - SSG: pages that do not need frequent updates and need fast initial loading.
 
 ### How to Create a React Component Library
 
@@ -691,7 +617,8 @@ const html = ReactDOMServer.renderToString(<App />);
 - On subsequent renders, the returned state reflects the latest value after updates.
 - React guarantees that the setter identity is stable across renders, so it can be omitted from Effect or callback dependency lists.
 - If the new state is identical to the current state (using `Object.is`), React can skip rendering children and firing Effects.
-- React may batch several state updates into one re-render for performance.
+- With a React 18 `createRoot`, React automatically batches updates from promises, timers, native events, and React events.
+- Use functional updates when the next state depends on the previous state.
 
 ### useRef
 
@@ -739,32 +666,129 @@ const html = ReactDOMServer.renderToString(<App />);
 - `useLayoutEffect` runs synchronously before painting, making it suitable for DOM measurements or preventing visual flicker.
 - Use `useLayoutEffect` sparingly because it blocks painting.
 
-### NextJS + Astro
-
-<!-- id: J0~8W6;Q*@, noteType: Basic-66869 -->
-
-- Reference: NextJS to Astro: more control = faster sites - YouTube
-
-### useEffect called twice in react 18
+### Why does an Effect appear to run twice in React 18?
 
 <!-- id: PHP~2a$F~o, noteType: Basic-66869 -->
 
-- React 18 Strict Mode runs Effects an extra time in development to help identify unsafe lifecycle behavior.
-- This check should not be disabled.
+- In development, `<StrictMode>` may mount, clean up, and re-mount Effects to expose missing cleanup and impure logic.
+- This does not represent two production requests by itself.
+- Make Effects resilient and idempotent; do not disable Strict Mode just to hide the warning.
+- **Older shorthand:** “React 18 calls Effects twice in development.” The more precise explanation is the mount-cleanup-remount check above.
 
-### Webpack properties: entry, output, resolve, module, plugins
+### What changed in React 18?
 
-<!-- id: o?*gFk]U-l, noteType: Basic-66869 -->
+- **Automatic batching:** With `createRoot`, updates from timers, promises, native events, and React events are batched.
+- **Transitions:** `startTransition` and `useTransition` mark non-urgent updates so urgent interactions remain responsive.
+- **Deferred values:** `useDeferredValue` lets an expensive derived value lag behind urgent input.
+- **Stable IDs:** `useId` generates IDs that are consistent between server and client rendering.
+- **Suspense and streaming SSR:** React 18 expanded Suspense support for server rendering and introduced streaming APIs.
+- **Concurrent rendering:** Rendering can be interrupted and resumed; components must remain pure during render.
 
-- `npx webpack` takes an entry script as its entry point and generates output as configured.
+### What are `createRoot()` and `hydrateRoot()`?
 
-- resolve: configure how modules are resolved.
-  - alias: use aliases instead of relative import paths.
-  - extensions: resolve extensions in order; use `'...'` to include defaults.
-- module: determine how different types of modules are treated.
-  - rules: apply loaders or modify the parser when creating modules.
-- plugins: array of webpack plugins; allow different behavior between development and release builds.
+- `createRoot(container)` creates a React 18+ client root:
 
-### Babel webpack plugins: @babel/core, @babel/plugin-transform-runtime, @babel/preset-env, @babel/preset-react
+```tsx
+import { createRoot } from 'react-dom/client';
 
-<!-- id: Ir#)rPdX<J, noteType: Basic-66869 -->
+const root = createRoot(document.getElementById('root')!);
+root.render(<App />);
+```
+
+- `hydrateRoot(container, element)` attaches React to HTML generated by the server:
+
+```tsx
+import { hydrateRoot } from 'react-dom/client';
+
+hydrateRoot(document.getElementById('root')!, <App />);
+```
+
+- `createRoot` and `hydrateRoot` enable React 18 concurrent features; legacy `ReactDOM.render` and `ReactDOM.hydrate` do not.
+
+### What are React Actions in React 19?
+
+- An **Action** is a function, often async, passed to a transition or form action to coordinate pending state, errors, and updates.
+- React 19 supports functions in `<form action={...}>`, `<button formAction={...}>`, and related form APIs.
+- Actions can be combined with `useActionState`, `useOptimistic`, and `useFormStatus`.
+- Successful form Actions reset uncontrolled form fields automatically; use `requestFormReset` when an explicit reset is needed.
+
+### What is `useActionState`?
+
+- `useActionState(action, initialState)` returns the latest action result, a wrapped action, and a pending flag.
+- It is useful for form submissions that need validation or server-response state.
+
+```tsx
+import { useActionState } from 'react';
+
+function ProfileForm() {
+  const [error, submit, isPending] = useActionState(async (_previousState, formData) => {
+    return updateProfile(formData); // return the next state or error
+  }, null);
+
+  return (
+    <form action={submit}>
+      <input name="displayName" />
+      <button disabled={isPending}>Save</button>
+      {error && <p>{error.message}</p>}
+    </form>
+  );
+}
+```
+
+### What is `useOptimistic`?
+
+- `useOptimistic(value)` provides a temporary optimistic value while an Action is pending.
+- The UI updates immediately and automatically returns to the source value when the Action completes or fails.
+- Use it for interactions such as likes, comments, toggles, or optimistic form submissions.
+
+### What is the React 19 `use` API?
+
+- `use(resource)` reads a Promise or Context during render.
+- When passed a Promise, React suspends the component until the Promise resolves or rejects.
+- It must still be called from a component or custom Hook, but unlike ordinary Hooks it may be used inside conditions and loops.
+- Use a `<Suspense>` boundary and an error boundary around asynchronous resources.
+
+```tsx
+import { use } from 'react';
+
+function Comments({ commentsPromise }) {
+  const comments = use(commentsPromise);
+  return comments.map((comment) => <p key={comment.id}>{comment.text}</p>);
+}
+```
+
+### What changed for refs in React 19?
+
+- Function components can receive `ref` as a normal prop:
+
+```tsx
+function Input({ ref, ...props }) {
+  return <input ref={ref} {...props} />;
+}
+```
+
+- `forwardRef` still works for compatibility, but it is legacy for new function components and is expected to be deprecated in a future version.
+- Ref callbacks may return a cleanup function that runs when the element is removed.
+- Avoid returning the DOM node accidentally from an implicitly returned ref callback.
+
+### What changed for Context in React 19?
+
+- React 19 allows a context object to be rendered directly as a provider:
+
+```tsx
+const ThemeContext = createContext('light');
+
+function App() {
+  return <ThemeContext value="dark">...</ThemeContext>;
+}
+```
+
+- `<ThemeContext.Provider>` remains supported for compatibility but is the legacy form for new React 19 code.
+
+### Which React APIs were removed or deprecated in React 19?
+
+- **Removed:** `ReactDOM.render`, `ReactDOM.hydrate`, `unmountComponentAtNode`, and `findDOMNode`.
+- **Removed:** function-component `propTypes` checks and `defaultProps`; use TypeScript or another type system and JavaScript default parameters.
+- **Legacy/unsafe:** `componentWillMount`, `componentWillReceiveProps`, and `componentWillUpdate`; use modern lifecycle methods or function components.
+- **Legacy:** `forwardRef` for new function components; use `ref` as a prop when React 19 is the minimum supported version.
+- **Legacy:** `<Context.Provider>` for new React 19 code; render `<Context value={...}>` instead.

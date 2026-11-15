@@ -126,9 +126,111 @@ CSS animations are generally more performant than JavaScript animations because 
 
 Reference: [CSS Selectors Reference](https://www.w3schools.com/cssref/css_selectors.php)
 
-### What is CSS-in-JS?
+### CSS global vs CSS Modules vs CSS-in-JS (styled-components)
 
-CSS-in-JS is a styling approach where CSS is written using JavaScript. It allows developers to define styles within JavaScript files, often using libraries like styled-components or Emotion. This approach enables dynamic styling based on component state, props, or themes, and promotes component-based architecture by encapsulating styles with the components they belong to.
+<!-- id: IEl=a.8`Zy, noteType: Basic-66869 -->
+
+These are three ways to organize and apply styles in a web application:
+
+| Approach | Scope | Main strengths | Main trade-offs |
+| --- | --- | --- | --- |
+| Global CSS | Global by default | Simple, predictable browser-native CSS; good for resets and design tokens | Naming collisions and accidental style leakage |
+| CSS Modules | Local to the imported file | Prevents class-name collisions while keeping CSS separate from JavaScript | Requires build-tool support; dynamic styles usually use conditional classes or CSS variables |
+| CSS-in-JS / styled-components | Component-oriented | Dynamic styles from props, themes, and state; styles colocated with components | Runtime or build complexity, possible style-injection cost, and harder debugging if overused |
+
+#### Global CSS
+
+- Class names are available throughout the application unless constrained by naming conventions.
+- Good for resets, typography, layout primitives, CSS variables, and application-wide themes.
+
+```css
+/* global.css */
+:root {
+  --color-primary: royalblue;
+}
+
+.button {
+  color: white;
+  background: var(--color-primary);
+}
+```
+
+#### CSS Modules
+
+- Name the file with `.module.css` or `.module.scss`.
+- Classes are imported as properties and are transformed into locally unique class names.
+
+```css
+/* Button.module.css */
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.primary {
+  background: royalblue;
+  color: white;
+}
+```
+
+```jsx
+import styles from './Button.module.css';
+
+function Button({ primary = false, children }) {
+  const className = primary
+    ? `${styles.button} ${styles.primary}`
+    : styles.button;
+
+  return <button className={className}>{children}</button>;
+}
+```
+
+#### CSS-in-JS with styled-components
+
+- CSS is declared in JavaScript using a tagged template or object API.
+- Props and themes can determine the generated styles.
+
+```jsx
+import styled from 'styled-components';
+
+const Button = styled.button`
+  padding: 0.5rem 1rem;
+  color: white;
+  background: ${({ primary }) => (primary ? 'royalblue' : 'gray')};
+`;
+
+function App() {
+  return <Button primary>Save</Button>;
+}
+```
+
+#### Which approach should you choose?
+
+- Use **Global CSS** for application-wide rules, resets, typography, and design tokens.
+- Use **CSS Modules** when you want locally scoped styles without a styling runtime.
+- Use **styled-components** when colocated, prop-driven, or theme-driven styles are more valuable than minimal runtime complexity.
+- Many applications combine them: global CSS for foundations and CSS Modules or styled-components for component-level styles.
+
+### What are styled-components?
+
+<!-- id: kI2bdErp*~, noteType: Basic-66869 -->
+
+- `styled-components` is a CSS-in-JS library that defines styled elements as JavaScript components.
+- It colocates styles with components and can derive styles from props, themes, or application state.
+- It avoids manually mapping global class names to components, but adds library and runtime/build complexity.
+
+```jsx
+import styled from 'styled-components';
+
+const Button = styled.button`
+  color: ${({ primary }) => (primary ? 'white' : 'black')};
+  background: ${({ primary }) => (primary ? 'royalblue' : 'white')};
+`;
+
+function App() {
+  return <Button primary>Save</Button>;
+}
+```
 
 ### tailwindcss vs Bootstrap
 

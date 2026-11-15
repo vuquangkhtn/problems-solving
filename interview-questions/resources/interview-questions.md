@@ -3,6 +3,7 @@
 ## Quick Navigation
 
 - [React](../react)
+- [State Management](../state-management)
 - [JavaScript](../javascript)
 - [NodeJS](../nodejs)
 - [Network and Security](../network-and-security)

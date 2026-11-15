@@ -137,6 +137,32 @@ Key bundlers:
 - **Rollup**: Use for libraries and optimized production bundles;
 - **Parcel**: Use for quick prototypes and small to medium projects;
 
+### Webpack 4 vs Webpack 5
+
+<!-- id: webpack4-vs-webpack5, noteType: Basic-66869 -->
+
+Webpack 5 is the successor to Webpack 4. It keeps the same core bundling model, but improves build performance, caching, browser-platform support, and long-term maintainability.
+
+| Area | Webpack 4 | Webpack 5 |
+| --- | --- | --- |
+| Build performance | Uses traditional caching; repeated builds can be slower. | Adds persistent filesystem caching and improved incremental builds. |
+| Caching | Primarily memory-based or configured through plugins. | Built-in filesystem cache with better cache invalidation. |
+| Module Federation | Not built in. | Built-in support for sharing modules between separately deployed applications. |
+| Node.js core modules | Automatically polyfills many Node.js modules for browser builds. | No automatic polyfills; browser-compatible fallbacks must be configured explicitly. |
+| Asset modules | Usually requires loaders such as `file-loader`, `url-loader`, or `raw-loader`. | Built-in asset module types such as `asset/resource`, `asset/inline`, and `asset/source`. |
+| Tree shaking | Supported, but less effective in some cases. | Improved analysis and tree shaking, including better handling of nested and concatenated modules. |
+| Output | CommonJS-style output is common. | Supports modern output options such as `output.module` and improved chunk loading. |
+| Configuration | Often needs more plugins and loaders for common use cases. | Provides more functionality out of the box, reducing configuration in some projects. |
+
+Important migration differences:
+
+- Replace deprecated loaders with Webpack 5 asset modules where appropriate.
+- Add explicit fallbacks for Node.js modules such as `buffer`, `stream`, or `crypto` if browser code still depends on them.
+- Review caching configuration and remove plugins that Webpack 5 now provides natively.
+- Check plugins and loaders for Webpack 5 compatibility before upgrading.
+
+In short, use Webpack 4 mainly for legacy projects that depend on its existing plugin ecosystem. Prefer Webpack 5 for new projects because it has better caching, modern features, and fewer built-in assumptions about Node.js polyfills.
+
 ### What is tree shaking, and how does it help with the performance of a web application?
 
 <!-- id: |0!0CpBzT_, noteType: Basic-66869 -->
@@ -272,3 +298,73 @@ Should not:
 - Mismatch standardized processes between different team members.
 
 Reference: What You Need in a Code Review Checklist (& What You Don't) - LinearB.
+
+### React vs Angular
+
+<!-- id: QGo2Qir#W_, noteType: Basic-66869 -->
+
+- React is a UI library; Angular is a full-featured framework with more built-in conventions.
+- React commonly uses JSX, one-way data flow, and an ecosystem of separately selected libraries.
+- Angular provides an integrated framework with templates, dependency injection, routing, forms, and RxJS conventions.
+- Avoid oversimplifying the comparison as “Virtual DOM versus real DOM” or “one-way versus two-way binding”; both ecosystems support multiple rendering and data-flow patterns.
+
+### Client-side rendering (CSR), server-side rendering (SSR), and static-site generation (SSG)
+
+<!-- id: c,l~8(c`.7, noteType: Basic-66869 -->
+
+- **CSR:** The browser receives JavaScript and builds or updates the UI on the client.
+  - Useful for highly interactive applications such as dashboards.
+  - Initial content may be delayed until JavaScript loads.
+- **SSR:** The server generates HTML for a request, then the client hydrates it with JavaScript.
+  - Useful for dynamic pages that need fast initial content or SEO.
+  - Requires hydration correctness and server-rendering infrastructure.
+- **SSG:** HTML is generated at build time and served as static assets.
+  - Useful for content that changes infrequently and benefits from CDN caching.
+  - Dynamic content may require client fetching or regeneration.
+- Modern frameworks can combine these strategies per route or component.
+
+### What is Next.js and what are its major features?
+
+<!-- id: NGBh@8n]?, noteType: Basic-66869 -->
+
+- Next.js is a React framework with routing, server/client rendering, data fetching, and deployment conventions.
+- Features depend on the selected router and version; server rendering is not always the default for every component or route.
+- Modern areas include the App Router, React Server Components, Suspense, streaming, route handlers, image/font optimization, and automatic code splitting.
+
+### Next.js and Astro
+
+<!-- id: J0~8W6;Q*@, noteType: Basic-66869 -->
+
+- Next.js is a React-focused application framework with integrated routing, server rendering, and React Server Components.
+- Astro is a content-focused framework that can render mostly static HTML and add interactivity through isolated “islands”; it can use React components alongside other UI frameworks.
+- Choose based on application needs, rendering strategy, ecosystem, and team familiarity.
+- Reference: Next.js to Astro: more control = faster sites - YouTube
+
+### What are end-to-end tests?
+
+<!-- id: LY)5dv7=b:, noteType: Basic-66869 -->
+
+- End-to-end tests validate complete user workflows in a real or browser-like environment.
+- They can cover navigation, rendering, API calls, sessions, cookies, and backend side effects.
+- Use them for critical workflows such as checkout, sign-up, login, and payments.
+- Keep unit and integration tests for fast feedback; E2E tests are slower and more environment-dependent.
+
+### What do Webpack properties mean?
+
+<!-- id: o?*gFk]U-l, noteType: Basic-66869 -->
+
+- `entry`: The module or modules where bundling begins.
+- `output`: The generated bundle location and naming strategy.
+- `resolve`: How Webpack finds modules, aliases, and file extensions.
+- `module.rules`: How loaders and parsers handle JavaScript, CSS, images, and other assets.
+- `plugins`: Build-wide extensions for tasks such as HTML generation, environment injection, and asset analysis.
+
+### What are common Babel packages used with Webpack?
+
+<!-- id: Ir#)rPdX<J, noteType: Basic-66869 -->
+
+- `@babel/core`: The Babel transformation engine.
+- `@babel/preset-env`: Transforms modern JavaScript according to target environments.
+- `@babel/preset-react`: Transforms JSX and React-specific syntax.
+- `@babel/plugin-transform-runtime`: Reuses Babel helper code and can reduce duplication.
+- Webpack uses `babel-loader` to run Babel transformations during bundling.

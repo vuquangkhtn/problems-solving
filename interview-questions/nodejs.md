@@ -12,25 +12,14 @@
 
 ### Node.js vs Browser JavaScript
 
-Node.js is a runtime environment for executing JavaScript code on the server-side, while browser JavaScript is a runtime environment for executing JavaScript code in web browsers.
-
-Node.js runs in a single thread, while browser JavaScript runs in multiple threads.
-
-- Runtime
+- **Runtime:** Node.js provides server-side APIs and browsers provide web-platform APIs; both execute application JavaScript on a main thread by default.
+- **Event loop:**
   - Node.js runs JavaScript on the server; browsers run it in the client.
-  - Both execute JavaScript on a single main thread.
-- Event loop
-  - Node: Powered by libuv . Offloads I/O (FS, DNS, zlib, some crypto) to the kernel or the libuv thread pool (default 4 threads), then queues callbacks back to the main JS thread. This makes I/O appear concurrent without multithreaded JS.
-  - Browser: Event loop is integrated with rendering and input queues. Long-running JS blocks rendering and user interactions, causing UI freezes.
-- “Multithreading”
-  - Node: JS itself is single-threaded, but the runtime uses extra threads for I/O under the hood. For CPU-bound work, use worker_threads .
-  - Browser: Main JS thread is single-threaded; other threads handle rendering, networking, and GC. Use Web Workers for heavy computation off the main thread.
-- Practical implications
-  - Node: Never block the event loop; use async I/O (callbacks, promises, async / await ) and offload CPU-bound work to workers.
-  - Browser: Keep tasks small to maintain UI responsiveness; rely on async APIs and Web Workers for heavy tasks.
-- Summary
-  - Node: Single-threaded JS + libuv thread pool for I/O → efficient concurrency for I/O-heavy workloads.
-  - Browser: Single main JS thread + rendering/UI constraints → prioritize non-blocking code and off-main-thread computation for smooth UX.
+  - Node uses libuv and the OS to handle asynchronous I/O, then runs callbacks on the JavaScript thread.
+  - Browsers integrate the event loop with rendering, input, and Web APIs.
+- **Parallelism:** Node can use `worker_threads` for CPU-bound JavaScript and `child_process` or `cluster` for process isolation.
+- **Practical rule:** Keep synchronous work short; long CPU-bound tasks block the Node.js event loop and delay all requests on that process.
+- **Older shorthand:** “Node.js is single-threaded and browsers are multi-threaded.” The useful part is that application JavaScript normally runs on one main thread; the runtime and browser can both use additional threads internally.
 
 ### What is Node.js Single Process Model?
 
@@ -44,12 +33,14 @@ Node.js runs in a single thread, while browser JavaScript runs in multiple threa
 
 <!-- id: F|xw,Dj$}*, noteType: Basic-66869 -->
 
-Just like in JavaScript, Node.js has two broad categories of data types:
+- Node.js uses JavaScript's primitive and object types.
 
 - Primitives: `string`, `number`, `bigint`, `boolean`, `undefined`, `null`, `symbol`.
 - Objects: `Object`, `Function`, `Array`, and Node-specific `Buffer`.
 
-Node.js includes an additional data type called `Buffer` (not available in browser JavaScript). Buffers store binary data, commonly used for file I/O and network packets.
+- `Buffer` is a Node.js class for binary data. It is available in some browser tooling, but is not a standard browser global.
+
+- **Older explanation:** Node.js was often described as having primitives plus objects, with `Buffer` called an additional Node-specific data type. More precisely, `Buffer` is a Node.js class built on typed-array memory for binary data.
 
 Example:
 
@@ -77,7 +68,7 @@ npm init -y
 
 Optionally set the entry point to `app.js`.
 
-3. Install Express:
+3. Install Express if you want an HTTP framework:
 
 ```bash
 npm install express
@@ -108,13 +99,19 @@ node app.js
 
 <!-- id: bOVw[uO?5`, noteType: Basic-66869 -->
 
-The Node.js runtime is the software stack responsible for installing your web service's code and its dependencies and running your service. The runtime environment is literally just the environment your application is running in. This can be used to describe both the hardware and the software that is running your application. How much RAM, what version of node, what operating system, how much CPU cores, can all be referenced when talking about a runtime environment.
+- A runtime environment is the combination of software and hardware in which the application executes.
+- For Node.js, this includes the Node version, V8, operating system, CPU, memory, environment variables, dependencies, and available permissions.
+- **Older explanation:** A runtime environment was described as the hardware and software used to install dependencies and run a service, including RAM, CPU, OS, and Node version.
 
 ### Explain usage of NODE_ENV?
 
 <!-- id: kDoIQ1/>X,, noteType: Basic-66869 -->
 
-`NODE_ENV` is an environment variable commonly used to control configuration (e.g., `development`, `production`). Your app can check its value and change behavior accordingly.
+- `NODE_ENV` is a conventional environment variable, not a Node.js runtime mode that Node sets or enforces.
+- Applications and libraries may use it to choose configuration such as logging or caching behavior.
+- Prefer explicit configuration for security-sensitive behavior and do not trust client-provided environment values.
+
+- **Older explanation:** Applications commonly checked `NODE_ENV` for values such as `development` and `production` to select configuration.
 
 Example:
 
@@ -132,19 +129,38 @@ if (process.env.NODE_ENV === 'production') {
 
 <!-- id: IOJrD=O3%#, noteType: Basic-66869 -->
 
-They are defined within the Node.js source and are located in the lib/ folder, and Node.js has several modules compiled into the binary such as fs, os, path, util, http
+- Core modules ship with Node.js and do not need to be installed from npm.
+- Prefer the explicit `node:` prefix in new code:
+
+```js
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { test } from 'node:test';
+```
+
+- Examples include `node:fs`, `node:path`, `node:http`, `node:crypto`, `node:stream`, `node:test`, and `node:assert`.
+
+- **Older import style:** `require('fs')`, `require('path')`, and `require('http')` remain valid CommonJS forms; the `node:` prefix is the clearer modern form and avoids ambiguity with packages.
 
 ### What is callback function in Node.js?
 
 <!-- id: q45q2r`Kir, noteType: Basic-66869 -->
 
-In node.js, we basically use callbacks for handling asynchronous operations like — making any I/O request, database operations or calling an API to fetch some data. Callback allows our code to not get blocked when a process is taking a long time.
+- A callback is a function passed to be invoked after an operation completes.
+- Node.js still supports callbacks, but new code commonly uses Promises and `async`/`await`.
+- Asynchronous APIs prevent waiting for I/O from blocking the event loop; they do not make CPU-heavy JavaScript non-blocking.
+
+- **Older explanation:** Callbacks were presented as the standard way to handle I/O, database calls, and API requests without blocking while a long operation completed.
 
 ### How assert works in Node.js?
 
 <!-- id: ufeuyTT.qs, noteType: Basic-66869 -->
 
-In Node.js, assert is used to write tests. It only provides feedback only when any of the running test cases fails. This module was built to be used internally by Node.js.
+- `node:assert` provides assertion functions for tests and runtime invariants.
+- It throws an `AssertionError` when an assertion fails; it is not itself a test runner.
+- For built-in tests, combine it with `node:test`.
+
+- **Older explanation:** `assert` was described as an internal testing module that only produced feedback when a test failed.
 
 ### What is an error-first callback?
 
@@ -166,7 +182,13 @@ fs.readFile('file.json', (err, data) => {
 });
 ```
 
-### List down the major benefits of using Node.js?
+### What are the major benefits of using Node.js?
+
+- Efficient I/O concurrency through the event loop and asynchronous APIs.
+- One language across frontend and backend teams.
+- A large npm ecosystem and built-in web-compatible APIs such as `fetch`, `URL`, `AbortController`, and Web Streams.
+- Good fit for APIs, streaming services, real-time applications, CLIs, and tooling.
+- CPU-heavy workloads require workers or separate services; Node.js is not automatically faster for every workload.
 
 <!-- id: QTRuLUy^0O, noteType: Basic-66869 -->
 
@@ -174,13 +196,20 @@ fs.readFile('file.json', (err, data) => {
 
 <!-- id: LGZq=`VN|4, noteType: Basic-66869 -->
 
-The package.json file in Node.js is the heart of the entire application. It is basically the manifest file that contains the metadata of the project where we define the properties of a package.
+- `package.json` is a project or package manifest.
+- It can define metadata, scripts, dependencies, dev dependencies, package type, export maps, engines, and publish settings.
+- `scripts` can be run with `npm run <name>` or, in Node 22+, `node --run <name>`.
+
+- **Older explanation:** `package.json` was described as the project manifest containing package metadata and properties.
 
 ### What do you understand by Event-driven programming?
 
 <!-- id: sdl{VQt)i~, noteType: Basic-66869 -->
 
-That means instead of waiting for a response javascript will keep executing while listening for other events.
+- Event-driven programming reacts to events such as requests, timers, stream data, and messages.
+- The application registers listeners or callbacks, continues other work, and handles the event when it is emitted.
+
+- **Older shorthand:** JavaScript continues executing while it listens for other events instead of waiting synchronously for each response.
 
 ### What is an Event loop in Node.js and how does it work?
 
@@ -203,7 +232,9 @@ The Node.js event loop enables non-blocking I/O on a single thread. Async tasks 
   - Close Callbacks: e.g., `socket.on('close')`.
 
 - Microtasks priority:
-  - After each phase and after initial sync code, drain `process.nextTick` and Promise microtasks completely before moving on.
+- Node drains the `process.nextTick` queue before the Promise microtask queue; both run before the event loop continues to the next phase.
+
+- **Older explanation:** The event loop was summarized as a single-thread mechanism that offloads async work through libuv and later queues callbacks.
 
 Example:
 
@@ -232,11 +263,16 @@ Typical output:
 - `Promise` (microtask)
 - `setTimeout` (timers phase) or `setImmediate` (check phase) — order can vary depending on system conditions; `setImmediate` always runs in the check phase.
 
-### Explain REPL in the context of Node.js.
+### Explain the REPL in Node.js.
 
 <!-- id: Q`~d`4(wBr, noteType: Basic-66869 -->
 
-REPL in Node.js stands for Read, Eval, Print, and Loop. It represents a computer environment such as a window console or Unix/Linux shell where any command can be entered and then the system can respond with an output. Node.js comes bundled with a REPL environment by default. REPL can perform the below-listed tasks:Read: Reads the user’s input, parses it into JavaScript data-structure and then stores it in the memory.Eval: Receives and evaluates the data structure.Print: Prints the final result.Loop: Loops the provided command until CTRL+C is pressed twice.
+- REPL means **Read, Eval, Print, Loop**.
+- Start it with `node` to evaluate JavaScript interactively.
+- It is useful for inspecting APIs, testing expressions, and experimenting with modules.
+- Exit with `.exit` or press `Ctrl+C` twice.
+
+- **Older expansion:** REPL means Read input, Eval it, Print the result, and Loop until the user exits.
 
 ### What is module in Node.js?
 
@@ -244,17 +280,25 @@ REPL in Node.js stands for Read, Eval, Print, and Loop. It represents a computer
 
 Modules refer to small units of independent, reusable code. It is used to encapsulate all the related codes or functions into a single file.
 
-### Explain libuv.
+### What is libuv?
 
 <!-- id: dhvn/6eO_k, noteType: Basic-66869 -->
 
-Libuv is a multi-platform support library of Node.js which majorly is used for asynchronous I/O. A few of the important features of libuv are event loop, Asynchronous file & network operations. FYI, it also supports to handle the child processes
+- libuv is the cross-platform library behind Node.js's event loop and many asynchronous operations.
+- It coordinates timers, network I/O, filesystem work, child processes, and its worker pool.
+- JavaScript callbacks still execute on the Node.js thread after the underlying work completes.
+
+- **Older explanation:** libuv was described as the cross-platform support library responsible mainly for the event loop and asynchronous file, network, and child-process operations.
 
 ### Explain the purpose of ExpressJS package?
 
 <!-- id: o66NWX}9(8, noteType: Basic-66869 -->
 
-Express.js is a framework built on top of Node.js that facilitates the management of the flow of data between server and routes in the server-side applications. Express.js is developed on the middleware module of Node.js called connect. The connect module further makes use of http module to communicate with Node.js.
+- Express.js is a third-party web framework built on Node.js HTTP primitives.
+- It provides routing, middleware composition, request/response helpers, and error-handling conventions.
+- Node.js itself can create HTTP servers with `node:http`; Express is optional.
+
+- **Older explanation:** Express was described as middleware built over Connect and the Node.js `http` module for managing routes and server data flow.
 
 ### Differentiate between process.nextTick() and setImmediate()?
 
@@ -266,14 +310,21 @@ Similarities:
 
 Differences:
 
-- `process.nextTick`: runs before the next event loop phase (microtask queue), often immediately after current operation finishes.
+- `process.nextTick`: runs before Promise microtasks and before the event loop continues; excessive use can starve I/O.
 - `setImmediate`: runs in the "check" phase, after I/O events in the current loop iteration.
+
+- **Older shorthand:** `process.nextTick()` was described as running immediately after the current operation, while `setImmediate()` runs in the check phase.
 
 ### How does Node.js handle the child threads?
 
 <!-- id: GD*SDh?Cn4, noteType: Basic-66869 -->
 
-In general, Node.js is a single threaded process and doesn’t expose the child threads or thread management methods. But you can still make use of the child threads for some specific asynchronous I/O tasks which execute in the background.
+- Node.js exposes parallel execution through `node:worker_threads`.
+- Use `Worker` for CPU-bound JavaScript that should run outside the main event loop.
+- Use `node:child_process` when process isolation, a separate executable, or independent memory is needed.
+- The libuv worker pool handles some Node operations internally, but it is not a replacement for application workers.
+
+- **Older explanation:** Node.js was described as not exposing child-thread management and only using background threads for selected asynchronous I/O. Modern Node exposes `worker_threads` directly.
 
 ### Explain stream in Node.js along with its various types.
 
@@ -299,19 +350,26 @@ Timing APIs:
 - `setTimeout` / `clearTimeout`: run after N milliseconds.
 - `setInterval` / `clearInterval`: run repeatedly every N milliseconds.
 - `setImmediate` / `clearImmediate`: run in the event loop "check" phase.
-- `process.nextTick`: run before the next event loop phase (microtask queue).
+- `process.nextTick`: run before Promise microtasks and before the next event-loop phase; avoid recursive use that starves I/O.
 
 ### What do you understand by an Event Emitter in Node.js?
 
 <!-- id: nh{/j`:{h2, noteType: Basic-66869 -->
 
-EventEmitter is a Node.js class that includes all the objects that are capable of emitting events. These objects contain an eventEmitter.on() function which can attach more than one function to the named events that are emitted by the object. Whenever an EventEmitter object throws an event (use evenEmitter.emit()), all the attached functions to that specific event are invoked synchronously.
+- `EventEmitter` is a class for objects that publish named events.
+- Register listeners with `.on()` or `.once()` and emit events with `.emit()`.
+- Listeners run synchronously in registration order unless the listener explicitly schedules asynchronous work.
+- Handle the special `'error'` event to avoid an unhandled process error.
+
+- **Older explanation:** Event listeners attached with `.on()` were described as being invoked synchronously when `.emit()` was called.
 
 ### Module resolution and node_modules scanning
 
 <!-- id: ck!%(J[b<<, noteType: Basic-66869 -->
 
-For `require('foo')`, Node.js searches `node_modules` directories starting from the current folder up through parent directories until the filesystem root.
+- For a CommonJS bare specifier such as `require('foo')`, Node searches package locations according to the package and module-resolution rules.
+- ESM uses package `exports`, `imports`, URL-based resolution, and package `type` rules; it is not simply the old `node_modules` scan.
+- Prefer package `exports` maps and explicit file extensions for portable modern packages.
 
 Example search order for `/home/user/project/app.js` requiring `bar`:
 
@@ -320,37 +378,43 @@ Example search order for `/home/user/project/app.js` requiring `bar`:
 - `/home/node_modules/bar`
 - `/node_modules/bar`
 
+- **Legacy CommonJS model:** this upward `node_modules` scan was commonly taught as the complete resolution algorithm. It remains useful for bare CommonJS imports, but it does not describe ESM package exports or import maps.
+
 ### File-Based Module characteristic
 
 <!-- id: JTrq&Lbe,S, noteType: Basic-66869 -->
 
-Characteristics:
+- CommonJS characteristics:
+  - Conditional loading: `require()` can be called inside code paths.
+  - Synchronous loading: `require()` blocks while the module is loaded.
+  - Caching: modules are cached by resolved filename after the first load.
+- ESM is statically analyzable and uses asynchronous loading semantics; use `import()` when dynamic loading is needed.
 
-- Conditional loading: `require` can be called inside code paths.
-- Blocking: `require` is synchronous; it blocks until the module loads.
-- Caching: modules are cached by resolved path after first load; subsequent `require` returns the cached `module.exports`.
+- **Older explanation:** `require()` was described as conditional, synchronous, and cached by resolved path; those characteristics still apply to CommonJS.
 
 ### Types of modules? The require order?
 
 <!-- id: iUMzXO(8Ml, noteType: Basic-66869 -->
 
-- Core module: `require('fs')`
+- Core module: `require('node:fs')`
 - File-based module: `require('../foo')`
 - Folder-based module: `require('../foo')`, `require('../foo/index')`
 - Module in `node_modules`: `require('foo')`
 - Folder with `package.json` and `main` field
 - Folder with `index.js`
 
-If more than one case matches, the priority follows the above order.
+- The exact rules differ between CommonJS and ESM; package `exports` can restrict or redefine public entry points.
+
+- **Older simplified order:** core module, file module, folder module, package in `node_modules`, `package.json` `main`, then `index.js`.
 
 ### main vs exports in package.json
 
 <!-- id: Jop|IV]kWN, noteType: Basic-66869 -->
 
-In `package.json`, these fields define how consumers resolve your package:
+In `package.json`, these fields influence how consumers resolve your package:
 
 - `main`: CommonJS entry point (`require()` in Node).
-- `module`: ES module entry (used by bundlers supporting ESM).
+- `module`: a bundler convention, not a universal Node.js resolution field.
 - `browser`: browser-specific entry or file map overrides.
 - `types` (or `typings`): TypeScript declaration file path.
 - `exports`: modern field for conditional and subpath exports; takes precedence over `main`/`module` when present.
@@ -361,7 +425,64 @@ Highlights of `exports`:
 - Subpath exports: expose controlled internal files.
 - Encapsulation: hide files not exported.
 
-Fallback/priority (simplified):
+- In modern Node.js packages, treat `exports` as the public contract and define explicit `import`, `require`, `node`, `default`, and/or `types` conditions as needed.
+- Do not rely on a universal `exports` > `browser` > `module` > `main` order; tools and conditions differ.
 
-- `exports` > `browser` > `module` > `main`
-- `types` resolution may be specified in `exports` conditions; otherwise top-level `types` applies.
+- **Older bundler-oriented guidance:** `exports` was summarized as taking priority over `browser`, `module`, and `main`, with top-level `types` used for TypeScript when no conditional type export existed.
+
+### What new features were added in Node.js 22?
+
+- **Stable watch mode:** `node --watch app.js` restarts the process when imported files change.
+- **`node --run`:** Runs a script from `package.json` without requiring npm:
+
+```bash
+node --run test
+```
+
+- **Built-in WebSocket client:** Use the browser-compatible global `WebSocket` for client connections without an extra dependency.
+- **`fs.glob()` and `fs.globSync()`:** Match file paths using glob patterns from the built-in filesystem module.
+- **Improved `node:test`:** Use the built-in test runner, subtests, coverage support, watch mode, and mocking APIs.
+- **Synchronous `require()` of eligible ESM:** Node 22.12+ can load synchronous ESM graphs from CommonJS; modules containing top-level `await` still cannot be loaded this way.
+
+### What new features were added in Node.js 24?
+
+- Node.js 24 includes V8 13.6 and npm 11.
+- `URLPattern` is available as a global for matching structured URLs.
+- The permission model uses `--permission` with flags such as `--allow-fs-read` and `--allow-fs-write`.
+- `node:test` includes improved subtest handling, global setup/teardown support, and stable timer mocking from supported versions.
+- `AsyncLocalStorage` uses the newer `AsyncContextFrame` implementation by default.
+- Test the application and native addons against Node 24 before upgrading because runtime validation, OpenSSL, platform support, and V8 behavior may change.
+
+### Can Node.js execute TypeScript directly?
+
+- Node.js 22.6 introduced experimental type stripping; later Node 22 releases enabled it by default.
+- Node.js 24.12 made type stripping stable.
+- It removes erasable TypeScript syntax but does not type-check the program or apply `tsconfig.json` path aliases and transformations.
+- Features that require JavaScript generation, such as enums and namespaces, need a TypeScript transform or a tool such as `tsx`.
+
+```bash
+node app.ts
+```
+
+### What is the modern Node.js test runner?
+
+- Import `test` from `node:test` and assertions from `node:assert/strict`.
+- It supports nested tests, lifecycle hooks, subtests, mocking, watch mode, and built-in reporters.
+- Use it when a project wants a built-in test runner without adding Jest or another test framework.
+
+```js
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+
+test('addition works', () => {
+  assert.equal(2 + 2, 4);
+});
+```
+
+### Which Node.js APIs are deprecated or removed in Node.js 22/24?
+
+- **Removed in Node.js 23:** `process.assert`; use `node:assert` instead.
+- **Runtime-deprecated in Node.js 24:** `url.parse()`; use the WHATWG `URL` API.
+- **Runtime-deprecated in Node.js 24:** `SlowBuffer`; use `Buffer.allocUnsafeSlow()` only when that behavior is specifically required.
+- **Deprecated:** passing `args` to `child_process.spawn()` and `execFile()` options; pass arguments through the dedicated arguments parameter.
+- **Legacy:** CommonJS-only module-resolution examples that ignore ESM, package `exports`, and the `node:` prefix.

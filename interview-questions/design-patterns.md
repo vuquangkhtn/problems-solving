@@ -53,3 +53,25 @@ export { default /* others */ } from '…';
 - Hooks are generally easier to read and compose in modern React; HOCs remain useful for legacy integrations and wrappers.
 
 Reference: HOC Pattern (patterns.dev)
+
+### What are Higher-Order Components (HOCs)?
+
+<!-- id: p|p^V2r_Zd, noteType: Basic-66869 -->
+
+- A **Higher-Order Component** is a function that receives a component and returns a new enhanced component.
+- It is a composition pattern, not a built-in React API:
+
+```jsx
+const EnhancedComponent = withFeature(WrappedComponent);
+```
+
+- A good HOC does not mutate the original component.
+- It can manage data or state, inject props, transform props, or render fallback UI.
+- **Render hijacking** means the wrapper controls what is rendered around the wrapped component, such as a loading or permission fallback.
+- HOCs are less common in new React code because Hooks reuse logic without adding wrapper components, but they remain common in existing libraries such as Redux's `connect`.
+
+Important caveats:
+
+- Do not create an HOC inside a component's render function; it creates a new component identity on every render.
+- Pass unrelated props through to the wrapped component.
+- Set a useful `displayName` so wrapped components remain easy to identify in DevTools.
