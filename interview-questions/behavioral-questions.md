@@ -2,62 +2,41 @@
 
 ## Question 1: Describe your current project and how it aligns with the company's goals.
 
-### Key notes
-
-- **Situation:** I work on Core Platform, the shared SDK and runtime behind NAB Platform. It provides shared features for both miniapps, which deliver capabilities such as payments, accounts, and products, and the shells that host them.
-- **Task:** Build and improve the shared platform that enables miniapps to be reused across shells.
+- **Situation:** I work on Core Platform, the shared SDK and runtime behind NAB Platform. It supports miniapps such as payments, accounts, and products, as well as the shells that host them.
+- **Task:** Help build and improve shared capabilities so miniapps can be reused across shells.
 - **Actions:**
-  - Contribute to the shared platform, which uses a microfrontend mechanism to let shells embed miniapps and supports authentication, communication, and NAB system integration.
-- **Result:** The platform supports the project’s Domain-Driven Design approach by enabling domain teams to deliver capabilities for their areas, while promoting feature reuse, reducing duplication, and helping maintain consistency across web and mobile.
-
-### Talk track
-
-My current project is Core Platform, the shared SDK and runtime behind NAB Platform. The SDK provides shared features for both miniapps, which deliver capabilities like payments, accounts, and products, and the shells that host them. It uses a microfrontend mechanism to let shells embed miniapps, and supports authentication, communication, and integration with NAB systems. The project follows Domain-Driven Design, with domain teams delivering capabilities for their areas. Core Platform provides shared capabilities that help teams reuse features, reduce duplication, and maintain a consistent experience across web and mobile.
+  - Contribute to the microfrontend platform that lets shells embed miniapps.
+  - Support shared authentication, communication, and integration with NAB systems.
+  - Work within a Domain-Driven Design model, where domain teams own business capabilities.
+- **Result:** The platform helps domain teams deliver independently while reusing shared features, reducing duplication, and maintaining consistency across web and mobile.
 
 ### Follow-up question: What are the key challenges you are facing, and how are you addressing them?
 
-#### Key notes
-
-- **Situation:** Core Platform is built on complex infrastructure provided by the NAB SDK and serves miniapps and shells owned by different domain teams.
-- **Task:** Quickly understand the infrastructure and learn how to engage with and support those teams.
+- **Situation:** Core Platform relies on complex NAB SDK infrastructure and serves miniapps and shells owned by different domain teams.
+- **Task:** Build enough technical and stakeholder context to contribute effectively and support teams using the platform.
 - **Actions:**
-  - Build my understanding of the microfrontend and Backend for Frontend (BFF) concepts used by the platform.
-  - Learn how to engage with and support miniapps and shells across NAB domain teams while contributing to the shared platform.
-- **Result:** This learning helps me contribute to the platform and support its use across miniapps and shells.
-
-#### Talk track
-
-A key challenge is quickly understanding the complex infrastructure provided by the NAB SDK, especially the microfrontend and BFF concepts. I also need to learn how to engage with and support miniapps and shells owned by different domain teams across NAB. I’m building that understanding while contributing to the shared platform and learning how the teams use it.
+  - Learn the platform’s microfrontend and Backend for Frontend (BFF) architecture.
+  - Work with domain teams to understand their use cases, constraints, and integration points.
+  - Apply that context when contributing to platform improvements and answering team questions.
+- **Result:** I can contribute more effectively and provide more relevant support across miniapps and shells.
 
 ## Question 2: Can you describe a time when you had to explain a complex technical concept to a non-technical stakeholder? How did you ensure they understood?
 
-### Key notes
-
-- Situation: Migrated from Webpack to Vite.
-- Task: Explain the need for migration clearly, without overwhelming developers.
-- Actions:
-  - Highlighted slow builds, limited maintenance support, and security findings.
-  - Migrated configurations and scripts; checked dependency compatibility and validated with builds and tests.
-  - Shared timelines, steps, prompts, and commands.
-- Result: Reduced bundle size by 20%, with faster hot reloads and builds; teams understood the rationale and had migration guidance.
-
-### Talk track
-
-I was leading the migration from Webpack to Vite, and the key was making the value understandable without getting lost in tooling details. I explained the business and engineering reasons in simple terms: slow builds were affecting delivery speed, the older setup had limited maintenance support, and there were security concerns. I then broke the work into clear phases, checked compatibility, updated the configuration, and validated the changes with real builds and tests. I also shared the timeline and the exact commands and prompts the team needed, so they could follow the transition confidently. In the end, we reduced bundle size by 20% and improved hot reload and build performance, and the team understood both the reason for the change and how to move forward safely.
+- **Situation:** The team needed to migrate from Webpack to Vite.
+- **Task:** Explain the change clearly to stakeholders and developers without overwhelming them with tooling details.
+- **Actions:**
+  - Explained the impact in practical terms: slow builds affected delivery speed, the old setup had limited maintenance support, and security findings needed attention.
+  - Broke the migration into phases, checked dependency compatibility, and updated the configuration.
+  - Validated the result with builds and tests, then shared the timeline, migration steps, and commands.
+- **Result:** Reduced bundle size by 20%, improved hot reload and build performance, and gave the team a clear path to complete the migration safely.
 
 ## Question 3: Describe a project where you collaborated with others to achieve a common goal. What role did you play, and how did you contribute to the team's success?
 
-### Key notes
-
-- **Situation:** Releases included contributions from multiple teams, making it difficult to identify and manage new features and fixes in the codebase.
-- **Task:** Improve how contributions were tracked and how release information was communicated.
+- **Situation:** Releases included contributions from multiple teams, making features and fixes difficult to identify, validate, and communicate.
+- **Task:** Improve contribution tracking and make release communication more reliable.
 - **Actions:**
-  - Set contribution requirements, including adding a label, documentation, and a Test Summary Report (test evidence).
-  - Used AI to track contributions and upcoming features and fixes for each release.
-  - Created dashboards to track release information and used Cursor commands to automate announcements and release emails.
-  - Gathered team requirements and maintained the solution.
-- **Result:** Improved visibility of release contributions, reduced manual effort, and made release communications clearer.
-
-### Talk track
-
-I worked with the team to improve how we managed and communicated releases. Because each release included contributions from multiple teams, it could be difficult to identify and manage new features and fixes in the codebase. I set contribution requirements, including a label, documentation, and a Test Summary Report with test evidence, and used AI to track contributions and upcoming release items. I also created dashboards to track release information and used Cursor commands to automate announcements and release emails. This improved visibility into release contributions, reduced manual effort, and made our communications clearer.
+  - Defined contribution requirements: a label, documentation, and a Test Summary Report with test evidence.
+  - Used AI-assisted tracking to identify current and upcoming features and fixes for each release.
+  - Created dashboards and automated release announcements and email preparation.
+  - Gathered team requirements, refined the workflow, and maintained the solution.
+- **Result:** Improved visibility into release contributions, increased confidence in release readiness, reduced manual effort, and made communications clearer.
