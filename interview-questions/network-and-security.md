@@ -4,19 +4,29 @@
 
 ### CORS vs CSRF?
 
-CORS governs cross-origin resource access via server headers; CSRF abuses authenticated browser requests without user intent. Mitigate CSRF with anti-CSRF tokens and `SameSite` cookies; configure CORS with explicit `Origin` allowlists.
+- **CORS:** A browser policy controlling whether frontend JavaScript may read responses from another origin; configured with response headers.
+- **CSRF:** Tricks a browser into sending an authenticated request that the user did not intend.
+- **Mitigate CORS issues:** Use explicit origin allowlists and restrict methods, headers, and credentials.
+- **Mitigate CSRF:** Use `SameSite` cookies, anti-CSRF tokens, and server-side origin checks where appropriate.
 
 ### How should passwords be stored?
 
-Use slow, salted hash functions like Argon2id or bcrypt; add a server-side pepper; enforce strong policies and rate limits.
+- Hash passwords with a slow, salted password-hashing function such as Argon2id or bcrypt; never encrypt or store plaintext passwords.
+- Consider a server-side pepper stored separately from the database.
+- Enforce rate limits, MFA where appropriate, and a safe password-reset flow.
 
 ### How to secure JWTs?
 
-Use short expirations, proper `iss`/`aud`, rotate signing keys, avoid storing in localStorage; prefer `HttpOnly`, `Secure`, `SameSite` cookies.
+- Use short-lived access tokens and validate `iss`, `aud`, signature, algorithm, and expiration.
+- Rotate signing keys and support key identification/rollover.
+- Avoid storing sensitive tokens in `localStorage`; prefer an `HttpOnly`, `Secure`, appropriately configured `SameSite` cookie when suitable.
 
 ### Prevent XSS succinctly?
 
-Validate input, encode output by context (HTML/JS/URL), avoid dangerous sinks (`innerHTML`), and use CSP.
+- Treat all external data as untrusted.
+- Encode output for its context (HTML, attribute, JavaScript, CSS, or URL).
+- Avoid dangerous sinks such as `innerHTML`; prefer safe DOM APIs and trusted templating.
+- Use a restrictive Content Security Policy as defense in depth.
 
 ### Prevent SQL Injection succinctly?
 

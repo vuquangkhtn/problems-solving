@@ -6,45 +6,41 @@
 
 <!-- id: fzUOe;T$e$, noteType: Basic-66869 -->
 
-HTML5 is the latest version of the Hypertext Markup Language (HTML), which is used to structure and present content on the web. It introduces new features and improvements over its predecessor version.
-Some key differences between HTML4 and HTML5 include:
-
-1. New Semantic Elements: HTML5 introduces new semantic elements like `<header>`, `<footer>`, `<article>`, `<section>`, and `<nav>` to provide better structure and meaning to web content.
-2. Multimedia Support: HTML5 includes native support for audio and video elements (`<audio>` and `<video>`) without the need for third-party plugins like Flash.
-3. Canvas Element: HTML5 introduces the `<canvas>` element, which allows for dynamic, scriptable rendering of 2D shapes and images.
-4. Form Enhancements: HTML5 adds new input types (e.g., `email`, `date`, `number`) and attributes (e.g., `placeholder`, `required`) to improve form usability and validation.
-5. Improved Accessibility: HTML5 includes features that enhance accessibility for users with disabilities, such as ARIA (Accessible Rich Internet Applications) roles and attributes.
-
-Overall, HTML5 represents a significant advancement in web development, providing developers with more tools and capabilities to create rich, interactive, and user-friendly web experiences.
+- HTML5 is the modern HTML standard for structuring web documents and applications.
+- Key improvements include:
+  - Semantic elements such as `<header>`, `<nav>`, `<main>`, `<article>`, and `<footer>`.
+  - Native `<audio>` and `<video>` without plugins such as Flash.
+  - `<canvas>` for scriptable bitmap drawing.
+  - New form controls and validation attributes such as `email`, `date`, and `required`.
+  - Better accessibility when semantic elements and labels are used correctly.
 
 ### What is the difference between an id and a class in HTML/CSS?
 
 <!-- id: 0et0}@IR,], noteType: Basic-66869 -->
 
-An id is a unique identifier for a single HTML element.
-A class is a reusable identifier that can be applied to multiple elements.
-
-In CSS, an id is selected using the `#` symbol, while a class is selected using the `.` symbol.
+- An `id` identifies one element and is selected with `#`.
+- A `class` is reusable across many elements and is selected with `.`.
+- Prefer classes for styling; reserve IDs for unique identity, fragment links, or integration hooks.
 
 ### What is CSS
 
 <!-- id: d:7nK*Ymy9, noteType: Basic-66869 -->
 
-CSS (Cascading Style Sheets) is a stylesheet language used to describe the presentation of a document written in HTML or XML. It allows developers to separate content from design, making it easier to maintain and update styles across a website.
+- CSS (Cascading Style Sheets) describes how HTML or XML content is presented.
+- It controls layout, colors, typography, animation, and responsive behavior.
+- Separating presentation from markup improves reuse and maintainability.
 
 ### Can you explain the box model in CSS?
 
 <!-- id: a!hfOCYM!!, noteType: Basic-66869 -->
 
-The CSS box model describes the rectangular boxes generated for elements in the DOM. The box model is composed of the following layers:
-
-1. Content: The innermost part, where text and images appear.
-
-2. Padding: The space between the content and the border.
-
-3. Border: The outer edge of the padding, surrounding the element.
-
-4. Margin: The space outside the border, separating the element from others.
+- The CSS box model describes the rectangular box generated for each element.
+- From inside to outside:
+  - **Content:** Text, replaced content, or child layout area.
+  - **Padding:** Space between content and border.
+  - **Border:** Edge surrounding the padding.
+  - **Margin:** Space outside the border.
+- `box-sizing: border-box` makes declared width and height include padding and border.
 
 ### What is the difference between inline, inline-block, and block elements?
 

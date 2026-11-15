@@ -6,34 +6,33 @@
 
 <!-- id: O)gkj,qXu:, noteType: Basic-66869 -->
 
-Share a single global instance throughout our application.
-
-In React, we often rely on a global state through state management tools such as Redux or React Context instead of using Singletons.
-Although their global state behavior might seem similar to that of a Singleton, these tools provide a read-only state rather than the mutable state of the Singleton.
+- **Intent:** Ensure that a class has one shared instance and provide a global access point.
+- **Trade-off:** Global mutable state makes code harder to test and reason about.
+- In React, prefer Context or a state-management library when shared state is needed; these are not automatically Singletons.
 
 ### Proxy Pattern
 
 <!-- id: u_nwd~iW?V, noteType: Basic-66869 -->
 
-Intercept and control interactions to target objects.
-Proxy can help with validation, formatting, notifications, or debugging.
-The two most common methods of Proxy handler are `get` and `set`.
+- **Intent:** Intercept access to, or operations on, another object.
+- Common uses include validation, formatting, logging, lazy loading, and access control.
+- Common handler traps are `get` and `set`.
 
 ### Provider Pattern/Context API
 
 <!-- id: pP3h4;;xo<, noteType: Basic-66869 -->
 
-Makes it possible to pass data to many components, without having to manually pass it through each component layer.
+- **Intent:** Provide a value to many components without passing props through every intermediate layer.
+- React Context is useful for low-frequency shared concerns such as themes, locale, and authentication.
+- Avoid putting frequently changing, unrelated state into one context because it can trigger unnecessary re-renders.
 
 ### Export and Import in ES6
 
 <!-- id: (Pgm]fGAa, noteType: Basic-66869 -->
 
-There are two different types of export: named and default.
-You can have multiple named exports per module but only one default export.
-Named exports are useful to export several values.
-During the import, it is mandatory to import them within curly braces with the same name of the corresponding object.
-But a default export can be imported with any name.
+- **Named export:** A module can have multiple; imports use braces and normally match the exported name.
+- **Default export:** A module can have at most one; the importer may choose any local name.
+- Prefer named exports in larger codebases when explicit, refactor-friendly imports are valuable.
 
 Re-Export/Aggregating (Export From):
 
@@ -49,13 +48,8 @@ export { default /* others */ } from '…';
 
 <!-- id: m*1(H_^I<$, noteType: Basic-66869 -->
 
-Best use-cases for a HOC:
-The same, uncustomized behavior needs to be used by many components throughout the application.
-The component can work standalone, without the added custom logic.
-
-Best use-cases for Hooks:
-The behavior has to be customized for each component that uses it.
-The behavior is not spread throughout the application; only one or a few components use the behavior.
-The behavior adds many properties to the component.
+- **Use a HOC when:** the same cross-cutting behavior is shared by many components and should be applied consistently.
+- **Use a Hook when:** behavior needs to be composed or customized inside function components.
+- Hooks are generally easier to read and compose in modern React; HOCs remain useful for legacy integrations and wrappers.
 
 Reference: HOC Pattern (patterns.dev)

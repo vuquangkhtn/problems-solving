@@ -6,22 +6,22 @@
 
 <!-- id: 5Bv7_9IB[3, noteType: Basic-66869 -->
 
-Phase 1: Network operations
+**Phase 1: Network operations**
 
-1. DNS lookup: go through multiple cache levels. If not found, it processes DNS lookup
-2. TCP Connection: 3 round trips
-3. TLS Handshake: 3 + 5 = 8 round trips. connection reuse and keep alive headers are good for perf
-4. HTTP Request/Reponse: get HTML content. TTFB measures how long server responds
+- **DNS lookup:** The browser checks caches, then resolves the hostname if needed.
+- **Connection:** Establish TCP, or QUIC for HTTP/3. The exact number of round trips depends on protocol, caching, and connection reuse.
+- **TLS handshake:** Negotiates encryption for HTTPS; TLS 1.3 commonly needs fewer round trips than older versions.
+- **HTTP request/response:** The browser requests HTML. **TTFB** measures time until the first response byte.
 
-Phase 2: Browser rendering
+**Phase 2: Browser rendering**
 
-1. HTML Parsing to DOM Tree: parse the HTML code in the document and create a DOM Tree while preload scanner find the CSS and JS files to download in parallel.
-2. CSS Parsing to CSSOM Tree: block the rendering of the document.
-3. Javascript Execution: parse and execute the javascript code in the document. block HTML parsing.
-4. Render Tree Construction: combine the DOM Tree and CSSOM Tree to form the Render Tree.
-5. Layout: calculate the position and size of each element in the document.
-6. Painting: draw the pixels on the screen.
-7. Compositing: combine the layers to form the final image. Leverage GPU acceleration.
+- **Parse HTML:** Build the DOM; the preload scanner discovers resources in parallel.
+- **Parse CSS:** Build the CSSOM; render-blocking styles must be available before a reliable first render.
+- **Execute JavaScript:** Scripts can pause parsing and may trigger additional style/layout work.
+- **Build the render tree:** Combine visible DOM nodes with their computed styles.
+- **Layout:** Calculate each element's size and position.
+- **Paint:** Draw text, colors, borders, and images.
+- **Composite:** Combine layers, often using GPU acceleration.
 
 Critical Rendering Path: is the sequence of steps the browser takes to render a website as mentioned above.
 

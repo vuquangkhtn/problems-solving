@@ -6,7 +6,9 @@
 
 <!-- id: Os!i<T1O?9, noteType: Basic-66869 -->
 
-Node.js is an open-source server side runtime environment built on Chrome's V8 JavaScript engine. It provides an event driven, non-blocking (asynchronous) I/O and cross-platform runtime environment for building server-side applications using JavaScript.
+- Node.js is a cross-platform JavaScript runtime built on Google's V8 engine.
+- It uses an event loop and non-blocking I/O APIs, making it effective for I/O-heavy services.
+- JavaScript runs on one main thread by default, while the runtime can use the OS and libuv worker pool for some operations.
 
 ### Node.js vs Browser JavaScript
 
@@ -34,7 +36,9 @@ Node.js runs in a single thread, while browser JavaScript runs in multiple threa
 
 <!-- id: n==/`?wf|k, noteType: Basic-66869 -->
 
-Node.js runs in a single process and the application code runs in a single thread and thereby needs less resources than other platforms. This single thread doesn't have to wait for the request to complete and is free to handle the next request.
+- A Node.js process normally runs application JavaScript on one main thread.
+- The event loop can accept other work while asynchronous I/O is pending.
+- CPU-heavy synchronous work still blocks that process; use `worker_threads`, separate processes, or a job queue when appropriate.
 
 ### What are the data types in Node.js?
 

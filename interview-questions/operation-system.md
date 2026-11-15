@@ -1,4 +1,4 @@
-# Operation System
+# Operating Systems
 
 [[toc]]
 
@@ -13,7 +13,7 @@ An Operating System (OS) is system software that manages computer hardware and s
 - Provides abstractions (files, processes, threads) and security.
 - Acts as an intermediary between users/applications and hardware.
 
-### Scheduling Algorithm
+### What are common CPU scheduling algorithms?
 
 <!-- id: uv|en.AHg$, noteType: Basic-66869 -->
 
@@ -46,7 +46,7 @@ Necessary conditions (Coffman):
 - No preemption
 - Circular wait
 
-### Ram vs Cache
+### RAM vs Cache
 
 <!-- id: KlMh0bw.BW, noteType: Basic-66869 -->
 
@@ -75,7 +75,7 @@ Necessary conditions (Coffman):
 - Paging: divides virtual memory into fixed-size pages mapped to physical frames; avoids external fragmentation.
 - Page Fault: occurs when a process accesses a page not in physical memory; OS loads the page from disk (swap/page file) into RAM.
 
-### Ram vs Rom
+### RAM vs ROM
 
 <!-- id: El7a?ezq/J, noteType: Basic-66869 -->
 
