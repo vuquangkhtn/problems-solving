@@ -7,12 +7,12 @@
 - **Situation:** I work on Core Platform, the shared SDK and runtime behind NAB Platform. It provides shared features for both miniapps, which deliver capabilities such as payments, accounts, and products, and the shells that host them.
 - **Task:** Build and improve the shared platform that enables miniapps to be reused across shells.
 - **Actions:**
-  - Contribute to the shared platform, which supports miniapp loading, authentication, communication, and NAB system integration.
+  - Contribute to the shared platform, which uses a microfrontend mechanism to let shells embed miniapps and supports authentication, communication, and NAB system integration.
 - **Result:** The platform supports the project’s Domain-Driven Design approach by enabling domain teams to deliver capabilities for their areas, while promoting feature reuse, reducing duplication, and helping maintain consistency across web and mobile.
 
 ### Talk track
 
-My current project is Core Platform, the shared SDK and runtime behind NAB Platform. The SDK provides shared features for both miniapps, which deliver capabilities like payments, accounts, and products, and the shells that host them. It supports miniapp loading, authentication, communication, and integration with NAB systems. The project follows Domain-Driven Design, with domain teams delivering capabilities for their areas. Core Platform provides shared capabilities that help teams reuse features, reduce duplication, and maintain a consistent experience across web and mobile.
+My current project is Core Platform, the shared SDK and runtime behind NAB Platform. The SDK provides shared features for both miniapps, which deliver capabilities like payments, accounts, and products, and the shells that host them. It uses a microfrontend mechanism to let shells embed miniapps, and supports authentication, communication, and integration with NAB systems. The project follows Domain-Driven Design, with domain teams delivering capabilities for their areas. Core Platform provides shared capabilities that help teams reuse features, reduce duplication, and maintain a consistent experience across web and mobile.
 
 ### Follow-up question: What are the key challenges you are facing, and how are you addressing them?
 

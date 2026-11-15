@@ -83,3 +83,6 @@ pids
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# AI Code Review temporary files
+.ai-code-review/

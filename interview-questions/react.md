@@ -28,6 +28,17 @@ Update steps:
 
 <!-- id: x7v|@{%0DI, noteType: Basic-66869 -->
 
+|                     | Real DOM                                                            | Virtual DOM                                                     |
+| ------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------- |
+| What it is          | The browser's actual page object tree                               | Lightweight in-memory JS copy of the real DOM                   |
+| Update cost         | Expensive; every update can trigger layout/reflow and repaint       | Cheap; updates happen on plain JS objects, then get diffed      |
+| Update granularity  | Updates the whole node even for small changes                       | Diffs old vs. new trees and applies only the minimal changes    |
+| Performance         | Slower with frequent updates                                        | Faster: batching + diffing minimize real DOM work               |
+| Memory              | Lower (single source of truth)                                      | Higher (keeps extra trees/copies in memory)                     |
+| Direct manipulation | Can be manipulated directly with APIs like `document.createElement` | Cannot act on the page directly; React syncs it to the real DOM |
+
+In short: React renders to the Virtual DOM, diffs it against the previous version (reconciliation), and applies only the necessary changes to the Real DOM — trading some memory for much less expensive DOM manipulation.
+
 ### What do you understand from “In React, everything is a component.”
 
 <!-- id: cC3W]O5b<X, noteType: Basic-66869 -->
@@ -72,7 +83,11 @@ ReactDOM.render(<MyComponent />, document.getElementById('content'));
 
 <!-- id: tD#fA>`[%T, noteType: Basic-66869 -->
 
-Props are short hand for Properties in React. They are read-only components which must be kept pure i.e. immutable. They are always passed down from the parent to the child components throughout the application. A child component can never send a prop back to the parent component. This help in maintaining the unidirectional data flow and are generally used to render the dynamically generated data.
+- Props are read-only and should be treated as immutable.
+- They are passed from a parent component to a child component.
+- A child component cannot send props back to its parent.
+- This creates a one-way data flow from parent to child.
+- Props are commonly used to render dynamic data such as API results or user input.
 
 ### What is a state in React and how is it used?
 
