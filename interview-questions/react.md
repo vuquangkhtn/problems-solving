@@ -353,22 +353,27 @@ src/
 
 <!-- id: yX93pYzyV(, noteType: Basic-66869 -->
 
-- A routing library that keeps the UI in sync with the URL.
-- Hooks: `useNavigate` (v6), `useLocation`, `useParams`.
-- Covers:
-  - Configuring routes
-  - Navigating with `Link`
-  - Nested routes/layouts
-  - Programmatic navigation
-  - URL params and search params
+- A multi-strategy router for React that matches URLs to routes, renders the corresponding UI, and supports navigation.
+- Current docs describe three modes ([Declarative](https://reactrouter.com/start/modes#declarative), [Data](https://reactrouter.com/start/modes#data), and [Framework](https://reactrouter.com/start/modes#framework)):
+  - Declarative mode provides basic route matching and navigation.
+  - Data mode adds route loaders, actions, and pending states.
+  - Framework mode adds route modules, type-safe APIs, code splitting, and SPA/SSR/static-rendering strategies.
+- Common APIs include `<Link>` for navigation, `useNavigate` for programmatic navigation, `useLocation` for the current location, `useParams` for matched URL parameters, and `useSearchParams` for query parameters. These hooks are not v6-only; see the current [`useNavigate`](https://reactrouter.com/api/hooks/useNavigate), [`useLocation`](https://reactrouter.com/api/hooks/useLocation), [`useParams`](https://reactrouter.com/api/hooks/useParams), and [`useSearchParams`](https://reactrouter.com/api/hooks/useSearchParams) references.
+- Supports nested routes and layouts, commonly rendering matched child routes with `<Outlet>`.
+
+### What changed in React Router v6 and v7?
+
+- **v6:** Introduced `<Routes>` with ranked route matching, nested routes and relative links, and the `<Route element>` API; hooks also replaced many older render-prop patterns ([v5-to-v6 guide](https://reactrouter.com/6.30.1/upgrading/v5), [v6 announcement](https://remix.run/blog/react-router-v6)).
+- **v6.4 data routers:** Added `createBrowserRouter` and `<RouterProvider>`, plus route `loader`s and `action`s for loading and changing data, with forms, fetchers, error handling, and deferred data ([v6.4.0 release notes](https://github.com/remix-run/react-router/releases/tag/react-router%406.4.0)).
+- **v7:** Added an optional framework mode with Vite-based tooling, server rendering, code splitting, and stronger route types, while keeping library mode as an option ([v7 announcement](https://remix.run/blog/react-router-v7)). The upgrade guide recommends enabling v7 future flags on the latest v6 first; v7 also consolidated packages around `react-router` ([v6-to-v7 guide](https://reactrouter.com/7.0.0/upgrading/v6), [v7.0.0 release notes](https://github.com/remix-run/react-router/blob/v7/CHANGELOG.md#v700)).
 
 ### How React Router is different from history library?
 
 <!-- id: BHB7^Vf4qD, noteType: Basic-66869 -->
 
-- React Router wraps the `history` library, managing browser and hash histories.
-- Adds declarative routing components and React integration.
-- Provides memory history for non-browser environments (React Native, tests).
+- The standalone [`history` package](https://github.com/remix-run/history) provides an abstraction for reading and updating a navigation history stack.
+- React Router adds React route matching, route rendering, links, and router-aware navigation APIs. In current versions, it has its own history abstraction rather than simply wrapping the separate `history` package ([source](https://github.com/remix-run/react-router/blob/main/packages/react-router/lib/router/history.ts)).
+- For memory-backed routing, use [`<MemoryRouter>`](https://reactrouter.com/api/declarative-routers/MemoryRouter) in Declarative mode or [`createMemoryRouter`](https://reactrouter.com/api/data-routers/createMemoryRouter) in Data mode.
 
 ### What is React Interalization?
 
@@ -381,16 +386,19 @@ src/
 
 <!-- id: tZuNHD4?q@, noteType: Basic-66869 -->
 
-- **Not a React API:** `registerServiceWorker` was a Create React App template helper.
-- A service worker is a browser API that can cache assets, intercept requests, and support offline behavior.
-- Configure service workers with the chosen build tool or PWA strategy; do not assume the helper exists in a React 18/19 project.
+- A service worker runs separately from the page and can cache resources, intercept network requests, support offline behavior, and enable features such as push notifications.
+- Registration does not automatically make an app offline-capable; the service worker still needs an appropriate caching and update strategy.
+- Service workers generally require HTTPS, except on `localhost`. Configure them through the chosen build tool or PWA strategy rather than assuming this CRA helper exists in a modern React project.
 
 ### What is React memo function?
 
 <!-- id: C&Ugl6PT|A, noteType: Basic-66869 -->
 
-- Class components can avoid re-rendering when their props are unchanged by using `PureComponent` or `shouldComponentUpdate`.
-- Wrap a function component in `React.memo` for similar behavior.
+- `React.memo` is a performance optimization that memoizes a function component.
+- When its parent re-renders, React compares the component's current props with its previous props using shallow comparison. If they are unchanged, React can skip rendering that component.
+- It does not prevent re-renders caused by the component's own state or by a context value it consumes, and it is not a guarantee that React will never re-render it.
+- Use it when a component re-renders often with the same props and rendering it is relatively expensive. Avoid adding it by default; new object, array, or function props can still make the props appear changed.
+- For class components, the comparable options are `PureComponent` or `shouldComponentUpdate`.
 
 ### What is `React.lazy`?
 
@@ -523,24 +531,22 @@ root.unmount();
 
 - **Legacy behavior:** `unmountComponentAtNode(container)` removed a mounted tree, cleaned it up, and returned `true` or `false` depending on whether a tree was found.
 
-### Optimizing performance in a React application? List the React hook functions
+### How do you optimize performance in a React application? Which React hooks are relevant?
 
 <!-- id: gA2?HOKfQ$, noteType: Basic-66869 -->
 
-- Keep component state local when appropriate (`useState`, `useReducer`).
-- Split complex components into smaller ones.
-- Avoid passing props through many levels; consider React Redux, `useContext`, or `useReducer`.
-- Memoize components to prevent unnecessary re-renders (`React.memo`).
-- Memoize expensive calculations or callbacks (`useMemo`, `useCallback`).
-- Extract reusable logic into custom Hooks.
-- Use refs to store mutable values without triggering a re-render.
-- Use debounce and throttle to avoid sending multiple requests in a short time.
-- Use code splitting with dynamic `import()`.
-- Use windowing or list virtualization.
-- Lazy-load images.
-- Use `useTransition` or `startTransition` for non-urgent updates.
-- Use `useDeferredValue` when a derived value can lag behind urgent input.
-- Measure with the React Profiler before adding memoization.
+- Profile first with the React DevTools Profiler, then optimize the actual bottleneck.
+- Keep state as local as practical (`useState`, `useReducer`) and split large components when that reduces unnecessary work.
+- Use `React.memo` when a component frequently receives the same props and is expensive to render. Stable props matter; new object, array, or function values can still cause a re-render.
+- Use `useMemo` for an expensive calculation whose dependencies are stable, and `useCallback` when a stable function identity helps a memoized child or another dependency. Neither should be added by default.
+- Use `useRef` for mutable values that do not need to trigger a render; do not use it as a replacement for visible state.
+- Use `useTransition`/`startTransition` for non-urgent updates and `useDeferredValue` when a derived value can lag behind urgent input.
+- In React 19+, use `useOptimistic` to show an expected result while an async Action is pending, and `useActionState` to manage the result and pending state of an Action or form submission. These improve responsiveness and user feedback, but they are not general-purpose render optimizations ([React hooks reference](https://react.dev/reference/react/hooks)).
+- Mention `useEffectEvent` when explaining Effects that need to read the latest props or state without making that logic cause the Effect to re-synchronize. It should not be used to hide missing Effect dependencies ([useEffectEvent](https://react.dev/reference/react/useEffectEvent)).
+- Extract reusable logic into custom Hooks; this improves reuse but does not automatically improve performance.
+- Avoid unnecessary prop drilling by improving component boundaries or using context/state management when appropriate. `useContext` can also re-render consumers when its value changes, so it is not inherently a performance optimization.
+- Use code splitting with dynamic `import()`, lazy-load large resources, and use list virtualization for very large lists.
+- Debounce or throttle frequent event-driven work such as search requests or scroll handlers.
 
 ### How to write unit tests for custom hooks?
 
@@ -595,7 +601,13 @@ root.unmount();
 
 <!-- id: O^J|aZOs#P, noteType: Basic-66869 -->
 
-- Reference: When should you memoize in React (prateeksurana.me)
+- Do not memoize by default. Memoization adds comparison and maintenance overhead, so profile first and consider simpler fixes such as splitting frequently changing parts from stable parts.
+- Use `React.memo` when an expensive component re-renders frequently with unchanged props.
+- Use `useCallback` when a stable function reference helps a memoized child or is needed as a dependency.
+- Use `useMemo` for an expensive calculation, or to preserve an object/array reference when that prevents unnecessary child renders or Effects.
+- Watch for referential equality: newly created functions, objects, arrays, and some `children` values can invalidate memoization.
+- Memoization is worthwhile only when the rendering or computation it saves costs more than the memoization overhead.
+- Reference: [When should you memoize in React](https://prateeksurana.me/blog/when-should-you-memoize-in-react/)
 
 ### What is React Fiber?
 
