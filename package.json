@@ -54,6 +54,7 @@
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
+    "prototype:kindle": "vite --open /prototypes/kindle-reader-prototype.html",
     "join-to-txt": "node interview-questions/resources/join-from-h2.js && node interview-questions/resources/convert-to-txt.js",
     "parse-from-txt": "node interview-questions/resources/convert-to-md.js && node interview-questions/resources/split-by-h2.js"
   },

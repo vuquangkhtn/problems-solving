@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>Kindle Reader — UI Prototype</title>
+    <!--
+      THROWAWAY UI PROTOTYPE — not production code.
+      Question: which information hierarchy feels most readable on an 11th-generation Kindle?
+      Three variants, switchable via ?variant=A|B|C.
+      Concept: a quiet technical field guide printed on warm paper, with one vermilion thread guiding the reader forward.
+    -->
+    <style>
+      :root {
+        --paper: #f3efe4;
+        --paper-deep: #e5dece;
+        --paper-light: #fbf8ef;
+        --ink: #171815;
+        --ink-soft: #55564f;
+        --hairline: rgba(23, 24, 21, 0.2);
+        --vermillion: #b33a2e;
+        --shadow: rgba(40, 35, 27, 0.2);
+        --serif: Baskerville, "Palatino Linotype", Palatino, Georgia, serif;
+        --sans: "Gill Sans", "Trebuchet MS", Arial, sans-serif;
+        --mono: Menlo, Consolas, "SFMono-Regular", monospace;
+        --settle: cubic-bezier(0.16, 0.84, 0.24, 1);
+        --spring: cubic-bezier(0.3, 1.5, 0.45, 1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        background: #cac2b2;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 50% 2%, rgba(255, 255, 255, 0.48), transparent 38rem),
+          linear-gradient(130deg, #d7d0c1, #bcb3a2);
+        font: 18px/1.62 var(--serif);
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button,
+      a,
+      summary {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button:focus-visible,
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid var(--vermillion);
+        outline-offset: 4px;
+      }
+
+      ::selection {
+        color: var(--paper-light);
+        background: var(--vermillion);
+      }
+
+      .grain {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0.065;
+        mix-blend-mode: multiply;
+      }
+
+      .lab-note {
+        position: fixed;
+        top: max(18px, env(safe-area-inset-top));
+        left: max(20px, env(safe-area-inset-left));
+        z-index: 3;
+        max-width: 18rem;
+        color: #403d36;
+        font: 700 10px/1.5 var(--mono);
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .lab-note::before {
+        display: inline-block;
+        width: 1.9em;
+        height: 1px;
+        margin: 0 0.7em 0.3em 0;
+        background: var(--vermillion);
+        content: "";
+      }
+
+      .stage {
+        display: grid;
+        min-height: 100vh;
+        padding: 56px 20px 112px;
+        place-items: start center;
+      }
+
+      .kindle {
+        position: relative;
+        width: min(100%, 650px);
+        min-height: calc(100vh - 170px);
+        overflow: hidden;
+        background: var(--paper);
+        border: 1px solid rgba(51, 47, 39, 0.5);
+        box-shadow:
+          0 0 0 8px #282925,
+          0 0 0 9px #0b0c0a,
+          0 28px 70px -25px rgba(28, 25, 19, 0.72),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      }
+
+      .kindle::before {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(90deg, rgba(26, 24, 20, 0.025) 1px, transparent 1px) 0 0 / 4px 4px,
+          linear-gradient(rgba(26, 24, 20, 0.018) 1px, transparent 1px) 0 0 / 4px 4px;
+        content: "";
+      }
+
+      .variant {
+        position: relative;
+        z-index: 1;
+        display: none;
+        min-height: calc(100vh - 170px);
+      }
+
+      .variant.is-active {
+        display: block;
+      }
+
+      .variant.is-active .entrance {
+        animation: reveal 0.9s var(--settle) both;
+        animation-delay: calc(var(--i, 0) * 60ms);
+      }
+
+      @keyframes reveal {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+      }
+
+      .eyebrow {
+        color: var(--vermillion);
+        font: 700 10px/1.4 var(--mono);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .rule {
+        height: 1px;
+        background: var(--hairline);
+      }
+
+      .reading-copy {
+        text-wrap: pretty;
+      }
+
+      .reading-copy p {
+        margin: 0 0 1.25em;
+      }
+
+      .reading-copy strong {
+        font-weight: 700;
+      }
+
+      .reading-copy h2 {
+        margin: 2.2em 0 0.65em;
+        font: 700 clamp(25px, 6vw, 34px)/1.08 var(--serif);
+        letter-spacing: -0.025em;
+      }
+
+      pre {
+        max-width: 100%;
+        margin: 1.6em 0;
+        padding: 18px;
+        overflow: hidden;
+        color: #20211e;
+        background: #e6e0d4;
+        border: 1px solid var(--hairline);
+        border-left: 3px solid var(--vermillion);
+        font: 13px/1.55 var(--mono);
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
+      .code-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--ink-soft);
+        font: 700 9px/1 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .page-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 42px;
+        padding-top: 18px;
+        border-top: 1px solid var(--hairline);
+      }
+
+      .page-nav a {
+        min-height: 54px;
+        padding: 10px 0;
+        font: 700 12px/1.35 var(--sans);
+        text-decoration: none;
+      }
+
+      .page-nav a:last-child {
+        text-align: right;
+      }
+
+      .page-nav span {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--vermillion);
+        font: 700 9px/1 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      /* Variant A — one uninterrupted book page */
+      .book-head {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 18px;
+        align-items: end;
+        padding: 21px 26px 17px;
+        border-bottom: 1px solid var(--hairline);
+      }
+
+      .book-head a {
+        font: 700 12px/1 var(--sans);
+        text-decoration: none;
+      }
+
+      .book-head .folio {
+        color: var(--ink-soft);
+        font: 10px/1 var(--mono);
+      }
+
+      .book-body {
+        max-width: 38rem;
+        margin: 0 auto;
+        padding: 48px 42px 40px;
+      }
+
+      .book-body h1 {
+        max-width: 12ch;
+        margin: 10px 0 14px;
+        font: 700 clamp(40px, 10vw, 62px)/0.98 var(--serif);
+        letter-spacing: -0.05em;
+      }
+
+      .dek {
+        margin: 0 0 34px;
+        color: var(--ink-soft);
+        font: italic 18px/1.45 var(--serif);
+      }
+
+      .chapter-progress {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 36px;
+        color: var(--ink-soft);
+        font: 9px/1 var(--mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .progress-track {
+        height: 2px;
+        background: var(--hairline);
+      }
+
+      .progress-track i {
+        display: block;
+        width: 42%;
+        height: 100%;
+        background: var(--vermillion);
+      }
+
+      /* Variant B — contents first, like a field ledger */
+      .ledger-head {
+        padding: 28px 30px 23px;
+        color: var(--paper-light);
+        background: var(--ink);
+      }
+
+      .ledger-head .eyebrow {
+        color: #d86a59;
+      }
+
+      .ledger-head h1 {
+        margin: 9px 0 0;
+        font: 700 clamp(31px, 8vw, 48px)/1 var(--serif);
+        letter-spacing: -0.04em;
+      }
+
+      .ledger-grid {
+        display: grid;
+        grid-template-columns: minmax(150px, 0.72fr) 1.55fr;
+        min-height: calc(100vh - 275px);
+      }
+
+      .ledger-index {
+        padding: 28px 20px;
+        background: var(--paper-deep);
+        border-right: 1px solid var(--hairline);
+      }
+
+      .ledger-index ol {
+        margin: 17px 0 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: sections;
+      }
+
+      .ledger-index li {
+        counter-increment: sections;
+      }
+
+      .ledger-index a {
+        display: grid;
+        grid-template-columns: 2ch 1fr;
+        gap: 8px;
+        min-height: 48px;
+        padding: 10px 4px;
+        border-bottom: 1px solid rgba(23, 24, 21, 0.12);
+        font: 700 12px/1.25 var(--sans);
+        text-decoration: none;
+      }
+
+      .ledger-index a::before {
+        color: var(--vermillion);
+        font: 10px/1.5 var(--mono);
+        content: counter(sections, decimal-leading-zero);
+      }
+
+      .ledger-index .current {
+        background: rgba(179, 58, 46, 0.09);
+      }
+
+      .ledger-article {
+        padding: 36px 34px 42px;
+      }
+
+      .ledger-article h2 {
+        margin: 9px 0 18px;
+        font: 700 clamp(30px, 7vw, 46px)/1 var(--serif);
+        letter-spacing: -0.04em;
+      }
+
+      .fact-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin: 24px 0 30px;
+        border-block: 1px solid var(--hairline);
+      }
+
+      .fact-strip div {
+        padding: 13px 8px 13px 0;
+      }
+
+      .fact-strip div + div {
+        padding-left: 12px;
+        border-left: 1px solid var(--hairline);
+      }
+
+      .fact-strip b,
+      .fact-strip span {
+        display: block;
+      }
+
+      .fact-strip b {
+        font: 700 16px/1.2 var(--sans);
+      }
+
+      .fact-strip span {
+        margin-top: 4px;
+        color: var(--ink-soft);
+        font: 9px/1.2 var(--mono);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* Variant C — interview questions as focus cards */
+      .cards-head {
+        padding: 25px 28px 20px;
+        border-bottom: 4px solid var(--ink);
+      }
+
+      .cards-head-row {
+        display: flex;
+        gap: 14px;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+
+      .cards-head h1 {
+        margin: 6px 0 0;
+        font: 700 clamp(32px, 8vw, 52px)/0.95 var(--serif);
+        letter-spacing: -0.045em;
+      }
+
+      .cards-head .count {
+        flex: none;
+        color: var(--vermillion);
+        font: 700 12px/1 var(--mono);
+      }
+
+      .chip-row {
+        display: flex;
+        gap: 8px;
+        padding: 15px 28px;
+        overflow-x: auto;
+        border-bottom: 1px solid var(--hairline);
+        scrollbar-width: none;
+      }
+
+      .chip-row a {
+        flex: none;
+        min-height: 38px;
+        padding: 10px 13px;
+        border: 1px solid var(--ink);
+        font: 700 10px/1.4 var(--sans);
+        text-decoration: none;
+      }
+
+      .chip-row a[aria-current="page"] {
+        color: var(--paper-light);
+        background: var(--ink);
+      }
+
+      .question-stack {
+        display: grid;
+        gap: 18px;
+        padding: 28px;
+      }
+
+      .question-card {
+        position: relative;
+        padding: 28px 26px;
+        background: var(--paper-light);
+        border: 1px solid var(--ink);
+        box-shadow: 5px 5px 0 rgba(23, 24, 21, 0.13);
+      }
+
+      .question-card::before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 4px;
+        background: var(--vermillion);
+        content: "";
+      }
+
+      .question-card h2 {
+        max-width: 18ch;
+        margin: 8px 0 20px;
+        font: 700 clamp(25px, 6vw, 36px)/1.08 var(--serif);
+        letter-spacing: -0.03em;
+      }
+
+      .answer-cue {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        margin: 20px 0;
+        padding: 13px 0;
+        border-block: 1px solid var(--hairline);
+        font: 700 12px/1.45 var(--sans);
+      }
+
+      .answer-cue span {
+        color: var(--vermillion);
+        font: 700 10px/1.7 var(--mono);
+      }
+
+      .prototype-switcher {
+        position: fixed;
+        bottom: max(18px, env(safe-area-inset-bottom));
+        left: 50%;
+        z-index: 100;
+        display: grid;
+        grid-template-columns: 48px minmax(175px, auto) 48px;
+        align-items: stretch;
+        overflow: hidden;
+        color: var(--paper-light);
+        background: #151614;
+        border: 1px solid #000;
+        border-radius: 999px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
+        transform: translateX(-50%);
+      }
+
+      .prototype-switcher button {
+        min-height: 48px;
+        color: inherit;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        font: 700 18px/1 var(--sans);
+        transition:
+          color 0.45s var(--settle),
+          transform 0.45s var(--spring);
+      }
+
+      .prototype-switcher button:hover {
+        color: #ef7b68;
+        transform: scale(1.16);
+      }
+
+      .switcher-state {
+        display: grid;
+        min-height: 48px;
+        padding: 7px 14px;
+        border-inline: 1px solid rgba(255, 255, 255, 0.18);
+        text-align: center;
+        place-content: center;
+      }
+
+      .switcher-state strong,
+      .switcher-state small {
+        display: block;
+      }
+
+      .switcher-state strong {
+        font: 700 11px/1.2 var(--sans);
+      }
+
+      .switcher-state small {
+        margin-top: 3px;
+        color: #bdb9af;
+        font: 8px/1.2 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 680px) {
+        html,
+        body {
+          background: var(--paper);
+        }
+
+        .lab-note,
+        .grain {
+          display: none;
+        }
+
+        .stage {
+          display: block;
+          padding: 0 0 96px;
+        }
+
+        .kindle {
+          width: 100%;
+          min-height: 100vh;
+          border: 0;
+          box-shadow: none;
+        }
+
+        .variant {
+          min-height: 100vh;
+        }
+
+        .book-body {
+          padding: 39px 24px 32px;
+        }
+
+        .ledger-grid {
+          display: block;
+        }
+
+        .ledger-index {
+          padding: 18px 24px;
+          border-right: 0;
+          border-bottom: 1px solid var(--hairline);
+        }
+
+        .ledger-index ol {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0 12px;
+        }
+
+        .ledger-article {
+          padding: 32px 24px;
+        }
+
+        .question-stack {
+          padding: 22px 18px;
+        }
+
+        .prototype-switcher {
+          bottom: max(12px, env(safe-area-inset-bottom));
+        }
+      }
+
+      @media (max-width: 430px) {
+        body {
+          font-size: 19px;
+        }
+
+        .book-head {
+          padding-inline: 20px;
+        }
+
+        .ledger-head,
+        .cards-head {
+          padding-inline: 22px;
+        }
+
+        .ledger-index ol {
+          grid-template-columns: 1fr;
+        }
+
+        .fact-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .fact-strip div + div {
+          padding-left: 0;
+          border-top: 1px solid var(--hairline);
+          border-left: 0;
+        }
+
+        .chip-row {
+          padding-inline: 22px;
+        }
+
+        .question-card {
+          padding: 24px 21px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .variant.is-active .entrance {
+          animation: none !important;
+        }
+
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg class="grain" aria-hidden="true">
+      <filter id="grain-filter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" seed="11" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#grain-filter)" />
+    </svg>
+
+    <p class="lab-note">Prototype plate 02 · Kindle reader · November 2026</p>
+
+    <main class="stage">
+      <section class="kindle" aria-label="Kindle reader interface prototype">
+        <article class="variant is-active" data-variant="A" aria-labelledby="a-title" aria-hidden="false">
+          <header class="book-head entrance" style="--i: 0">
+            <a href="#contents">☰ &nbsp;Contents</a>
+            <span class="folio">04 / 12</span>
+          </header>
+          <div class="book-body">
+            <div class="chapter-progress entrance" style="--i: 1">
+              <span>Knowledge</span>
+              <span class="progress-track" aria-label="42 percent through chapter"><i></i></span>
+              <span>42%</span>
+            </div>
+            <p class="eyebrow entrance" style="--i: 2">Chapter 04 · Browser fundamentals</p>
+            <h1 id="a-title" class="entrance" style="--i: 3">How a website loads</h1>
+            <p class="dek entrance" style="--i: 4">From a typed URL to the first painted pixel.</p>
+            <div class="rule entrance" style="--i: 5"></div>
+            <div class="reading-copy entrance" style="--i: 6">
+              <h2>Begin with the address</h2>
+              <p>
+                When you enter a URL, the browser first decides what the address means. It identifies
+                the protocol, hostname, port, path, and any query parameters before it can ask the
+                network for anything.
+              </p>
+              <p>
+                The hostname must become an IP address. The browser checks its own cache, then the
+                operating system, and finally asks a DNS resolver. A cached answer can remove an
+                entire network round trip.
+              </p>
+              <pre><span class="code-label">TypeScript · lines wrap on Kindle</span><code>const url = new URL('https://example.com/articles/loading');
+console.log(url.hostname); // example.com
+console.log(url.pathname); // /articles/loading</code></pre>
+              <h2>Then establish trust</h2>
+              <p>
+                For HTTPS, the client and server agree on encryption and verify the server’s
+                certificate. Only then does the browser send the HTTP request and begin receiving the
+                document.
+              </p>
+              <nav class="page-nav" aria-label="Chapter navigation">
+                <a href="#previous"><span>Previous</span>Web developer checklist</a>
+                <a href="#next"><span>Next</span>JavaScript execution</a>
+              </nav>
+            </div>
+          </div>
+        </article>
+
+        <article class="variant" data-variant="B" aria-labelledby="b-title" aria-hidden="true" inert>
+          <header class="ledger-head entrance" style="--i: 0">
+            <p class="eyebrow">Software engineer field ledger</p>
+            <h1 id="b-title">Loading a website</h1>
+          </header>
+          <div class="ledger-grid">
+            <nav class="ledger-index entrance" style="--i: 1" aria-label="Article sections">
+              <p class="eyebrow">On this page</p>
+              <ol>
+                <li><a class="current" href="#address" aria-current="location">Parse the address</a></li>
+                <li><a href="#dns">Resolve DNS</a></li>
+                <li><a href="#connection">Open a connection</a></li>
+                <li><a href="#request">Send the request</a></li>
+                <li><a href="#render">Render the page</a></li>
+              </ol>
+            </nav>
+            <section class="ledger-article reading-copy entrance" style="--i: 2" aria-labelledby="address">
+              <p class="eyebrow">Section 01 · Network</p>
+              <h2 id="address">Parse the address</h2>
+              <p>
+                A URL is a compact set of instructions. Before connecting, the browser separates the
+                protocol from the host and the requested resource.
+              </p>
+              <div class="fact-strip" aria-label="URL parts">
+                <div><b>https</b><span>protocol</span></div>
+                <div><b>example.com</b><span>hostname</span></div>
+                <div><b>/articles</b><span>path</span></div>
+              </div>
+              <p>
+                This structure determines whether the browser can reuse an existing connection,
+                whether credentials may be sent, and which resource the server should return.
+              </p>
+              <pre><span class="code-label">URL anatomy</span><code>https://example.com:443/articles?order=new
+└─┬─┘   └────┬────┘ └┬┘└───┬───┘ └───┬───┘
+scheme      host    port   path       query</code></pre>
+              <nav class="page-nav" aria-label="Section navigation">
+                <a href="#contents"><span>Contents</span>All chapters</a>
+                <a href="#dns"><span>Continue</span>Resolve DNS</a>
+              </nav>
+            </section>
+          </div>
+        </article>
+
+        <article class="variant" data-variant="C" aria-labelledby="c-title" aria-hidden="true" inert>
+          <header class="cards-head entrance" style="--i: 0">
+            <p class="eyebrow">Interview notebook · Web platform</p>
+            <div class="cards-head-row">
+              <h1 id="c-title">Browser questions</h1>
+              <span class="count">07 / 24</span>
+            </div>
+          </header>
+          <nav class="chip-row entrance" style="--i: 1" aria-label="Question topics">
+            <a href="#network" aria-current="page">Network</a>
+            <a href="#rendering">Rendering</a>
+            <a href="#javascript">JavaScript</a>
+            <a href="#security">Security</a>
+          </nav>
+          <div class="question-stack">
+            <section class="question-card entrance" style="--i: 2" aria-labelledby="question-one">
+              <p class="eyebrow">Question 07 · Foundation</p>
+              <h2 id="question-one">What happens after you type a URL?</h2>
+              <div class="answer-cue"><span>01</span>Parse → resolve → connect → request → render</div>
+              <div class="reading-copy">
+                <p>
+                  Start with the URL itself. The browser separates its scheme, host, port, path, and
+                  query. It then resolves the host through DNS and opens a connection to the server.
+                </p>
+                <p>
+                  After the response arrives, HTML parsing creates the DOM while CSS builds the CSSOM.
+                  Together they produce the render tree used for layout and paint.
+                </p>
+              </div>
+            </section>
+            <section class="question-card entrance" style="--i: 3" aria-labelledby="question-two">
+              <p class="eyebrow">Follow-up · Senior signal</p>
+              <h2 id="question-two">Where can latency hide?</h2>
+              <div class="reading-copy">
+                <p>
+                  Mention DNS lookup, connection establishment, TLS negotiation, server processing,
+                  transfer time, render-blocking resources, layout, and main-thread work.
+                </p>
+              </div>
+              <nav class="page-nav" aria-label="Question navigation">
+                <a href="#previous"><span>Previous</span>HTTP caching</a>
+                <a href="#next"><span>Next</span>Event loop</a>
+              </nav>
+            </section>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <nav class="prototype-switcher" aria-label="Prototype variants">
+      <button type="button" id="previousVariant" aria-label="Previous design variant">←</button>
+      <span class="switcher-state" aria-live="polite">
+        <strong id="variantName">A · Linear chapter</strong>
+        <small id="variantState">Article first · 42% read</small>
+      </span>
+      <button type="button" id="nextVariant" aria-label="Next design variant">→</button>
+    </nav>
+
+    <script>
+      (() => {
+        const variants = [
+          { key: 'A', name: 'Linear chapter', state: 'Article first · 42% read' },
+          { key: 'B', name: 'Field ledger', state: 'Outline first · section 1 of 5' },
+          { key: 'C', name: 'Question cards', state: 'Prompt first · question 7 of 24' },
+        ];
+        const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let reducedMotion = media.matches;
+        let current = 0;
+
+        const name = document.getElementById('variantName');
+        const state = document.getElementById('variantState');
+        const previous = document.getElementById('previousVariant');
+        const next = document.getElementById('nextVariant');
+
+        function fromUrl() {
+          const requested = new URLSearchParams(window.location.search).get('variant')?.toUpperCase();
+          const index = variants.findIndex((variant) => variant.key === requested);
+          return index < 0 ? 0 : index;
+        }
+
+        function render(index, updateUrl = true) {
+          current = (index + variants.length) % variants.length;
+          const active = variants[current];
+
+          document.querySelectorAll('.variant').forEach((element) => {
+            const isActive = element.dataset.variant === active.key;
+            element.classList.toggle('is-active', isActive);
+            element.toggleAttribute('inert', !isActive);
+            element.setAttribute('aria-hidden', String(!isActive));
+          });
+
+          name.textContent = `${active.key} · ${active.name}`;
+          state.textContent = `${active.state}${reducedMotion ? ' · reduced motion' : ''}`;
+
+          if (updateUrl) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('variant', active.key);
+            window.history.replaceState({ variant: active.key }, '', url);
+          }
+        }
+
+        function isTypingTarget(target) {
+          return target instanceof HTMLElement &&
+            (target.matches('input, textarea, [contenteditable="true"]'));
+        }
+
+        previous.addEventListener('click', () => render(current - 1));
+        next.addEventListener('click', () => render(current + 1));
+        window.addEventListener('keydown', (event) => {
+          if (isTypingTarget(event.target)) return;
+          if (event.key === 'ArrowLeft') render(current - 1);
+          if (event.key === 'ArrowRight') render(current + 1);
+        });
+        window.addEventListener('popstate', () => render(fromUrl(), false));
+        media.addEventListener('change', (event) => {
+          reducedMotion = event.matches;
+          render(current, false);
+        });
+
+        render(fromUrl(), false);
+      })();
+    </script>
+  </body>
+</html>
